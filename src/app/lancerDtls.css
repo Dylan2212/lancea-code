@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.lancer-dsply-circle {
+  @apply rounded-full
+}
+
+.lancer-dsply-tp {
+  @apply flex w-5/6 gap-3 ml-2 mb-2 mt-8
+}
+
+.mt-heart {
+  @apply right-2 top-0 text-4xl absolute
+}
+
+.lancer-dsply-tp-r {
+  @apply grid items-center
+}
+
+.lancer-dsply-name {
+  @apply font-semibold text-lg
+}
+
+.lancer-dsply-ttle {
+  @apply text-gray-600
+}

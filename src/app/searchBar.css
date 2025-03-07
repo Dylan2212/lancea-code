@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bar-and-show-filters {
+  @apply flex w-screen items-end justify-center mt-4
+}
+
+.show-filters {
+  @apply mb-2 ml-2 text-purple-600 hover:text-purple-500
+}
+
+.jb-srch-cntnr {
+  @apply w-[700px] relative flex
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+
+.jb-srch-br {
+  @apply border shadow-md w-full rounded-md border-gray-400 pl-4 pt-2 pb-2 pr-4 appearance-none focus:outline-none focus:border-purple-500 focus:border-2
+}
+
+.dlt-srch {
+  @apply absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800
+}
+
+.search-filters {
+  @apply w-1/2 border-2 p-4 border-purple-200 shadow-lg rounded-lg ml-auto mr-auto mt-2 grid grid-cols-3 gap-8
+}
+
+.hourly-rate-filter {
+  @apply w-fit max-w-[250px]
+}
+
+.filter-title {
+  @apply text-sm font-semibold mb-2
+}
+
+.select {
+  @apply border-2 mr-1 ml-2 rounded-md
+}
+
+.search-skill-filter {
+  @apply border-2 rounded-md pl-2 focus:outline-purple-600
+}
+
+.filter-sklls-sect-div {
+  @apply flex flex-wrap gap-2  mt-2
+}
+
+.filter-skll {
+  @apply rounded-full shadow-md whitespace-nowrap w-fit text-center pt-1 pb-1 pl-2 pr-2 bg-gray-200 text-xs hover:bg-gray-300 hover:scale-105 transition-transform will-change-transform
+}
