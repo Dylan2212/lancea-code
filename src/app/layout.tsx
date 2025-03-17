@@ -8,6 +8,8 @@ import "./lancerDtls.css"
 import "./searchBar.css"
 import "./messagesPg.css"
 import "./notifications.css"
+import "./apply.css"
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

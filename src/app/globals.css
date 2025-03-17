@@ -25,6 +25,14 @@ body {
   @apply transition duration-200 ease-in-out hover:cursor-pointer
 }
 
+.box-main {
+  @apply shadow-lg rounded outline outline-1 outline-gray-300
+}
+
+.box-support {
+  @apply shadow-sm rounded outline outline-1 outline-gray-300
+}
+
 .job-listing-tease {
   @apply grid grid-rows-[auto] w-[500] h-fit relative rounded shadow-md outline outline-1 outline-gray-300 ml-5 hover:bg-purple-100;
 }
