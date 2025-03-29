@@ -9,6 +9,7 @@ import "./searchBar.css"
 import "./messagesPg.css"
 import "./notifications.css"
 import "./apply.css"
+import "./lancerHomePage.css"
 
 
 const geistSans = Geist({
