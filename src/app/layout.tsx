@@ -10,6 +10,7 @@ import "./messagesPg.css"
 import "./notifications.css"
 import "./apply.css"
 import "./lancerHomePage.css"
+import "./lancrContact.css"
 
 
 const geistSans = Geist({

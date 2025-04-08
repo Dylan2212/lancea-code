@@ -1,18 +1,12 @@
 import Image from "next/image"
 import { Quote } from "lucide-react"
+import FreelancerHeader from "./components/lancerHeader"
+import SocialLinksBar from "./components/socialLinksBar"
 
 export default function LancerHomePage () {
   return (
     <>
-      <header className="freelancer-header">
-        <nav className="freelancer-nav">
-          <button className="hov-standrd freelancer-nav-txt">Home</button>
-          <button className="hov-standrd freelancer-nav-txt">Portfolio</button>
-          <button className="hov-standrd freelancer-nav-txt">Services</button>
-          <button className="hov-standrd freelancer-nav-txt">About</button>
-          <button className="hov-standrd freelancer-nav-txt">Contact</button>
-        </nav>
-      </header>
+      <FreelancerHeader/>
       <main className="freelancer-home-page-main">
         <section className="freelancer-hero-section">
           <div className="freelancer-hero-main">
@@ -93,13 +87,7 @@ export default function LancerHomePage () {
             <div className="about-socials-freelancer-home">
               <h2 className="freelancer-about-section-title">About Me</h2>
               <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.<br/><br/>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
-              <div className="social-links-in-freelancer-about-home-pg">
-                <Image alt="Facebook icon" width={25} height={25} src="/facebook.svg"/>
-                <Image alt="Instagram icon" width={25} height={25} src="/instagram.svg"/>
-                <Image alt="Youtube icon" width={25} height={25} src="/youtube.svg"/>
-                <Image alt="X icon" width={25} height={25} src="/x.svg"/>
-                <Image alt="LinkedIn icon" width={25} height={25} src="/linkedin.svg"/>
-              </div>
+              <SocialLinksBar/>
             </div>
           </div>
         </section>

@@ -167,7 +167,11 @@
 }
 
 .social-links-in-freelancer-about-home-pg {
-  @apply flex gap-8 mt-12 cursor-pointer
+  @apply flex gap-8 mt-12
+}
+
+.social-link-freelancer {
+  @apply cursor-pointer
 }
 
 .contact-freelancer-div {

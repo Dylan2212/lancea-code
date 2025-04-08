@@ -3,7 +3,8 @@
 // import MessagesPg from "./messagesPg"
 // import Notifications from "./notifications";
 // import Apply from "./apply";
-import LancerHomePage from "./lancerHomePage";
+// import LancerHomePage from "./lancerHomePage";
+import LancrContact from "./lancrContact";
 
 export default function Home() {
   return (
@@ -13,7 +14,8 @@ export default function Home() {
       {/* <MessagesPg/> */}
       {/* <Notifications/> */}
       {/* <Apply/> */}
-      <LancerHomePage/>
+      {/* <LancerHomePage/> */}
+      <LancrContact/>
     </>
   );
 }
