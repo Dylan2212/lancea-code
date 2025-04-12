@@ -6,8 +6,9 @@
 // import LancerHomePage from "./lancerHomePage";
 // import LancrContact from "./lancrContact";
 
-import AllServices from "./allServices";
+// import AllServices from "./allServices";
 import FreelancerHeader from "./components/lancerHeader";
+import DedicatedServiceLancr from "./dedicatedServiceLancr";
 
 export default function Home() {
   return (
@@ -20,7 +21,8 @@ export default function Home() {
       {/* <Apply/> */}
       {/* <LancerHomePage/> */}
       {/* <LancrContact/> */}
-      <AllServices/>
+      {/* <AllServices/> */}
+      <DedicatedServiceLancr/>
     </>
   );
 }

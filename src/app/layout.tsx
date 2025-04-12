@@ -11,6 +11,7 @@ import "./notifications.css"
 import "./apply.css"
 import "./lancerHomePage.css"
 import "./lancrContact.css"
+import "./dedicatedServiceLancr.css"
 
 
 const geistSans = Geist({

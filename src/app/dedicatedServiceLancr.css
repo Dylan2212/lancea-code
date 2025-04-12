@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.included-dserive-freelancer {
+  @apply flex w-2/3 mx-auto justify-center
+}
+
+.dservice-freelancer-ttle {
+  @apply text-4xl mr-24 my-auto
+}
+
+.dservice-item-freelancer {
+  @apply flex items-center text-lg mb-3
+}
+
+.dservice-freelancer-li-check {
+  @apply mr-5 h-8 w-8 text-purple-600
+}
+
+.pricing-timeline-dservice-freelancer {
+  @apply w-3/4 mx-auto mt-32 flex justify-around mb-12
+}
+
+.pricing-delivery-freelancer-dservice { 
+  @apply w-72 grid justify-center
+}
+
+.pricing-delivery-icon-freelancer {
+  @apply mx-auto h-14 w-14
+}
+
+.pd-dservice-freelancer-ttle {
+  @apply text-center text-lg mb-2
+}
+
+.pd-dservice-freelancer-desc {
+  @apply mb-2 text-center
+}
+
+.pd-dservice-freelancer-icon-note {
+  @apply text-sm text-center text-gray-500
+}
+
+.dservice-section-heading {
+  @apply text-4xl text-center mt-28
+}
+
+.freelancer-dservice-steps-container {
+  @apply mt-8 w-2/3 mx-auto
+}
+
+.step-container-freelancer-dservice {
+  @apply flex mb-6 h-20
+}
+
+.step-freelancer-dservice {
+  @apply text-2xl w-[120px] border-r-4 h-full flex items-center font-semibold mr-4 border-r-purple-600
+}
+
+.step-ttle-freelancer-dservice {
+  @apply font-semibold
+}
+
+.step-desc-freelancer-dservice {
+  @apply w-5/6 text-gray-700
+}
+
+.dservice-freelance-choose-sect {
+  @apply w-3/4 mx-auto flex justify-around mt-12
+}
+
+.point-dservice-freelancer-choose {
+  @apply relative w-80 h-36 border-purple-600 border-2 rounded-xl shadow-lg
+}
+
+.point-number-freelancer-choose {
+  @apply absolute top-2 right-3 text-4xl text-gray-300
+}
+
+.point-ttle-freelancer-choose {
+  @apply text-xl mt-4 mb-3 ml-3
+}
+
+.point-desc-freelancer-choose {
+  @apply ml-3 text-gray-700
+}
+
+.mpgs-prvw-portfolio-img-cntnr {
+  @apply w-[450px] h-[253.125px] bg-gray-300 rounded-md
+}
+
+.mpgs-portfolio-text-cntnr {
+  @apply w-[450px]
+}
+
+.mpgs-portfolio-title {
+  @apply w-full mt-2 mb-1 text-purple-500 text-lg hover:underline
+}
+
+.mpgs-portfolio-skills {
+  @apply w-full flex flex-wrap gap-2 m-auto mt-4
+}
+
+.mpgs-portfolio-desc {
+  @apply line-clamp-4
+}
+
+.dservice-freelancer-call-to-action {
+  @apply mx-auto px-28 py-10 w-fit
+}
+
+.dservice-freelancer-call-to-action > h2 {
+  @apply text-3xl text-center mb-1
+}
+
+.dservice-freelancer-call-to-action > p {
+  @apply text-gray-700 text-center mb-8
+}
+
+.dservice-freelancer-call-to-action > button {
+  @apply text-2xl bg-purple-600 text-white font-semibold px-10 py-2 rounded-full hover:bg-purple-500
+}
