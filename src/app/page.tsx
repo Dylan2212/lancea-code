@@ -1,20 +1,20 @@
-// import JobsPage from "./jobsPage";
+import JobsPage from "./jobsPage";
 // import LancerPage from "./lancerPage";
 // import MessagesPg from "./messagesPg"
 // import Notifications from "./notifications";
 // import Apply from "./apply";
-// import LancerHomePage from "./lancerHomePage";
+// import LancerHomePage from "./[username]/page";
 // import LancrContact from "./lancrContact";
 
 // import AllServices from "./allServices";
-import FreelancerHeader from "./components/lancerHeader";
-import DedicatedServiceLancr from "./dedicatedServiceLancr";
+import FreelancerHeader from "./[username]/tplatesite/components/lancerHeader";
+// import DedicatedServiceLancr from "./dedicatedServiceLancr";
 
 export default function Home() {
   return (
     <>
       <FreelancerHeader/>
-      {/* <JobsPage/> */}
+      <JobsPage/>
       {/* <LancerPage/> */}
       {/* <MessagesPg/> */}
       {/* <Notifications/> */}
@@ -22,7 +22,7 @@ export default function Home() {
       {/* <LancerHomePage/> */}
       {/* <LancrContact/> */}
       {/* <AllServices/> */}
-      <DedicatedServiceLancr/>
+      {/* <DedicatedServiceLancr/> */}
     </>
   );
 }

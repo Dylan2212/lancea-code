@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function PgPreviewProject () {
   return (
     <div>
@@ -16,6 +18,9 @@ export default function PgPreviewProject () {
         <p className="jb-skll-smllr hov-standrd">Leadership</p>
         <p className="jb-skll-smllr hov-standrd">+5 More</p>
       </div>
+      <Link className="mpgs-potfolio-full-cta hov-standrd" href={"/username/tplatesite/portfolio/project"}>
+        View Full Project
+      </Link>
     </div>
   )
 }

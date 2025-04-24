@@ -106,6 +106,10 @@
   @apply line-clamp-4
 }
 
+.mpgs-potfolio-full-cta {
+  @apply border-2 border-purple-600 rounded-md py-2 px-2 shadow-sm mt-6 block w-fit h-fit hover:bg-gray-50
+}
+
 .dservice-freelancer-call-to-action {
   @apply mx-auto px-28 py-10 w-fit
 }

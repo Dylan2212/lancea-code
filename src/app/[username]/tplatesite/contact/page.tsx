@@ -1,10 +1,8 @@
-import FreelancerHeader from "./components/lancerHeader"
-import SocialLinksBar from "./components/socialLinksBar"
+import SocialLinksBar from "../components/socialLinksBar"
 
 export default function LancrContact () {
   return (
     <>
-      <FreelancerHeader/>
       <main className="contact-page">
         <div className="contact-container">
           <div className="contact-form">

@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Sidebar */
+
+.lancr-sidebar {
+  @apply border-r-2 w-64
+}
+
+.lancr-sidebar-nav-item {
+  @apply text-lg h-10 pl-4 flex items-center hover:bg-purple-400
+}
+
+/* header */
+
+.lancr-main-header {
+  @apply flex justify-between w-screen h-16 items-center bg-white z-10 border-b-2
+}
+
+.img-in-lancr-main-header {
+  @apply rounded-full
+}
+
+.lancr-view-site-btn {
+  @apply flex gap-2
+}
+
+.lancr-view-site-btn {
+  @apply border-2 rounded-full border-purple-600 py-2 px-4 hover:bg-gray-100
+}
