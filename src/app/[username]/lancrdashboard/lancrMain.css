@@ -5,7 +5,7 @@
 /* Sidebar */
 
 .lancr-sidebar {
-  @apply border-r-2 w-64
+  @apply border-r-2 w-64 min-w-64
 }
 
 .lancr-sidebar-nav-item {

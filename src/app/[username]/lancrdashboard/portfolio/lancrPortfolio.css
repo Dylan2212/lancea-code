@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.lancr-main-portfolio-project-cntnr {
+  @apply w-[375px] h-[500px] pb-2
+}
+
+.img-cntnr-main-lancr-project {
+  @apply w-full h-[210px] bg-gray-100 rounded-md mb-2
+}
+
+.lancr-main-portfolio-sklls-cntnr {
+  @apply flex flex-wrap gap-2 w-full ml-2 mt-5
+}
+
+.lancr-main-project-edit-dlt-btns {
+  @apply rounded-md py-1 mt-4 flex items-center gap-2 justify-center w-28 bg-purple-600 text-white hover:bg-purple-500
+}

@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.lancr-live-site-indicator {
+  @apply absolute right-20 top-5 flex items-center gap-2
+}
+
+.is-live-dash-selector {
+  @apply border-2 rounded-full py-1 text-center w-32 cursor-pointer border-gray-300 focus:outline-purple-600
+}
+
+.lancr-freelancer-h2 {
+  @apply text-3xl mb-6
+}
+
+.lancr-analytics-box {
+  @apply h-96 w-5/6
+}
+
+.lancr-quick-link-dash {
+  @apply bg-purple-600 h-fit text-white rounded-sm py-2 text-center w-48 flex justify-center gap-2 mr-5 hover:bg-purple-500
+}

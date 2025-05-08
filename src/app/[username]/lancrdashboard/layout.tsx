@@ -11,7 +11,7 @@ export default function Layout({ children }: Props) {
   return (
     <div className="flex flex-col h-screen">
       <LancrMainHeader/>
-      <main className="flex flex-1">
+      <main className="flex flex-1 overflow-hidden">
         <LancrSidebar/>
         {children}
       </main>
