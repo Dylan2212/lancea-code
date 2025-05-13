@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.lancr-main-project-edit-dlt-btns {
+  @apply rounded-md py-1 mt-4 flex items-center gap-2 justify-center w-28 bg-purple-600 text-white first:hover:bg-purple-500 last:hover:bg-red-600
+}

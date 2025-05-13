@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.lancr-preview-service-card {
+  @apply border w-[375px] ml-auto mr-auto rounded-md pb-2
+}
+
+.img-placeholder-freelancer-service {
+  @apply w-full bg-gray-200 h-[210.9375px] rounded-tl-md rounded-tr-md
+}
+
+.service-card-ttle {
+  @apply text-xl m-2 font-semibold
+}
+
+.service-card-desc {
+  @apply ml-2 line-clamp-3 mb-4
+}

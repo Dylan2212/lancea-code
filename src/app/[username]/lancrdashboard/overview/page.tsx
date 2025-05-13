@@ -1,6 +1,6 @@
 import LancrSuggestedAction from "../components/lancrSuggestAction"
 import "./lancrDash.css"
-import { CircleSmall, ChevronDown, Eye, FolderOpen } from "lucide-react"
+import { CircleSmall, ChevronDown, Eye, FolderOpen, Laptop } from "lucide-react"
 import Link from "next/link"
 
 export default function LancrOverview () {
@@ -48,7 +48,7 @@ export default function LancrOverview () {
         <div className="grid grid-cols-4 w-2/3 gap-6">
           <Link className="lancr-quick-link-dash hov-standrd" href="/"><Eye />Preview Site</Link>
           <Link className="lancr-quick-link-dash hov-standrd" href="/username/lancrdashboard/portfolio"><FolderOpen/>Portfolio</Link>
-          <Link className="lancr-quick-link-dash hov-standrd" href="/">Services</Link>
+          <Link className="lancr-quick-link-dash hov-standrd" href="/username/lancrdashboard/services"><Laptop/>Services</Link>
           <Link className="lancr-quick-link-dash hov-standrd" href="/">About</Link>
           <Link className="lancr-quick-link-dash hov-standrd" href="/">Achievements</Link>
           <Link className="lancr-quick-link-dash hov-standrd" href="/">Reviews</Link>

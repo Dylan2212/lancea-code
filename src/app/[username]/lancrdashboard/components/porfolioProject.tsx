@@ -1,5 +1,4 @@
-import Link from "next/link"
-import { Pencil, Trash2 } from "lucide-react"
+import "./lancrPortfolio.css"
 
 export default function PortfolioProject () {
   return (
@@ -20,10 +19,6 @@ export default function PortfolioProject () {
         <p className="jb-skll-in-jb-info hov-standrd">MongoDB</p>
         <p className="jb-skll-in-jb-info hov-standrd">Leadership</p>
       </div>
-    </div>
-    <div className="flex items-center justify-end mr-3 gap-2">
-      <Link className="lancr-main-project-edit-dlt-btns" href="/username/lancrdashboard/portfolio/addEditProject"><Pencil className="h-5 w-5" />Edit</Link>
-      <Link className="lancr-main-project-edit-dlt-btns" href="/"><Trash2 className="h-5 w-5" />Delete</Link>
     </div>
   </div>
   )
