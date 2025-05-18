@@ -1,6 +1,6 @@
 import LancrSuggestedAction from "../components/lancrSuggestAction"
 import "./lancrDash.css"
-import { CircleSmall, ChevronDown, Eye, FolderOpen, Laptop } from "lucide-react"
+import { CircleSmall, ChevronDown, Eye, FolderOpen, Laptop, User, Brain, GraduationCap, Trophy, Star } from "lucide-react"
 import Link from "next/link"
 
 export default function LancrOverview () {
@@ -49,10 +49,11 @@ export default function LancrOverview () {
           <Link className="lancr-quick-link-dash hov-standrd" href="/"><Eye />Preview Site</Link>
           <Link className="lancr-quick-link-dash hov-standrd" href="/username/lancrdashboard/portfolio"><FolderOpen/>Portfolio</Link>
           <Link className="lancr-quick-link-dash hov-standrd" href="/username/lancrdashboard/services"><Laptop/>Services</Link>
-          <Link className="lancr-quick-link-dash hov-standrd" href="/">About</Link>
-          <Link className="lancr-quick-link-dash hov-standrd" href="/">Achievements</Link>
-          <Link className="lancr-quick-link-dash hov-standrd" href="/">Reviews</Link>
-          <Link className="lancr-quick-link-dash hov-standrd" href="/">Skills</Link>
+          <Link className="lancr-quick-link-dash hov-standrd" href="/username/lancrdashboard/about"><User />About</Link>
+          <Link className="lancr-quick-link-dash hov-standrd" href="/username/lancrdashboard/achievements"><Trophy />Achievements</Link>
+          <Link className="lancr-quick-link-dash hov-standrd" href="/username/lancrdashboard/reviews"><Star />Reviews</Link>
+          <Link className="lancr-quick-link-dash hov-standrd" href="/username/lancrdashboard/skills"><Brain />Skills</Link>
+          <Link className="lancr-quick-link-dash hov-standrd" href="/username/lancrdashboard/education"><GraduationCap />Education</Link>
         </div>
       </section>
     </main>

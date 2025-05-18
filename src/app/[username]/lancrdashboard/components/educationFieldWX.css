@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.education-field {
+  @apply flex h-14 ml-5 mt-5 items-center
+}
+
+.vert-bar {
+  @apply w-1 h-full mt-5 bg-gray-300 mr-2 mb-5
+}

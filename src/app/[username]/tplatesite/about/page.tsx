@@ -2,7 +2,7 @@ import TplateHeros from "../components/tplateHero"
 import SocialLinksBar from "../components/socialLinksBar"
 import "./aboutFreelancer.css"
 import EducationField from "@/app/[username]/tplatesite/components/educationField"
-import AchievementCard from "../components/achievementCard"
+import AchievementCard from "../../components/achievementCard"
 import TplateSiteCTA from "../components/tsiteCTA"
 import Link from "next/link"
 
