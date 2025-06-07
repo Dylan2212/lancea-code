@@ -1,7 +1,13 @@
+"use client"
 import TextAreaInput from "../components/textAreaInput";
 import TitleInput from "../components/titleInput";
+import useInputChangeHandler from "@/src/app/hooks/useInputChangeHandler";
 
 export default function About () {
+  const { values, handleChange } = useInputChangeHandler({
+    profileHeadline: ""
+  })
+
   return (
     <main className="w-full overflow-auto">
       <p className="text-2xl font-semibold m-5 flex items-center gap-4">About You</p>
@@ -16,12 +22,12 @@ export default function About () {
         <section className="lancr-add-edit-sect box-support">
           <p className="lancr-add-edit-sect-ttle">Profile Headline</p>
           <p className="text-sm text-gray-500">This is the main title that appears at the top of your profile. Keep it short, clear, and aligned with the services you offer.</p>
-          <TitleInput previewText="Profile headline"/>
+          <TitleInput previewText="Profile headline" value={values.profileHeadline} inputName="profileHeadline" handleChange={handleChange} maxChar={75}/>
         </section>
         <section className="lancr-add-edit-sect box-support">
           <p className="lancr-add-edit-sect-ttle">About You</p>
           <p className="text-sm text-gray-500 mb-5">Share a brief introduction about yourself—your background, passions, and what makes you unique as a freelancer.rence between a view and a conversion.</p>
-          <TextAreaInput previewText="Introduce yourself to potential clients here…" />
+          <TextAreaInput previewText="Introduce yourself to potential clients here…"/>
         </section>
         <section className="lancr-add-edit-sect box-support">
           <p className="lancr-add-edit-sect-ttle">Availability</p>

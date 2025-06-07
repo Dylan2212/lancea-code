@@ -45,7 +45,7 @@
 }
 
 .lancr-add-edit-text-input {
-  @apply border rounded-md mt-1 p-1 pl-4 w-5/6 focus:outline-purple-600 text-gray-600
+  @apply border rounded-md mt-1 p-1 pl-4 w-5/6 focus:outline-purple-600 text-gray-700
 }
 
 .text-area-lancr-add-edit {

@@ -13,7 +13,7 @@ export default function Layout({ children }: Props) {
       <LancrMainHeader/>
       <main className="flex flex-1 overflow-hidden">
         <LancrSidebar/>
-        {children}
+          {children}
       </main>
     </div>
   )

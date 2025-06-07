@@ -12,6 +12,8 @@ import "./apply.css"
 import "./lancerHomePage.css"
 import "./lancrContact.css"
 import "./dedicatedServiceLancr.css"
+import SessionWrapper from "./providers/sessionWrapper";
+import { Toaster } from "react-hot-toast";
 
 
 const geistSans = Geist({
@@ -44,7 +46,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >
-        {children}
+        <Toaster position="top-right"/>
+        <SessionWrapper>
+          {children}
+        </SessionWrapper>
       </body>
     </html>
   );

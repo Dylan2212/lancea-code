@@ -1,9 +1,11 @@
+"use client"
 import LancrSuggestedAction from "../components/lancrSuggestAction"
 import "./lancrDash.css"
 import { CircleSmall, ChevronDown, Eye, FolderOpen, Laptop, User, Brain, GraduationCap, Trophy, Star } from "lucide-react"
 import Link from "next/link"
 
 export default function LancrOverview () {
+
   return (
     <main className="relative w-full overflow-auto">
       <div className="lancr-live-site-indicator">
