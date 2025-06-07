@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import "./jobListing.css"
-import "./jbInfoSect.css"
-import "./lancerPage.css"
-import "./lancerDtls.css"
-import "./searchBar.css"
-import "./messagesPg.css"
-import "./notifications.css"
 import "./apply.css"
-import "./lancerHomePage.css"
-import "./lancrContact.css"
-import "./dedicatedServiceLancr.css"
 import SessionWrapper from "./providers/sessionWrapper";
 import { Toaster } from "react-hot-toast";
 

@@ -53,10 +53,8 @@ export default function LancrSocialLinks () {
   }
 
   return (
-    <main className="overflow-auto w-full">
-      <p className="text-2xl font-semibold m-5 flex items-center gap-4">Social links</p>
       <form onSubmit={handleSubmit}>
-        <div className="w-3/4 mx-auto">
+        <div className="w-3/4 mx-auto mt-10">
           <section className="lancr-add-edit-sect box-support">
             <p className="lancr-add-edit-sect-ttle">Add Social Links</p>
             <p className="text-sm text-gray-500">Add links to your social profiles so potential clients can explore more of your work and connect with you on other platforms.</p>
@@ -65,10 +63,9 @@ export default function LancrSocialLinks () {
             <TitleInput labelTitle="Instagram" type="url" previewText="Instagram.com" value={values.instagram} handleChange={handleChange} maxChar={2048} inputName="instagram" displayMaxChar={false}/>
             <TitleInput labelTitle="Medium" type="url" previewText="Medium.com" value={values.medium} handleChange={handleChange} maxChar={2048} inputName="medium" displayMaxChar={false}/>
             <TitleInput labelTitle="Threads" type="url" previewText="Threads.com" value={values.threads} handleChange={handleChange} maxChar={2048} inputName="threads" displayMaxChar={false}/>
+            <SaveLancrSection type="submit"/>
           </section>
         </div>
-        <SaveLancrSection type="submit"/>
       </form>
-    </main>
   )
 }
