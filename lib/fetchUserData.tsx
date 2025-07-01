@@ -1,60 +1,103 @@
 import { supabase } from "./supabaseClient";
 import { useUserStore } from "./store/useUserStore";
+import { useAdditionalLinksStore } from "./store/useAdditionalLinksStore";
+import { useOriginalUserStore } from "./store/useOriginalUser";
+import { useOriginalAdditionalLinksStore } from "./store/useOriginalAdditionalLinks";
+import { AdditionalLink } from "./store/useAdditionalLinksStore";
 
 type SocialLinks = {
   instagram: string,
   facebook: string,
   x: string,
   medium: string,
-  threads: string
+  threads: string,
+  tiktok: string
 }
 
 export type User = {
   id: string,
   email: string,
   username: string
-  socialLinks: SocialLinks
+  socialLinks: SocialLinks,
+  bio: string,
+  title: string,
+  profileImage: string,
+  handle: string
 }
 
 async function createUserInDB (email: string) {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("users")
     .insert([{ email }])
-    .select("id, email")
-    .single()
 
   if (error) {
-    console.error("error in create: " + error)
-    return null
+    console.log("Could not create user: " + JSON.stringify(error))
+    throw error
   }
-
-  return data as User
 }
 
 export async function fetchUserData (email: string) {
   const { data, error } = await supabase
     .from("users")
-    .select("*")
+    .select("*, additional_links(*)")
     .eq("email", email)
-    .single()
+    .maybeSingle()
 
-  if (error && error.code === "PGRST116") {
-    const newUser = await createUserInDB(email)
-    if (newUser) setStoreData(newUser)
-    return newUser
+  if (error) {
+    console.log("Something went wrong fetching data")
   }
 
-  if (!data) return null
+  if (!data) {
+    await createUserInDB(email)
 
-  setStoreData(data)
+    const { data } = await supabase
+      .from("users")
+      .select("*")
+      .eq("email", email)
+      .single()
+      
+    setStoreData(data, null)
+    return data as User
+  }
+
+  setStoreData(data, data.additional_links)
   return data as User
 }
 
-function setStoreData (data: User) {
-  const { setUserId, setSocialLinks, setEmail, setUsername } = useUserStore.getState()
+function setStoreData (user: User, links: AdditionalLink[] | null) {
+  const { setUserId, setSocialLinks, setEmail, setUsername, setBio, setTitle, setProfileImage, setHandle } = useUserStore.getState()
+  const { setLinks } = useAdditionalLinksStore.getState()
+  const { setOriginalLinks } = useOriginalAdditionalLinksStore.getState()
 
-  if (data.id) setUserId(data.id)
-  if (data.socialLinks) setSocialLinks(data.socialLinks)
-  if (data.email) setEmail(data.email)
-  if (data.username) setUsername(data.username)
+  if (user.id) setUserId(user.id)
+  if (user.socialLinks) setSocialLinks(user.socialLinks)
+  if (user.email) setEmail(user.email)
+  if (user.username) setUsername(user.username)
+  if (user.bio) setBio(user.bio)
+  if (user.title) setTitle(user.title)
+  if (user.profileImage) setProfileImage(user.profileImage)
+  if (user.handle) setHandle(user.handle)
+
+  if (links) {
+    setLinks(links)
+    setOriginalLinks(links)
+  }
+
+  useOriginalUserStore.setState({
+    userId: user.id || "",
+    email: user.email || "",
+    username: user.username || "",
+    bio: user.bio || "",
+    title: user.title || "",
+    profileImage: user.profileImage || "",
+    handle: user.handle || "",
+    socialLinks: user.socialLinks || {
+      instagram: "",
+      facebook: "",
+      x: "",
+      medium: "",
+      threads: "",
+      tiktok: ""
+    }
+  })    
 }

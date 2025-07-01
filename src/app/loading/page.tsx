@@ -12,7 +12,6 @@ export default function Loading () {
 
     const getData = async () => {
       if (status === "unauthenticated") {
-        console.log(status)
         router.push("/")
       }
         
@@ -23,7 +22,7 @@ export default function Loading () {
 
       try {
         await fetchUserData(email)
-        router.push(`/${name}/lancrdashboard/overview`)
+        router.push(`/lancrdashboard/overview`)
       } catch (err) {
         console.error("Failed to fetch data: " + err)
       }

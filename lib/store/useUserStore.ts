@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
-type SocialLinks = {
+export type SocialLinks = {
   x: string,
   medium: string,
   threads: string
   facebook: string,
-  instagram: string
+  instagram: string,
+  tiktok: string
 }
 
 type UserState = {
@@ -22,35 +22,53 @@ type UserState = {
   username: string,
   setUsername: (username: string) => void
 
-  hasHydrated: boolean,
-  setHasHydrated: () => void
+  title: string,
+  setTitle: (title: string) => void,
+
+  profileImage: string,
+  setProfileImage: (profileImage: string) => void,
+
+  profileImageFile: File | null,
+  setProfileImageFile: (file: File | null) => void,
+
+  changedProfileImage: boolean,
+  setChangedProfileImage: (changedProfileImage: boolean) => void
+
+  bio: string,
+  setBio: (bio: string) => void,
+
+  handle: string,
+  setHandle: (handle: string) => void
 }
 
 export const useUserStore = create<UserState>()(
-  persist(
     (set) => ({
       userId: "",
       email: "",
       username: "",
+      title: "",
+      handle: "",
+      profileImageFile: null,
+      bio: "",
+      changedProfileImage: false,
+      profileImage: "",
       socialLinks: {
         instagram: "",
         facebook: "",
         x: "",
         medium: "",
         threads: "",
+        tiktok: ""
       },
       setUserId: (id) => set({ userId: id }),
       setSocialLinks: (links) => set({ socialLinks: links }),
       setEmail: (email) => set({ email }),
       setUsername: (username) => set({ username }),
-      hasHydrated: false,
-      setHasHydrated: () => set({ hasHydrated: true })
+      setBio: (bio) => set({ bio }),
+      setProfileImage: (profileImage) => set({ profileImage }),
+      setTitle: (title) => set({ title }),
+      setProfileImageFile: (file) => set({profileImageFile: file}),
+      setHandle: (handle) => set({ handle}),
+      setChangedProfileImage: (changedProfileImage) => set({ changedProfileImage })
     }),
-    {
-      name: "user-store",
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated()
-      }
-    }
-  )
 )
