@@ -22,7 +22,8 @@ export type User = {
   bio: string,
   title: string,
   profileImage: string,
-  handle: string
+  handle: string,
+  is_live: boolean
 }
 
 async function createUserInDB (email: string) {
@@ -91,6 +92,7 @@ function setStoreData (user: User, links: AdditionalLink[] | null) {
     title: user.title || "",
     profileImage: user.profileImage || "",
     handle: user.handle || "",
+    isLive: user.is_live || false,
     socialLinks: user.socialLinks || {
       instagram: "",
       facebook: "",

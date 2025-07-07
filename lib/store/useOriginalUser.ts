@@ -20,7 +20,9 @@ type OriginalUserState = {
   setProfileImageFile: (file: File | null) => void,
   bio: string,
   handle: string,
-  socialLinks: SocialLinks
+  socialLinks: SocialLinks,
+  isLive: boolean,
+  setIsLive: (isLive: boolean) => void
 }
 
 export const useOriginalUserStore = create<OriginalUserState>()(
@@ -31,9 +33,11 @@ export const useOriginalUserStore = create<OriginalUserState>()(
       username: "",
       title: "",
       handle: "",
+      isLive: false,
       profileImageFile: null,
       setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
       profileImage: "",
+      setIsLive: (isLive: boolean) => set({ isLive }),
       bio: "",
       socialLinks: {
         instagram: "",

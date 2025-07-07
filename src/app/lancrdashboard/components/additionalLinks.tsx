@@ -3,9 +3,12 @@ import { SquarePlus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAdditionalLinksStore } from "@/lib/store/useAdditionalLinksStore";
+import { supabase } from "@/lib/supabaseClient";
+import { useOriginalAdditionalLinksStore } from "@/lib/store/useOriginalAdditionalLinks";
 
 export default function AdditionalLinks () {
   const store = useAdditionalLinksStore(state => state)
+  const setOriginalLinks = useOriginalAdditionalLinksStore.getState().setOriginalLinks
   const [maxLinks, setMaxLinks] = useState(Boolean)
 
   function checkUrlFilled () {
@@ -15,7 +18,7 @@ export default function AdditionalLinks () {
 
     const filledTitle = last.link_title?.trim() || ""
     const filledUrl = last.url?.trim() || ""
-    
+
     if (!filledTitle || !filledUrl) {
       toast.error("Oops! Finish filling out the current link before adding a new one.")
       return false
@@ -29,11 +32,24 @@ export default function AdditionalLinks () {
     setLinks([...links, newLink])
   }
 
-  function deleteLink(index: number) {
+  async function deleteLink(index: number, linkId: string) {
     const updated = [...links]
     updated.splice(index, 1)
 
+    const { error } = await supabase
+      .from("additional_links")
+      .delete()
+      .eq("id", linkId)
+
+    if (error) {
+      console.error(error)
+      toast.error("Failed to delete link.")
+      return
+    }
+
+    toast.success("Link deleted!")
     setLinks(updated)
+    setOriginalLinks(updated)
   }
 
   if (!store) return null
@@ -45,7 +61,6 @@ export default function AdditionalLinks () {
     link_title: "",
     url: "",
   }
-
 
   return (
       <div className="w-3/4 mx-auto mt-10">
@@ -59,7 +74,7 @@ export default function AdditionalLinks () {
                   <TitleInput required={true} previewText="Display text" value={link.link_title} inputName="link-title" type="text" maxChar={80} displayMaxChar={true} handleChange={(e) => updateLink(link.id, {link_title: e.target.value})} labelTitle="Title"/>
                   <TitleInput required={true} previewText="https://example.com" value={link.url} inputName="link" type="url" maxChar={2048} displayMaxChar={false} handleChange={(e) => updateLink(link.id, {url: e.target.value})} labelTitle="Url"/>
                 </div>
-                <Trash2 onClick={() => deleteLink(index)} className="w-12 h-6 mt-6 mb-3 cursor-pointer hov-standrd hover:text-red-600" />
+                <Trash2 onClick={() => deleteLink(index, link.id)} className="w-12 h-6 mt-6 mb-3 cursor-pointer hov-standrd hover:text-red-600" />
               </div>
             )})}
             {!maxLinks && <button type="button" className="px-6 py-4 border border-black rounded-md shadow-lg ml-2 flex justify-around gap-3 mb-4 hov-standrd hover:bg-gray-100 mt-4" onClick={addAdditionalLink}>

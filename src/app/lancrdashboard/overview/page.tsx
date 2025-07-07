@@ -12,6 +12,7 @@ import { useAdditionalLinksStore } from "@/lib/store/useAdditionalLinksStore"
 import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
 import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
+import useHandleCheck from "../../hooks/useHandleCheck"
 
 export default function LancrHome () {
   type BioData = {
@@ -37,6 +38,11 @@ export default function LancrHome () {
     resetUserStoreFromOriginal()
     resetAdditionalLinksFromOriginal()
   }, [])
+
+  const handle = useUserStore(state => state.handle)
+  const username = useUserStore(state => state.username)
+
+  const { isValid, isAvailable } = useHandleCheck(handle)
 
   function resetUserStoreFromOriginal() {
     const original = useOriginalUserStore.getState()
@@ -246,6 +252,12 @@ export default function LancrHome () {
 
   async function handleSubmit (e: React.FormEvent) {
     e.preventDefault()
+
+    if (!isValid || !isAvailable) {
+      toast.error("Please enter a valid and available handle.")
+      return
+    }
+
     const { bio, username, title, changedProfileImage, handle, socialLinks, userId } = useUserStore.getState()
     const bioData = { bio, username, title, handle }
     const changedBio = checkBioSectChanges(bioData)
@@ -295,7 +307,7 @@ export default function LancrHome () {
 
   return(
     <main className="w-full overflow-auto" onSubmit={handleSubmit}>
-      <p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, Dylan</p>
+      <p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, {username === "" ? "New User": username}</p>
       <form action="">
         <AddBio profileImageFileRef={profileImageFileRef}/>
         <LancrSocialLinks/>

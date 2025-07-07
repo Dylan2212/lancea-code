@@ -3,6 +3,7 @@ import Image from "next/image"
 import TitleInput from "./titleInput"
 import { useState } from "react"
 import { useUserStore } from "@/lib/store/useUserStore"
+import useHandleCheck from "../../hooks/useHandleCheck"
 
 type Props = {
   profileImageFileRef: React.RefObject<File | null>
@@ -14,6 +15,8 @@ export default function AddBio ({ profileImageFileRef }: Props) {
   const user = useUserStore(state => state)
 
   const { title, bio, username, handle, profileImage, changedProfileImage, setChangedProfileImage, setBio, setProfileImage, setHandle, setTitle, setUsername } = user
+
+  const {isAvailable, isValid, loading} = useHandleCheck(handle)
 
   if (!user) return null
 
@@ -55,7 +58,13 @@ export default function AddBio ({ profileImageFileRef }: Props) {
             </div>
             <TitleInput required={false} previewText="John Doe" maxChar={80} inputName="username" displayMaxChar={true} type="text" labelTitle="Name" handleChange={(e) => setUsername(e.target.value)} value={username}/>
             <TitleInput required={false} previewText="Add your title" maxChar={80} inputName="title" displayMaxChar={true} type="text" labelTitle="Title" handleChange={(e) => setTitle(e.target.value)} value={title}/>
-            <TitleInput required={false} previewText="@Jdoe2819" maxChar={80} inputName="handle" displayMaxChar={true} type="text" labelTitle="Handle" handleChange={(e) => setHandle(e.target.value)} value={handle}/>
+            <div>
+              <TitleInput required={false} previewText="@Jdoe2819" maxChar={30} inputName="handle" displayMaxChar={true} type="text" labelTitle="Handle" handleChange={(e) => setHandle(e.target.value)} value={handle}/>
+              {loading && <p>Checking...</p>}
+              {!loading && isValid && isAvailable === true && <p>✅ Available</p>}
+              {!loading && isValid && isAvailable === false && <p>❌ Taken</p>}
+              {!loading && !isValid && <p>❌ Not valid</p>}
+            </div>
             <div className="mt-6 mb-3 ml-2">
               <label className="block text-lg" htmlFor="lancr-bio">Bio:</label>
               <textarea className="text-area-lancr-add-edit" name="bio" id="lancr-bio" placeholder="Tell clients about yourself..." value={bio} onChange={textAreaChange}></textarea>
