@@ -72,7 +72,7 @@ export default function AdditionalLinks () {
               <div key={link.id} className="flex items-center">
                 <div className="grid grid-cols-2 flex-1">
                   <TitleInput required={true} previewText="Display text" value={link.link_title} inputName="link-title" type="text" maxChar={80} displayMaxChar={true} handleChange={(e) => updateLink(link.id, {link_title: e.target.value})} labelTitle="Title"/>
-                  <TitleInput required={true} previewText="https://example.com" value={link.url} inputName="link" type="url" maxChar={2048} displayMaxChar={false} handleChange={(e) => updateLink(link.id, {url: e.target.value})} labelTitle="Url"/>
+                  <TitleInput required={true} previewText="https://example.com" value={link.url} inputName="link" type="text" maxChar={2048} displayMaxChar={false} handleChange={(e) => updateLink(link.id, {url: e.target.value})} labelTitle="Url"/>
                 </div>
                 <Trash2 onClick={() => deleteLink(index, link.id)} className="w-12 h-6 mt-6 mb-3 cursor-pointer hov-standrd hover:text-red-600" />
               </div>

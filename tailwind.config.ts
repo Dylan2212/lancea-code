@@ -18,5 +18,19 @@ export default {
     },
   },
   plugins: [
+    /**
+     * Add custom perspective utilities
+     */
+    function ({
+      addUtilities,
+    }: {
+      addUtilities: (utils: Record<string, Record<string, string>>) => void;
+    }) {
+      addUtilities({
+        ".perspective-1000": {
+          perspective: "1000px",
+        },
+      });
+    },
   ],
 } satisfies Config;

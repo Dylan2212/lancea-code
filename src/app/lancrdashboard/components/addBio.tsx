@@ -1,9 +1,10 @@
 "use client"
 import Image from "next/image"
 import TitleInput from "./titleInput"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useUserStore } from "@/lib/store/useUserStore"
 import useHandleCheck from "../../hooks/useHandleCheck"
+import { useUserHydrated } from "@/lib/store/useOriginalUser"
 
 type Props = {
   profileImageFileRef: React.RefObject<File | null>
@@ -11,12 +12,23 @@ type Props = {
 
 export default function AddBio ({ profileImageFileRef }: Props) {
   const [isMaxCharacters, setIsMaxCharacters] = useState(false)
-
+  const [showInvalidCharMessage, setShowInvalidCharMessage] = useState(false)
+  
+  const isHydrated = useUserHydrated()
   const user = useUserStore(state => state)
 
   const { title, bio, username, handle, profileImage, changedProfileImage, setChangedProfileImage, setBio, setProfileImage, setHandle, setTitle, setUsername } = user
 
   const {isAvailable, isValid, loading} = useHandleCheck(handle)
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>
+    if (showInvalidCharMessage) {
+      timer = setTimeout(() => setShowInvalidCharMessage(false), 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [showInvalidCharMessage]);
+
 
   if (!user) return null
 
@@ -39,6 +51,21 @@ export default function AddBio ({ profileImageFileRef }: Props) {
     }
   }
 
+function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const newValue = e.target.value
+
+  const isValid =
+    /^[a-zA-Z0-9._-]+$/.test(newValue) &&
+    !/^-|-$/.test(newValue)
+
+  if (isValid) {
+    setHandle(newValue);
+    setShowInvalidCharMessage(false)
+  } else {
+    setShowInvalidCharMessage(true)
+  }
+}
+
   return (
       <div className="w-3/4 mx-auto mt-10">
         <section className="lancr-add-edit-sect box-support">
@@ -51,19 +78,24 @@ export default function AddBio ({ profileImageFileRef }: Props) {
                   {<Image unoptimized priority fill sizes="128px" className="w-fit h-fit object-cover object-center" src={profileImage ? `${profileImage}` : "/profileImage.jpg"} alt="profile image"/>}
                 </div>
                 <div className="w-1/2 h-8 relative flex justify-center items-center bg-white rounded-md hov-standrd hover:bg-gray-50">
-                  <p>Uplaod a file</p>
+                  <p>Upload a file</p>
                   <input className="w-full inset-0 hov-standrd h-full absolute opacity-0" type="file" name="profileImgUrl" id="profile-image" accept="image/*" onChange={handleFileChange}/>
                 </div>
               </div>
             </div>
-            <TitleInput required={false} previewText="John Doe" maxChar={80} inputName="username" displayMaxChar={true} type="text" labelTitle="Name" handleChange={(e) => setUsername(e.target.value)} value={username}/>
-            <TitleInput required={false} previewText="Add your title" maxChar={80} inputName="title" displayMaxChar={true} type="text" labelTitle="Title" handleChange={(e) => setTitle(e.target.value)} value={title}/>
-            <div>
-              <TitleInput required={false} previewText="@Jdoe2819" maxChar={30} inputName="handle" displayMaxChar={true} type="text" labelTitle="Handle" handleChange={(e) => setHandle(e.target.value)} value={handle}/>
-              {loading && <p>Checking...</p>}
-              {!loading && isValid && isAvailable === true && <p>✅ Available</p>}
-              {!loading && isValid && isAvailable === false && <p>❌ Taken</p>}
-              {!loading && !isValid && <p>❌ Not valid</p>}
+            <TitleInput loading={!isHydrated} required={true} previewText="John Doe" maxChar={80} inputName="username" displayMaxChar={true} type="text" labelTitle="Name" handleChange={(e) => setUsername(e.target.value)} value={username}/>
+            <TitleInput loading={!isHydrated} required={true} previewText="Add your title" maxChar={80} inputName="title" displayMaxChar={true} type="text" labelTitle="Title" handleChange={(e) => setTitle(e.target.value)} value={title}/>
+            <div className="relative mb-10">
+              <TitleInput required={true} previewText="Jdoe2819" maxChar={30} inputName="handle" displayMaxChar={true} type="text" labelTitle="Username" handleChange={(e) => userHandleChange(e)} value={handle}/>
+              <div className="absolute bottom-[-1.5rem] left-3">
+                {showInvalidCharMessage ? (
+                  <p className="text-red-600 text-sm mt-1"> Only letters, numbers, &quot;.&quot;, &quot;-&quot;, and &quot;_&quot; are allowed. &quot;-&quot; cannot be the first or last character.</p>
+                ) :
+                <>{loading && <p>Checking...</p>}
+                {!loading && isValid && isAvailable === true && <p>✅ Available</p>}
+                {!loading && isValid && isAvailable === false && <p>❌ Taken</p>}
+                {!loading && !isValid && <p>❌ Not valid</p>}</>}
+              </div>
             </div>
             <div className="mt-6 mb-3 ml-2">
               <label className="block text-lg" htmlFor="lancr-bio">Bio:</label>

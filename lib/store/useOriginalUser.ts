@@ -22,7 +22,8 @@ type OriginalUserState = {
   handle: string,
   socialLinks: SocialLinks,
   isLive: boolean,
-  setIsLive: (isLive: boolean) => void
+  setIsLive: (isLive: boolean) => void,
+  reset: () => void
 }
 
 export const useOriginalUserStore = create<OriginalUserState>()(
@@ -35,9 +36,7 @@ export const useOriginalUserStore = create<OriginalUserState>()(
       handle: "",
       isLive: false,
       profileImageFile: null,
-      setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
       profileImage: "",
-      setIsLive: (isLive: boolean) => set({ isLive }),
       bio: "",
       socialLinks: {
         instagram: "",
@@ -46,10 +45,45 @@ export const useOriginalUserStore = create<OriginalUserState>()(
         medium: "",
         threads: "",
         tiktok: ""
-      }
+      },
+      setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
+      setIsLive: (isLive: boolean) => set({ isLive }),
+      reset: () =>
+        set({
+          userId: "",
+          email: "",
+          username: "",
+          title: "",
+          profileImage: "",
+          profileImageFile: null,
+          bio: "",
+          handle: "",
+          isLive: false,
+          socialLinks: {
+            instagram: "",
+            facebook: "",
+            x: "",
+            medium: "",
+            threads: "",
+            tiktok: ""
+          }
+        })
     }),
     {
-      name: "original-user-store" // This is the key used in localStorage
+      name: "original-user-store"
     }
   )
 )
+
+export function useUserHydrated() {
+  return useOriginalUserStore(state =>
+    !!state.userId ||
+    !!state.email ||
+    !!state.username ||
+    !!state.title ||
+    !!state.profileImage ||
+    !!state.bio ||
+    !!state.handle ||
+    Object.values(state.socialLinks).some(val => val.trim() !== "")
+  )
+}

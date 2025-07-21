@@ -11,7 +11,8 @@ type PartialAdditionalLinkWithId = Partial<AdditionalLink> & { id: string }
 
 type OriginalStore = {
   originalLinks: PartialAdditionalLinkWithId[],
-  setOriginalLinks: (links: PartialAdditionalLinkWithId[]) => void
+  setOriginalLinks: (links: PartialAdditionalLinkWithId[]) => void,
+  reset: () => void
 }
 
 export const useOriginalAdditionalLinksStore = create<OriginalStore>()(
@@ -19,9 +20,10 @@ export const useOriginalAdditionalLinksStore = create<OriginalStore>()(
     (set) => ({
       originalLinks: [],
       setOriginalLinks: (links) => set({ originalLinks: links }),
+      reset: () => set({ originalLinks: [] }) // ✅ clear state + persist storage
     }),
     {
-      name: "original-additional-links-storage", // name of the key in localStorage
+      name: "original-additional-links-storage", // localStorage key name
     }
   )
 )

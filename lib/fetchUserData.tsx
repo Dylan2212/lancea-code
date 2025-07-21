@@ -26,10 +26,11 @@ export type User = {
   is_live: boolean
 }
 
-async function createUserInDB (email: string) {
+async function createUserInDB (uid: string, email: string | undefined) {
+
   const { error } = await supabase
     .from("users")
-    .insert([{ email }])
+    .insert([{ id: uid, email }])
 
   if (error) {
     console.log("Could not create user: " + JSON.stringify(error))
@@ -37,11 +38,11 @@ async function createUserInDB (email: string) {
   }
 }
 
-export async function fetchUserData (email: string) {
+export async function fetchUserData (uid: string, email: string | undefined) {
   const { data, error } = await supabase
     .from("users")
     .select("*, additional_links(*)")
-    .eq("email", email)
+    .eq("id", uid)
     .maybeSingle()
 
   if (error) {
@@ -49,12 +50,12 @@ export async function fetchUserData (email: string) {
   }
 
   if (!data) {
-    await createUserInDB(email)
+    await createUserInDB(uid, email)
 
     const { data } = await supabase
       .from("users")
       .select("*")
-      .eq("email", email)
+      .eq("id", uid)
       .single()
       
     setStoreData(data, null)

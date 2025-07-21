@@ -4,8 +4,8 @@ import AdditionalLlinks from "../components/additionalLinks"
 import SaveLancrSection from "../components/saveLancrSection"
 import LancrSocialLinks from "../components/socialLinks"
 import { useUserStore } from "@/lib/store/useUserStore"
-import { useEffect, useRef } from "react"
-import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
+import { useEffect, useRef, useState } from "react"
+import { useOriginalUserStore, useUserHydrated } from "@/lib/store/useOriginalUser"
 import { SocialLinks } from "@/lib/store/useUserStore"
 import { useOriginalAdditionalLinksStore } from "@/lib/store/useOriginalAdditionalLinks"
 import { useAdditionalLinksStore } from "@/lib/store/useAdditionalLinksStore"
@@ -13,6 +13,9 @@ import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
 import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
 import useHandleCheck from "../../hooks/useHandleCheck"
+import { Copy } from "lucide-react"
+import Skeleton from "react-loading-skeleton"
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function LancrHome () {
   type BioData = {
@@ -33,6 +36,7 @@ export default function LancrHome () {
   type PartialAdditionalLinkWithId = Partial<AdditionalLink> & { id: string }
 
   const profileImageFileRef = useRef<File | null>(null)
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     resetUserStoreFromOriginal()
@@ -41,6 +45,8 @@ export default function LancrHome () {
 
   const handle = useUserStore(state => state.handle)
   const username = useUserStore(state => state.username)
+  const isLive = useOriginalUserStore(state => state.isLive)
+  const userUrl = `localhost:3000/${handle}`
 
   const { isValid, isAvailable } = useHandleCheck(handle)
 
@@ -73,21 +79,32 @@ export default function LancrHome () {
     return changed
   }
 
-  function checkSocialLinksChanges (newSocialLinks: SocialLinks) {
+  function checkSocialLinksChanges(newSocialLinks: SocialLinks) {
     const originalSocialLinks = useOriginalUserStore.getState().socialLinks
     const changed: ChangedSocialLinks = {}
 
     for (const key in newSocialLinks) {
+      const rawValue = newSocialLinks[key as keyof SocialLinks]
+      const normalizedValue = normalizeUrl(rawValue)
       const originalValue = originalSocialLinks[key as keyof SocialLinks]
-      const newValue = newSocialLinks[key as keyof SocialLinks]
 
-      if (originalValue !== newValue) {
-        changed[key as keyof SocialLinks] = newValue
+      if (originalValue !== normalizedValue) {
+        changed[key as keyof SocialLinks] = normalizedValue
       }
     }
 
     if (Object.keys(changed).length === 0) return null
     return changed
+  }
+
+
+  const normalizeUrl = (url: string | undefined) => {
+    if (!url) return ''
+    url = url.trim()
+    if (!/^https?:\/\//i.test(url)) {
+      return 'https://' + url
+    }
+    return url
   }
 
   function checkAdditionalLinksChanges (newLinks: PartialAdditionalLinkWithId[]) {
@@ -97,22 +114,23 @@ export default function LancrHome () {
     const originalMap = new Map(originalLinks.map(link => [link.id, link]))
 
     for (const link of newLinks) {
+      const normalizedLink = { ...link }
+    
+      normalizedLink.url = normalizeUrl(link?.url)
+    
       const original = originalMap.get(link.id)
-
       if (!original) {
-        changed[link.id] = link
+        changed[link.id] = normalizedLink
         continue
       }
-
+    
       const diff: Partial<AdditionalLink> = {}
-
-      if (original.link_title !== link.link_title) diff.link_title = link.link_title
-      if (original.url !== link.url) diff.url = link.url
-      if (original.link_title !== link.link_title || original.url !== link.url) {
-        diff.id = link.id
-      }
-
-      if (Object.keys(diff).length > 1) {
+    
+      if (original.link_title !== normalizedLink.link_title) diff.link_title = normalizedLink.link_title
+      if (original.url !== normalizedLink.url) diff.url = normalizedLink.url
+      if (Object.keys(diff).length > 0) diff.id = normalizedLink.id
+    
+      if (Object.keys(diff).length > 0) {
         changed[link.id] = diff
       }
     }
@@ -252,9 +270,11 @@ export default function LancrHome () {
 
   async function handleSubmit (e: React.FormEvent) {
     e.preventDefault()
+    setSaving(true)
 
     if (!isValid || !isAvailable) {
       toast.error("Please enter a valid and available handle.")
+      setSaving(false)
       return
     }
 
@@ -268,6 +288,7 @@ export default function LancrHome () {
 
     if (!changedSocialLinks && !changedBio && !changedProfileImage && !changedAdditionalLinks) {
       toast.error("Nothing to update.")
+      setSaving(false)
       return
     }
 
@@ -302,17 +323,39 @@ export default function LancrHome () {
       if (success) toast.success("Data saved!")
     }
 
+    setSaving(false)
     return
   }
 
+  const [copied, setCopied] = useState(false)
+
+  async function copyLink () {
+    try {
+      await navigator.clipboard.writeText(userUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error('Failed to copy: ', err)
+    }
+  }
+
+  const isHydrated = useUserHydrated()
+
   return(
     <main className="w-full overflow-auto" onSubmit={handleSubmit}>
-      <p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, {username === "" ? "New User": username}</p>
+      {isHydrated ? (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, {username === "" ? "New User": username}</p>) : (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, <Skeleton height={25} width={200}/></p>) }
+      {isLive &&<div className="w-3/4 flex items-center gap-5 mx-auto mt-10 box-support py-2">
+        <p className="font-semibold ml-2">Sharable Link:</p>
+        <span className="text-gray-600">{userUrl}</span>
+        <button onClick={copyLink} className="px-3 text-sm border border-gray-500 items-center py-1 bg-white text-gray-500 rounded hover:bg-gray-100 hov-standrd">
+          {copied ? <p className="flex gap-2"><Copy className="w-4 h-4"/> Copied</p> : <p className="flex gap-2"><Copy className="w-4 h-4"/> Copy</p>}
+        </button>
+      </div>}
       <form action="">
         <AddBio profileImageFileRef={profileImageFileRef}/>
         <LancrSocialLinks/>
         <AdditionalLlinks/>
-        <SaveLancrSection type="submit"/>
+        <SaveLancrSection type="submit" saving={saving}/>
       </form>
     </main>
   )

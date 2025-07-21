@@ -1,19 +1,36 @@
-import { supabase } from "@/lib/supabaseClient"
 import { notFound } from "next/navigation"
 import LinksPage from "../components/linksPage"
-import { getServerSession } from "next-auth"
-import { authOptions } from "../api/auth/[...nextauth]/route"
+import { createClient } from "@/utils/supabase/server"
 
 type Params = {
   params: { handle: string }
 }
 
-async function isAuthenticatedUser (email: string) {
-  const session = await getServerSession(authOptions)
-  return session?.user?.email === email ? true : false
+export async function generateMetadata ({ params }: Params) {
+  const { handle } = await params
+
+  return {
+    title: `${handle} | Lancrly`,
+    description: `Portfolio for ${handle} on Lancrly`
+  }
+}
+
+async function isAuthenticatedUser (id: string) {
+  const supabase = await createClient()
+
+  console.log(supabase)
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  console.log(user)
+
+  return user?.id === id
 }
 
 async function fetchByURLUsername (handle: string) {
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .from("users")
@@ -22,12 +39,12 @@ async function fetchByURLUsername (handle: string) {
     .maybeSingle()
 
   if (error) {
-    console.log(error)
+    console.error(error)
     notFound()
   }
 
   if (!data.is_live) {
-    const inPreview = await isAuthenticatedUser(data.email)
+    const inPreview = await isAuthenticatedUser(data.id)
     if (!inPreview) {
       notFound()
     }

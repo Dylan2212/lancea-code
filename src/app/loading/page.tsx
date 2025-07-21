@@ -1,40 +1,52 @@
 "use client"
 import { fetchUserData } from "@/lib/fetchUserData"
-import { useSession } from "next-auth/react"
 import { useEffect } from "react"
+import { supabase } from "@/lib/supabaseClient"
 import { useRouter } from "next/navigation"
-export default function Loading () {
+import { ClipLoader } from "react-spinners"
 
-  const { data: session, status } = useSession()
+export default function Loading () {
   const router = useRouter()
 
   useEffect(() => {
 
-    const getData = async () => {
-      if (status === "unauthenticated") {
-        router.push("/")
-      }
-        
-      const email = session?.user?.email
-      const name = session?.user?.name
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
 
-      if (!email || !name) return
+      if (!session) {
+        //router.push("/")
+        console.log("Not session")
+        return
+      }
+
+      const uid = session.user.id
+      const email = session.user.email
+
+      if (!uid) {
+        console.error("No user ID found in session.")
+        return
+      }
 
       try {
-        await fetchUserData(email)
+        await fetchUserData(uid, email)
         router.push(`/lancrdashboard/overview`)
       } catch (err) {
         console.error("Failed to fetch data: " + err)
       }
     }
 
-    getData()
+    init()
 
-  }, [session, status, router])
+  }, [router])
 
   return (
-    <>
-    Loading...
-    </>
+    <div className="flex items-center justify-center h-screen w-screen bg-white">
+      <div className="relative flex items-center justify-center" style={{ width: 120, height: 120 }}>
+        <ClipLoader color="#d8b4fe" size={125} />
+        <span className="absolute text-3xl font-semibold text-purple-500">
+          Lancr
+        </span>
+      </div>
+    </div>
   )
 }

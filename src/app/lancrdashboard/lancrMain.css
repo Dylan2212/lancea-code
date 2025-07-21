@@ -19,7 +19,7 @@
 }
 
 .img-in-lancr-main-header {
-  @apply rounded-full
+  @apply rounded-full w-10 h-10 min-w-10 min-h-10 max-w-10 max-h-10
 }
 
 .lancr-view-site-btn {

@@ -73,18 +73,18 @@ export default function LinksPage ({ userData }: Props) {
   return (
   <div className="relative min-h-screen flex flex-col justify-center items-center bg-gray-100">
     <div className="flex-1 items-center flex">
-      <main className="max-w-2xl max-h-[92vh] overflow-auto h-fit p-4 box-main bg-white">
+      <main className="max-w-2xl w-[35rem] my-12 h-fit p-4 box-main bg-white">
         <section className="relative pt-6">
           <a href={`mailto:${userData.email}`} className="border-2 shadow-md px-4 py-2 hov-standrd hover:bg-gray-100 rounded-full border-gray-600 absolute top-0 right-4">
             Contact
           </a>
           <div className="flex gap-5 items-center mt-4">
             <div className="min-w-24 min-h-24 max-w-24 max-h-24 relative border rounded-full overflow-hidden">
-              <Image sizes="96px" className="object-cover object-center" fill alt="profile image" src={`${userData.profileImage}`}/>
+              <Image sizes="96px" className="object-cover object-center" fill alt="profile image" src={`${userData.profileImage ? userData.profileImage : "/profileImage.jpg"}`}/>
             </div>
             <div className="grid">
               <p className="text-xl">{userData.username}</p>
-              <h1 className="text-lg leading-tight mt-2">{userData.title}</h1>
+              <h1 className="text-gray-500 leading-tight mt-2">{userData.title}</h1>
             </div>
           </div>
           <h2 className="whitespace-pre-line mt-4 text-gray-600">{userData.bio}</h2>
