@@ -69,6 +69,7 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
 
   async function logOutUser () {
     const { error } = await supabase.auth.signOut()
+    localStorage.clear()
 
     if (error) {
       console.error("Logout error: " + error.message)

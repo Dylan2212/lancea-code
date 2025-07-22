@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { notFound } from "next/navigation"
 import LinksPage from "../components/linksPage"
 import { createClient } from "@/utils/supabase/server"
@@ -17,8 +18,6 @@ export async function generateMetadata ({ params }: Params) {
 
 async function isAuthenticatedUser (id: string) {
   const supabase = await createClient()
-
-  console.log(supabase)
 
   const {
     data: { user },
