@@ -4,8 +4,6 @@ import LancrMainHeader from "./components/lancrMainHeader"
 import "./lancrMain.css"
 import DeleteAccountModal from "./components/DeleteAccountModal"
 import { useState } from "react"
-import { useOriginalAdditionalLinksStore } from "@/lib/store/useOriginalAdditionalLinks"
-import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import toast from "react-hot-toast"
 import { supabase } from "@/lib/supabaseClient"
 import { useRouter } from "next/navigation"
@@ -47,11 +45,9 @@ export default function Layout({ children }: Props) {
       }
 
       // On success, close modal (handled outside or here if you pass setter) and sign out
-      useOriginalAdditionalLinksStore.getState().reset()
-      useOriginalUserStore.getState().reset()
+      localStorage.clear()
 
       toast.success("Account Deleted")
-      await supabase.auth.signOut()
       router.push("/")
     } catch (error) {
       console.error('Unexpected error deleting account:', error)

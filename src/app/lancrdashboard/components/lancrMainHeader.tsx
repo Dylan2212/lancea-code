@@ -84,7 +84,7 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
     <header className="lancr-main-header">
       <p className="ml-12 text-4xl font-inter font-bold text-purple-600">Lancr</p>
       <div className="flex mr-10 items-center w-fit gap-8 justify-between">
-        <Link className="lancr-view-site-btn hov-standrd" href={`/${handle}`} target="_blank" rel="noopener noreferrer"><Globe />Preview Site</Link>
+        <Link className="lancr-view-site-btn hov-standrd" onClick={() => !handle && toast.error("Add required fields to preview your site.")} href={handle ? `/${handle}` : "#"} target={handle ? "_blank" : undefined} rel={handle ? "noopener noreferrer" : undefined}><Globe />Preview Site</Link>
         <div className="flex gap-2 bg-gray-100 rounded-full py-2 px-4 items-center">
           <label htmlFor="is-live-selector">Your site is:</label>
           <select value={isHydrated && isLive ? "Online" : "Hidden"} onChange={(e) => changeInLiveStatus(e)} name="is-live-selector" id="is-live-selector" className="bg-transparent [cursor:pointer!important] focus:outline-none focus:ring-0 focus:border-transparent">
