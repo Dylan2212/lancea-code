@@ -9,7 +9,7 @@ export default function LancrSocialLinks () {
   const { setSocialLinks, socialLinks } = user
 
   return (
-        <div className="w-3/4 mx-auto mt-10">
+        <div className="div-for-lancr-dashboard-sects">
           <section className="lancr-add-edit-sect box-support">
             <p className="lancr-add-edit-sect-ttle">Add Social Links</p>
             <p className="text-sm text-gray-500">Add links to your social profiles so potential clients can explore more of your work and connect with you on other platforms.</p>

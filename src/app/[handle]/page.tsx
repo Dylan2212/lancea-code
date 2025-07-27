@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 import { notFound } from "next/navigation"
 import LinksPage from "../components/linksPage"
 import { createClient } from "@/utils/supabase/server"
+import { supabase } from "@/lib/supabaseClient"
 
 type Params = {
   params: { handle: string }
@@ -10,10 +11,25 @@ type Params = {
 export async function generateMetadata ({ params }: Params) {
   const { handle } = await params
 
-  return {
-    title: `${handle} | Lancrly`,
-    description: `Portfolio for ${handle} on Lancrly`
+  const { data } = await supabase
+    .from("users")
+    .select("handle")
+    .eq("handle", handle)
+    .maybeSingle()
+
+  if (data) {
+    return {
+      title: `${handle} | Lancrly`,
+      description: `Portfolio for ${handle} on Lancrly`
+    }
+  } else {
+    return {
+    title: `Lancrly 404`,
+    description: `Could not find page`
+    }
   }
+
+
 }
 
 async function isAuthenticatedUser (id: string) {
@@ -22,8 +38,6 @@ async function isAuthenticatedUser (id: string) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
-  console.log(user)
 
   return user?.id === id
 }
@@ -38,7 +52,10 @@ async function fetchByURLUsername (handle: string) {
     .maybeSingle()
 
   if (error) {
-    console.error(error)
+    notFound()
+  }
+
+  if (!data) {
     notFound()
   }
 

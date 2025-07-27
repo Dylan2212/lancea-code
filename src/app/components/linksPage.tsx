@@ -1,5 +1,6 @@
 import { SocialLinks } from "@/lib/store/useUserStore"
 import Image from "next/image"
+import "./linkspage.css"
 import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
 import { SiInstagram, SiFacebook, SiX, SiLinkedin, SiMedium, SiYoutube, SiThreads, SiTiktok } from "react-icons/si"
 
@@ -69,37 +70,68 @@ export default function LinksPage ({ userData }: Props) {
     }
   }
 
+  const socialLinksBar = () => {
+    if (isEmptySocialLinks) return
+    return (
+      <div className="
+        flex box-support rounded-full gap-5 py-2 px-4 w-fit mt-5
+        ">
+        {Object.entries(userData.socialLinks).map(([platform, link]) => {
+          if (!link || !socialConfig[platform]) return null
+            const config = socialConfig[platform]
+
+            return (
+              <a key={platform} href={link} target="_blank" rel="noopener noreferrer"className="flex items-center gap-2 hover:underline">
+                {config.icon}
+              </a>
+            )
+         })}
+      </div>)
+  }
+
 
   return (
-  <div className="relative min-h-screen flex flex-col justify-center items-center bg-gray-100">
-    <div className="flex-1 items-center flex">
-      <main className="max-w-2xl w-[35rem] my-12 h-fit p-4 box-main bg-white">
+  <div className="div-container-for-middle-align bg-gradient-to-b from-[#f5f3ff] to-white">
+    <div className="
+        flex-1 flex relative
+        lg:items-center
+      ">
+      <a href={`mailto:${userData.email}`} className="sm:hidden fixed links-page-contact-btn hov-standrd top-6 right-4">
+        Contact
+      </a>
+      <main className="
+      w-screen h-fit mt-8 p-4
+      lg:w-[35rem] lg:max-w-2xl lg:mt-0 lg:h-fit lg:max-h-[92vh] lg:overflow-auto lg:border lg:rounded-lg lg:shadow-lg lg:bg-white
+      ">
         <section className="relative pt-6">
-          <a href={`mailto:${userData.email}`} className="border-2 shadow-md px-4 py-2 hov-standrd hover:bg-gray-100 rounded-full border-gray-600 absolute top-0 right-4">
+          <a href={`mailto:${userData.email}`} className="hidden lg:inline links-page-contact-btn hov-standrd top-0 right-4">
             Contact
           </a>
-          <div className="flex gap-5 items-center mt-4">
-            <div className="min-w-24 min-h-24 max-w-24 max-h-24 relative border rounded-full overflow-hidden">
+          <div className="
+            flex flex-col justify-center gap-2 items-center
+            lg:flex-row lg:justify-start lg:gap-5 mt-4">
+            <div className="
+            min-w-32 min-h-32 max-w-32 max-h-32 shadow-lg relative rounded-full overflow-hidden
+            lg:min-w-24 lg:min-h-24 lg:max-w-24 lg:max-h-24 lg:border
+            ">
               <Image sizes="96px" className="object-cover object-center" fill alt="profile image" src={`${userData.profileImage ? userData.profileImage : "/profileImage.jpg"}`}/>
             </div>
-            <div className="grid">
-              <p className="text-xl">{userData.username}</p>
-              <h1 className="text-gray-500 leading-tight mt-2">{userData.title}</h1>
+            <div className="grid gap-2">
+              <p className="
+                text-xl leading-none text-center w-2/3 mx-auto
+                lg:text-start lg:w-auto lg:mx-0
+                ">{userData.username}</p>
+              <h1 className="
+                text-gray-500 leading-none text-center mx-auto w-2/3
+                  lg:text-start lg:mx-0 lg:w-auto
+                ">{userData.title}</h1>
             </div>
           </div>
-          <h2 className="whitespace-pre-line mt-4 text-gray-600">{userData.bio}</h2>
-          {!isEmptySocialLinks && <div className="flex box-support rounded-full gap-5 py-2 px-4 w-fit mt-5">
-            {Object.entries(userData.socialLinks).map(([platform, link]) => {
-              if (!link || !socialConfig[platform]) return null
-              const config = socialConfig[platform]
-
-              return (
-                <a key={platform} href={link} target="_blank" rel="noopener noreferrer"className="flex items-center gap-2 hover:underline">
-                  {config.icon}
-                </a>
-              )
-            })}
-          </div>}
+          <h2 className="
+            whitespace-pre-line mt-4 text-gray-700 w-5/6 mx-auto leading-tight pt-2 text-sm
+            lg:text-base
+            ">{userData.bio}</h2>
+          <div className="w-5/6 mx-auto">{socialLinksBar()}</div>
         </section>
         {additionalLinks.length > 0 && <section className="border-t-2 mt-5">
           <ul>
@@ -115,9 +147,9 @@ export default function LinksPage ({ userData }: Props) {
       </main>
     </div>
 
-    <footer className="py-2 bg-gray-50 w-full text-center">
-      <p>
-        Powered by <a className="text-purple-600 underline cursor-pointer" href="http://localhost:3000/">Lancr</a>
+    <footer className="py-2 mb-2 lg:mb-0 w-full text-center">
+      <p className="text-lg">
+        Powered by <a className="text-purple-600 underline cursor-pointer" href="http://localhost:3000/">Lancrly</a>
       </p>
     </footer>
   </div>

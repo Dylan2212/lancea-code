@@ -16,6 +16,9 @@ import useHandleCheck from "../../hooks/useHandleCheck"
 import { Copy } from "lucide-react"
 import Skeleton from "react-loading-skeleton"
 import 'react-loading-skeleton/dist/skeleton.css'
+import Link from "next/link"
+import { Globe, CircleSmall } from "lucide-react"
+import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
 
 export default function LancrHome () {
   type BioData = {
@@ -45,10 +48,11 @@ export default function LancrHome () {
 
   const handle = useUserStore(state => state.handle)
   const username = useUserStore(state => state.username)
-  const isLive = useOriginalUserStore(state => state.isLive)
+  const userId = useOriginalUserStore(state => state.userId)
   const userUrl = `localhost:3000/${handle}`
 
   const { isValid, isAvailable } = useHandleCheck(handle)
+  const { isLive, changeInLiveStatus } = useChangeLiveStatus(userId)
 
   function resetUserStoreFromOriginal() {
     const original = useOriginalUserStore.getState()
@@ -329,22 +333,54 @@ export default function LancrHome () {
 
   const [copied, setCopied] = useState(false)
 
-  async function copyLink () {
+  async function copyLink() {
     try {
-      await navigator.clipboard.writeText(userUrl)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(userUrl);
+      } else {
+        // Fallback for mobile browsers
+        const textArea = document.createElement("textarea");
+        textArea.value = userUrl;
+        textArea.style.position = "fixed"; // Prevent scrolling to bottom
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textArea);
+
+        if (!successful) throw new Error("Fallback copy failed");
+      }
+
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy: ', err)
+      console.error("Failed to copy:", err);
     }
   }
 
   const isHydrated = useUserHydrated()
 
   return(
-    <main className="w-full overflow-auto" onSubmit={handleSubmit}>
+    <main className="w-dvw overflow-auto" onSubmit={handleSubmit}>
       {isHydrated ? (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, {username === "" ? "New User": username}</p>) : (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, <Skeleton height={25} width={200}/></p>) }
-      {isLive &&<div className="w-3/4 flex items-center gap-5 mx-auto mt-10 box-support py-2">
+      <div className="mt-3 mx-3 flex justify-between">
+        <Link className="flex gap-2 border shadow-md rounded-full w-fit px-4 py-2 md:hidden" onClick={() => !handle && toast.error("Add required fields to preview your site.")} href={handle ? `/${handle}` : "#"} target={handle ? "_blank" : undefined} rel={handle ? "noopener noreferrer" : undefined}><Globe />Preview Site</Link>
+        <div className="flex bg-gray-100 rounded-full py-2 px-4 items-center text-sm md:hidden">
+          <label htmlFor="is-live-selector">Your Site Is:</label>
+          <select value={isHydrated && isLive ? "Online" : "Hidden"} onChange={(e) => changeInLiveStatus(e)} name="is-live-selector" id="is-live-selector" className="bg-transparent [cursor:pointer!important] focus:outline-none focus:ring-0 focus:border-transparent">
+            <option value="Online">Online</option>
+            <option value="Hidden">Hidden</option>
+          </select>
+          <CircleSmall
+            className={`h-4 w-4
+              ${isHydrated && isLive && "fill-green-500 text-green-500"}`}
+          />
+        </div>
+      </div>
+      {isLive &&<div className="
+      w-11/12 flex gap-3 mt-5
+      lg:w-3/4 items-center lg:gap-5 mx-auto lg:mt-10 box-support py-2">
         <p className="font-semibold ml-2">Sharable Link:</p>
         <span className="text-gray-600">{userUrl}</span>
         <button onClick={copyLink} className="px-3 text-sm border border-gray-500 items-center py-1 bg-white text-gray-500 rounded hover:bg-gray-100 hov-standrd">

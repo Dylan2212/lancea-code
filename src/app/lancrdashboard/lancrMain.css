@@ -15,15 +15,11 @@
 /* header */
 
 .lancr-main-header {
-  @apply flex justify-between w-screen h-16 items-center bg-white z-10 border-b-2
+  @apply flex justify-between w-screen h-16 items-center shadow-md bg-white z-10
 }
 
 .img-in-lancr-main-header {
   @apply rounded-full w-10 h-10 min-w-10 min-h-10 max-w-10 max-h-10
-}
-
-.lancr-view-site-btn {
-  @apply flex gap-2
 }
 
 .lancr-view-site-btn {
@@ -33,7 +29,11 @@
 /* add edit sections */
 
 .lancr-add-edit-sect {
-  @apply p-2 mb-12
+  @apply p-2 mb-8 lg:mb-12
+}
+
+.div-for-lancr-dashboard-sects {
+  @apply w-11/12 lg:w-3/4 mx-auto mt-10
 }
 
 .lancr-add-edit-sect-ttle {
@@ -45,11 +45,11 @@
 }
 
 .lancr-add-edit-text-input {
-  @apply border rounded-md mt-1 p-1 pl-4 w-5/6 focus:outline-purple-600 text-gray-700
+  @apply border rounded-md mt-1 p-1 pl-4 w-11/12 lg:w-5/6 focus:outline-purple-600 text-gray-700
 }
 
 .text-area-lancr-add-edit {
-  @apply border rounded-md mt-1 p-1 pl-4 w-5/6 focus:outline-purple-600 resize-none h-52 text-gray-600
+  @apply border rounded-md mt-1 p-1 pl-4 w-11/12 lg:w-5/6 focus:outline-purple-600 resize-none h-52 text-gray-600
 }
 
 .split-text-area-lancr-add-edit {

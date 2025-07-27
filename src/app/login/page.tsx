@@ -3,11 +3,15 @@
 import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import Image from 'next/image'
+import toast from 'react-hot-toast'
 
 export default function AuthPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [mode, setMode] = useState<'login' | 'signup'>('login')
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
+  const [resetEmail, setResetEmail] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -16,14 +20,35 @@ export default function AuthPage() {
     if (mode === 'login') {
       res = await supabase.auth.signInWithPassword({ email, password })
     } else {
-      res = await supabase.auth.signUp({ email, password, options: {emailRedirectTo: 'http://localhost:3000/auth/callback?next=/loading'}})
+      res = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: 'http://localhost:3000/auth/callback?next=/loading' } })
+      if (res.data.user?.identities?.length === 0) {
+        toast.error("Email already registered.")
+        return
+      }
     }
 
-
     if (res.error) {
-      alert(res.error.message)
+      toast.error(res.error.message)
     } else {
       window.location.href = mode === "login" ? "/loading" : "/confim-email" // or redirect wherever you want after login/signup
+    }
+  }
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!resetEmail) {
+      toast.error("Please enter your email.")
+      return
+    }
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: `http://localhost:3000/resetpassword`
+    })
+    if (error) {
+      toast.error(`Error: ${error.message}`)
+    } else {
+      toast.success('Password reset email sent! Check your inbox.')
+      setShowForgotPassword(false)
+      setResetEmail('')
     }
   }
 
@@ -33,7 +58,7 @@ export default function AuthPage() {
         <p className="ml-8 text-5xl font-semibold text-purple-600">Lancr</p>
       </header>
 
-      <div className="max-w-md mx-auto mt-10 p-6 border rounded">
+      <div className="max-w-md mx-auto mt-10 p-6 border rounded bg-white shadow-lg">
         <h2 className="text-2xl font-bold mb-4">
           {mode === 'login' ? 'Log In' : 'Sign Up'}
         </h2>
@@ -48,22 +73,72 @@ export default function AuthPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="w-full p-2 mb-3 border rounded"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="relative w-full mb-3">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              className="w-full p-2 pr-10 border rounded"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-600"
+              onClick={() => setShowPassword((prev) => !prev)}
+              tabIndex={-1}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
           <button
             type="submit"
             className="w-full py-2 rounded text-white bg-purple-600 hover:bg-purple-700"
           >
             {mode === 'login' ? 'Log In' : 'Sign Up'}
           </button>
+
+          {mode === 'login' && !showForgotPassword && (
+            <button
+              type="button"
+              onClick={() => setShowForgotPassword(true)}
+              className="text-purple-600 underline text-sm"
+            >
+              Forgot Password?
+            </button>
+          )}
         </form>
+
+        {/* Forgot Password form inline */}
+        {showForgotPassword && (
+          <form onSubmit={handleForgotPassword} className="mb-4 border p-4 rounded bg-purple-50">
+            <p className="mb-2 text-purple-700 font-semibold">Reset your password</p>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full p-2 mb-3 border rounded"
+              value={resetEmail}
+              onChange={(e) => setResetEmail(e.target.value)}
+              required
+            />
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                className="flex-1 py-2 rounded bg-purple-600 text-white hover:bg-purple-700"
+              >
+                Send reset email
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowForgotPassword(false)}
+                className="flex-1 py-2 rounded border border-purple-600 text-purple-600 hover:bg-purple-100"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
 
         {/* Toggle link */}
         <div className="text-sm text-center mb-4">

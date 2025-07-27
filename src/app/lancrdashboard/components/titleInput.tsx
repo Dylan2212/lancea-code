@@ -11,15 +11,16 @@ type MyProps = {
   displayMaxChar: boolean,
   labelTitle: string,
   required: boolean,
-  loading?: boolean
+  loading?: boolean,
+  className?: string
 }
 
-export default function TitleInput ({ previewText, inputName, displayMaxChar, handleChange, value, maxChar, type, labelTitle, required, loading = false }: MyProps) {
+export default function TitleInput ({ previewText, inputName, displayMaxChar, handleChange, value, maxChar, type, labelTitle, required, loading = false, className }: MyProps) {
   if (value == null) return
   const isMaxCharacters = maxChar <= value.length
 
   return (
-    <div className="mt-6 mb-3 ml-2">
+    <div className={!className ? "mt-6 mb-3 ml-2" : `${className}`}>
       <label className="block text-lg" htmlFor="title-input">{labelTitle}:{required && <span className="text-red-500">*</span>}</label>
 
       <div className="relative w-full">

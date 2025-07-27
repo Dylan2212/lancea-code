@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@screen lg {
+  .lg-links-page-card {
+    @apply max-w-2xl w-[35rem] my-12 h-fit p-4 border rounded-lg shadow-lg bg-white
+  }
+}
+
+.sm-links-page-card {
+  @apply h-full w-screen
+}
+
+.links-page-contact-btn {
+  @apply border-2 shadow-md px-4 py-2 hover:bg-gray-100 rounded-full bg-white border-gray-600 absolute
+}

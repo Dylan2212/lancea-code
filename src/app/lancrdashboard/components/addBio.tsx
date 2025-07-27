@@ -6,6 +6,10 @@ import { useUserStore } from "@/lib/store/useUserStore"
 import useHandleCheck from "../../hooks/useHandleCheck"
 import { useUserHydrated } from "@/lib/store/useOriginalUser"
 
+//KEEP ADDITIONAL LINKS AND SOCIAL LINKS IF IT HAPPENDS
+//TO THEM IN ORDER OF HOW THEY ARE TYPED
+//DOES NOT NEED FIXED BEFORE LAUNCH
+
 type Props = {
   profileImageFileRef: React.RefObject<File | null>
 }
@@ -33,7 +37,8 @@ export default function AddBio ({ profileImageFileRef }: Props) {
   if (!user) return null
 
   function textAreaChange (e: React.ChangeEvent<HTMLTextAreaElement>) {
-    if (e.target.value.length === 1080) setIsMaxCharacters(true)
+    if (e.target.value.length >= 150) setIsMaxCharacters(true)
+    if (e.target.value.length < 150 && isMaxCharacters) setIsMaxCharacters(false)
     setBio(e.target.value)
   }
 
@@ -67,11 +72,11 @@ function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
 }
 
   return (
-      <div className="w-3/4 mx-auto mt-10">
+      <div className="div-for-lancr-dashboard-sects">
         <section className="lancr-add-edit-sect box-support">
             <p className="lancr-add-edit-sect-ttle">Bio</p>
             <p className="text-sm text-gray-500">Add basic information so viewers now more about you.</p>
-            <div className="w-3/4 mt-4 mx-auto">
+            <div className="w-11/12 lg:w-3/4 mt-4 mx-auto">
               <p className="text-lg">Profile Image:</p>
               <div className="w-full mx-auto h-72 bg-gray-100 border-gray-400 border rounded-md flex items-center gap-3 justify-center flex-col">
                 <div className="w-32 h-32 rounded-full border overflow-hidden relative border-black">
@@ -84,7 +89,7 @@ function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
               </div>
             </div>
             <TitleInput loading={!isHydrated} required={true} previewText="John Doe" maxChar={80} inputName="username" displayMaxChar={true} type="text" labelTitle="Name" handleChange={(e) => setUsername(e.target.value)} value={username}/>
-            <TitleInput loading={!isHydrated} required={true} previewText="Add your title" maxChar={80} inputName="title" displayMaxChar={true} type="text" labelTitle="Title" handleChange={(e) => setTitle(e.target.value)} value={title}/>
+            <TitleInput loading={!isHydrated} required={true} previewText="Add your title" maxChar={45} inputName="title" displayMaxChar={true} type="text" labelTitle="Title" handleChange={(e) => setTitle(e.target.value)} value={title}/>
             <div className="relative mb-10">
               <TitleInput required={true} previewText="Jdoe2819" maxChar={30} inputName="handle" displayMaxChar={true} type="text" labelTitle="Username" handleChange={(e) => userHandleChange(e)} value={handle}/>
               <div className="absolute bottom-[-1.5rem] left-3">
@@ -100,7 +105,7 @@ function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
             <div className="mt-6 mb-3 ml-2">
               <label className="block text-lg" htmlFor="lancr-bio">Bio:</label>
               <textarea className="text-area-lancr-add-edit" name="bio" id="lancr-bio" placeholder="Tell clients about yourself..." value={bio} onChange={textAreaChange}></textarea>
-              <p className={`max-characters ${isMaxCharacters && "text-red-600"}`}>Max: {bio.length}/{1080} characters</p>
+              <p className={`max-characters ${isMaxCharacters && "text-red-600"}`}>Max: {bio.length}/{150} characters</p>
             </div>
         </section>
       </div>

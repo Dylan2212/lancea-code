@@ -27,6 +27,7 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  console.log(user)
   const publicPaths = ['/', '/login', '/auth', '/signup', '/privacy', '/terms']
 
   const isPublicPath = publicPaths.some((path) =>
@@ -34,6 +35,7 @@ export async function updateSession(request: NextRequest) {
   )
 
   if (!user && !isPublicPath) {
+    console.log(user)
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)

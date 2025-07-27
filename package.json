@@ -11,6 +11,7 @@
   "dependencies": {
     "@dnd-kit/sortable": "^10.0.0",
     "@fontsource/inter": "^5.2.5",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.52.0",
     "framer-motion": "^12.23.0",
@@ -26,6 +27,7 @@
     "react-spinners": "^0.17.0",
     "simple-icons": "^15.4.0",
     "tailwind-scrollbar-hide": "^2.0.0",
+    "uuid": "^11.1.0",
     "zustand": "^5.0.5"
   },
   "devDependencies": {

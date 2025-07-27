@@ -1,6 +1,7 @@
 import TitleInput from "./titleInput";
 import { SquarePlus, Trash2 } from "lucide-react";
 import { useState } from "react";
+import {v4 as uuidv4} from "uuid"
 import toast from "react-hot-toast";
 import { useAdditionalLinksStore } from "@/lib/store/useAdditionalLinksStore";
 import { supabase } from "@/lib/supabaseClient";
@@ -57,22 +58,24 @@ export default function AdditionalLinks () {
   const { links, updateLink, setLinks } = store
 
   const newLink = {
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     link_title: "",
     url: "",
   }
 
   return (
-      <div className="w-3/4 mx-auto mt-10">
+      <div className="div-for-lancr-dashboard-sects">
         <section className="lancr-add-edit-sect box-support">
             <p className="lancr-add-edit-sect-ttle">Additional Links</p>
             <p className="text-sm text-gray-500">Add up to 5 additional links.</p>
             {links.map((link, index) => {
               return (
-              <div key={link.id} className="flex items-center">
-                <div className="grid grid-cols-2 flex-1">
-                  <TitleInput required={true} previewText="Display text" value={link.link_title} inputName="link-title" type="text" maxChar={80} displayMaxChar={true} handleChange={(e) => updateLink(link.id, {link_title: e.target.value})} labelTitle="Title"/>
-                  <TitleInput required={true} previewText="https://example.com" value={link.url} inputName="link" type="text" maxChar={2048} displayMaxChar={false} handleChange={(e) => updateLink(link.id, {url: e.target.value})} labelTitle="Url"/>
+              <div key={link.id} className="flex border shadow-sm mt-8 py-2 items-center">
+                <div className="
+                grid flex-1 gap-2
+                lg:grid-cols-2">
+                  <TitleInput className="my-0 ml-2" required={true} previewText="Display text" value={link.link_title} inputName="link-title" type="text" maxChar={80} displayMaxChar={true} handleChange={(e) => updateLink(link.id, {link_title: e.target.value})} labelTitle="Title"/>
+                  <TitleInput className="my-0 ml-2" required={true} previewText="https://example.com" value={link.url} inputName="link" type="text" maxChar={2048} displayMaxChar={false} handleChange={(e) => updateLink(link.id, {url: e.target.value})} labelTitle="Url"/>
                 </div>
                 <Trash2 onClick={() => deleteLink(index, link.id)} className="w-12 h-6 mt-6 mb-3 cursor-pointer hov-standrd hover:text-red-600" />
               </div>
