@@ -9,7 +9,7 @@ type Params = {
 }
 
 export async function generateMetadata ({ params }: Params) {
-  const { handle } = await params
+  const { handle } = params
 
   const { data } = await supabase
     .from("users")
@@ -70,7 +70,7 @@ async function fetchByURLUsername (handle: string) {
 }
 
 export default async function LancrLinksPage({ params }: Params) {
-  const { handle } = await params
+  const { handle } = params
 
   const userData = await fetchByURLUsername(handle)
 
