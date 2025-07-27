@@ -65,7 +65,7 @@ async function fetchByURLUsername (handle: string) {
   return data
 }
 
-export default async function LancrLinksPage({ params }: Params) {
+export default async function LancrLinksPage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
 
   const userData = await fetchByURLUsername(handle)
