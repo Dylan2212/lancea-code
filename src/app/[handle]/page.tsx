@@ -4,8 +4,8 @@ import LinksPage from "../components/linksPage"
 import { createClient } from "@/utils/supabase/server"
 import { supabase } from "@/lib/supabaseClient"
 
-export async function generateMetadata ({ params }: { params: { handle: string } }) {
-  const { handle } = params
+export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
+  const { handle } = await params
 
   const { data } = await supabase
     .from("users")
@@ -66,7 +66,7 @@ async function fetchByURLUsername (handle: string) {
 }
 
 export default async function LancrLinksPage({ params }: Params) {
-  const { handle } = params
+  const { handle } = await params
 
   const userData = await fetchByURLUsername(handle)
 
