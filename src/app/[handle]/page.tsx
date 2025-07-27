@@ -4,11 +4,7 @@ import LinksPage from "../components/linksPage"
 import { createClient } from "@/utils/supabase/server"
 import { supabase } from "@/lib/supabaseClient"
 
-type Params = {
-  params: { handle: string }
-}
-
-export async function generateMetadata ({ params }: Params) {
+export async function generateMetadata ({ params }: { params: { handle: string } }) {
   const { handle } = params
 
   const { data } = await supabase
