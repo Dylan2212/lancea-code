@@ -1,7 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { CircleUserRound, TextCursorInput, Link, Check } from "lucide-react"
-import HeroPreviewCard from "./components/heroPreviewCard"
 import NextLink from "next/link"
 import Image from "next/image"
 
@@ -11,58 +10,83 @@ export default function Home() {
   return (
     <>
       <header className="h-20 flex justify-between items-center">
-        <p className="ml-8 text-5xl font-semibold text-purple-600">Lancr</p>
+        <p className="ml-8 text-3xl lg:text-5xl font-semibold text-purple-600">Lancrly</p>
         <button className="mr-8 bg-purple-600 text-white shadow-md rounded-full py-2 px-4 hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Log In / Sign Up</button>
       </header>
       <main className="">
         <section>
-          <div className="flex justify-around items-center w-screen h-[82vh]">
-            <div className="w-1/3">
-              <h1 className="text-5xl font-semibold leading-tight">
+          <div className="relative flex lg:ml-32 lg:items-center w-dvw lg:h-[82vh] h-[76vh] overflow-hidden">
+            <div className="z-10 w-5/6 lg:w-1/3 mx-auto lg:mx-0 lg:block flex flex-col justify-between pb-12 lg:pb-0">
+              <h1 className="text-4xl lg:text-5xl text-center lg:text-start font-semibold leading-tight">
                 A link-in-bio page for all your freelancing links
               </h1>
-              <h2 className="mt-5 text-lg text-gray-600">
-                All your freelancing links in one simple, shareable page that makes you look legit.
-              </h2>
-              <button className="mt-8 text-lg border-2 border-purple-600 shadow-lg rounded-lg py-3 px-6 hov-standrd hover:bg-gray-100" onClick={() => router.push("/login")}>Create your free page</button>
+              <div>
+                <h2 className="lg:mt-5 mb-3 lg:mb-0 text-lg text-gray-600">
+                  All your freelancing links in one simple, shareable page that makes you look legit.
+                </h2>
+                <button
+                  className="lg:mt-8 text-lg border-2 border-purple-600 shadow-lg rounded-lg py-3 px-6 hov-standrd hover:bg-gray-100"
+                  onClick={() => router.push("/login")}
+                >
+                  Create your free page
+                </button>
+              </div>
             </div>
-            <div className="perspective-1000">
-              <HeroPreviewCard />
+
+            {/* Mockup container */}
+            <div className="absolute right-[-20%] lg:top-1/6 top-1/4 lg:-translate-y-24 -translate-y-12 lg:right-16 w-[150dvw] lg:w-[60dvw] z-0 pointer-events-none">
+              <Image
+                src="/tryMock.svg"
+                alt="Product mockup on laptop"
+                width={2750}
+                height={2580}
+                className="w-full h-auto"
+              />
             </div>
           </div>
         </section>
-        <section>
+        <section className="relative z-40">
           <h3 className="text-4xl text-center">Get Set Up In Minutes</h3>
-          <div className="flex w-2/3 mx-auto justify-around items-center mt-14">
-            <div className="w-56 h-32">
+          <div className="flex w-11/12 lg:w-2/3 mx-auto justify-around items-center mt-14">
+            <div className="w-1/3 lg:w-56 h-32">
               <CircleUserRound className="w-10 h-10 mx-auto" />
               <p className="text-center text-gray-600 mt-3">Create your account</p>
             </div>
-            <div className="w-56 h-32">
+            <div className="w-1/3 lg:w-56 h-32">
               <TextCursorInput className="w-10 h-10 mx-auto" />
               <p className="text-center text-gray-600 mt-3">Fill input fields with your information and save</p>
             </div>
-            <div className="w-56 h-32">
+            <div className="w-1/3 lg:w-56 h-32">
               <Link className="w-10 h-10 mx-auto" />
               <p className="text-center mt-3 text-gray-600">Share the link to your page</p>
             </div>
           </div>
         </section>
-        <section className="flex mt-32 justify-center gap-32">
-          <div className="w-[280px] h-[560px] relative">
+        <section className="flex mt-24 lg:mt-32 justify-end gap-32 lg:mr-32 relative z-10 lg:w-auto w-full lg-ml-0">
+          <div className="lg:hidden absolute top-8 z-0 w-[80vw] -translate-x-40 pointer-events-none">
             <Image
-              src="/anotherCard-portrait.png"
-              alt="Mobile preview"
-              fill
-              className="object-contain"
+              src="/mobile2.svg"
+              alt="Product mockup on laptop"
+              width={2750}
+              height={2580}
+              className="w-full h-auto"
             />
           </div>
-          <div>
-            <h3 className="text-4xl text-center">Why Freelancers Use Lancr</h3>
-            <ul className="mt-6">
+          <div className="absolute hidden lg:block left-48 top-1/2 -translate-y-1/2 z-0 w-[30vw] pointer-events-none">
+            <Image
+              src="/finalmobile.svg"
+              alt="Product mockup on laptop"
+              width={2750}
+              height={2580}
+              className="w-full h-auto"
+            />
+          </div>
+          <div className="relative z-10">
+            <h3 className="text-4xl text-center">Why Freelancers Use Lancrly</h3>
+            <ul className="lg:mt-6 mt-12 w-1/2 lg:w-auto lg:mx-0 ml-auto mr-5">
               <li>
-                <div className="flex items-center gap-4">
-                  <Check className="w-24 h-24 text-purple-600"/> 
+                <div className="flex items-center gap-4 mb-5 lg:mb-0">
+                  <Check className="hidden lg:block min-w-16 max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
                   <div>
                     <p className="font-semibold text-xl">Instant Setup</p>
                     <p className="text-gray-600">Launch your page in under 5 minutes -- no code needed</p>
@@ -70,8 +94,8 @@ export default function Home() {
                 </div>
               </li>
               <li>
-                <div className="flex items-center gap-4">
-                  <Check className="w-24 h-24 text-purple-600"/> 
+                <div className="flex items-center gap-4 mb-5 lg:mb-0">
+                  <Check className="hidden lg:block min-w-16 max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
                   <div>
                     <p className="font-semibold text-xl">Portfolio-Ready</p>
                     <p className="text-gray-600">Add links to your best work, socials, or booking — everything in one place.</p>
@@ -79,8 +103,8 @@ export default function Home() {
                 </div>
               </li>
               <li>
-                <div className="flex items-center gap-4">
-                  <Check className="w-24 h-24 text-purple-600"/> 
+                <div className="flex items-center gap-4 mb-5 lg:mb-0">
+                  <Check className="hidden lg:block min-w-16 max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
                   <div>
                     <p className="font-semibold text-xl">Simple & Professional Design</p>
                     <p className="text-gray-600">Display your all your information without clutter</p>
@@ -88,8 +112,8 @@ export default function Home() {
                 </div>
               </li>
               <li>
-                <div className="flex items-center gap-4">
-                  <Check className="w-24 h-24 text-purple-600"/> 
+                <div className="flex items-center gap-4 mb-5 lg:mb-0">
+                  <Check className="hidden lg:block min-w-16 max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
                   <div>
                     <p className="font-semibold text-xl">Custom URL</p>
                     <p className="text-gray-600">Custom URL handle to keep shareable link on brand</p>
@@ -99,11 +123,11 @@ export default function Home() {
             </ul>
           </div>
         </section>
-        <section className="mt-32">
-          <div className="border-2 border-purple-600 rounded-xl shadow-2xl h-60 p-6 w-1/2 mx-auto flex flex-col justify-around items-center">
+        <section className="mt-32 lg:mt-52 relative z-10">
+          <div className="border-2 border-purple-600 rounded-xl shadow-2xl h-72 lg:h-60 p-6 w-11/12 lg:w-1/2 mx-auto flex flex-col justify-around items-center">
             <p className="text-3xl text-center">Look Professional. Get Discovered.</p>
-            <button className="mr-8 w-1/2 font-semibold bg-purple-600 text-white shadow-md rounded-full py-4 text-xl hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Create Your Free Page</button>
-            <p>Sign up, set up, and share — all in under 5 minutes.</p>
+            <button className="mx-auto w-5/6 lg:w-1/2 font-semibold bg-purple-600 text-white shadow-md rounded-full py-4 text-xl hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Create Your Free Page</button>
+            <p className="text-center">Sign up, set up, and share — all in under 5 minutes.</p>
           </div>
         </section>
       </main>

@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabaseClient"
 import { useEffect } from "react"
+import PlainHeader from "../components/plainHeader"
 
 export default function ConfirmEmailPage() {
   const router = useRouter()
@@ -21,10 +22,8 @@ export default function ConfirmEmailPage() {
   )
 
   return (
-    <div className="bg-gray-50 max-h-screen min-h-dvh flex flex-col">
-      <header className="h-20 flex justify-between items-center">
-        <p className="ml-8 text-5xl font-semibold text-purple-600">Lancr</p>
-      </header>
+    <div className="bg-gray-50 max-h-dvh min-h-dvh flex flex-col">
+      <PlainHeader/>
     
       <main className="flex flex-col items-center justify-center p-6 flex-1 mb-20">
         <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center">
