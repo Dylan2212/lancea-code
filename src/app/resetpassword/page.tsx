@@ -30,7 +30,7 @@ export default function ResetPasswordPage() {
     <div className='bg-gray-50 max-h-dvh min-h-dvh flex flex-col'>
       <PlainHeader/>
     
-      <div className="flex items-center justify-center flex-1 mb-20">
+      <div className="flex items-center justify-center flex-1 mb-20 md:mb-0 lg:mb-20">
         <form
           onSubmit={handleUpdate}
           className="w-full max-w-sm bg-white border border-gray-200 shadow-lg rounded-2xl p-8"
