@@ -55,10 +55,10 @@ export default function AuthPage() {
   return (
     <>
       <header className="h-20 flex justify-between items-center">
-        <p className="ml-8 text-5xl font-semibold text-purple-600">Lancr</p>
+        <p className="ml-8 text-5xl font-semibold text-purple-600">Lancrly</p>
       </header>
 
-      <div className="max-w-md mx-auto mt-10 p-6 border rounded bg-white shadow-lg">
+      <div className="w-11/12 lg:max-w-md mx-auto mt-10 p-6 border rounded bg-white shadow-lg">
         <h2 className="text-2xl font-bold mb-4">
           {mode === 'login' ? 'Log In' : 'Sign Up'}
         </h2>
