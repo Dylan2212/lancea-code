@@ -40,7 +40,7 @@ export default function Loading () {
   }, [router])
 
   return (
-    <div className="flex items-center justify-center h-screen w-screen bg-white">
+    <div className="flex items-center justify-center h-dvh w-screen bg-white">
       <div className="relative flex items-center justify-center" style={{ width: 140, height: 140 }}>
         <ClipLoader color="#d8b4fe" size={150} />
         <span className="absolute text-3xl font-semibold text-purple-500">

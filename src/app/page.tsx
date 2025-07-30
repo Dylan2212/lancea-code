@@ -15,17 +15,23 @@ export default function Home() {
       </header>
       <main className="">
         <section>
-          <div className="relative flex lg:ml-32 lg:items-center w-dvw lg:h-[82vh] h-[76vh] overflow-hidden">
-            <div className="z-10 w-5/6 lg:w-1/3 mx-auto lg:mx-0 lg:block flex flex-col justify-between pb-12 lg:pb-0">
-              <h1 className="text-4xl lg:text-5xl text-center lg:text-start font-semibold leading-tight">
+          <div className="relative flex lg:ml-32 lg:items-center w-dvw lg:h-[82vh] md:h-[90vh] h-[76vh] overflow-hidden">
+            <div className="z-10 w-5/6 mx-auto flex flex-col justify-between pb-12
+            md:w-1/2 md:ml-8 md:mr-0 md:block
+            lg:w-1/3 lg:pb-0
+            ">
+              <h1 className="text-4xl text-center font-semibold leading-tight
+              md:text-start
+              lg:text-5xl
+              ">
                 A link-in-bio page for all your freelancing links
               </h1>
               <div>
-                <h2 className="lg:mt-5 mb-3 lg:mb-0 text-lg text-gray-600">
+                <h2 className="md:mt-5 mb-3 lg:mb-0 text-lg text-gray-600">
                   All your freelancing links in one simple, shareable page that makes you look legit.
                 </h2>
                 <button
-                  className="lg:mt-8 text-lg border-2 border-purple-600 shadow-lg rounded-lg py-3 px-6 hov-standrd hover:bg-gray-100"
+                  className="md:mt-8 text-lg border-2 border-purple-600 shadow-lg rounded-lg py-3 px-6 hov-standrd hover:bg-gray-100"
                   onClick={() => router.push("/login")}
                 >
                   Create your free page
@@ -34,7 +40,11 @@ export default function Home() {
             </div>
 
             {/* Mockup container */}
-            <div className="absolute right-[-20%] lg:top-1/6 top-1/4 lg:-translate-y-24 -translate-y-12 lg:right-16 w-[150dvw] lg:w-[60dvw] z-0 pointer-events-none">
+            <div className="
+            absolute right-[-20%] top-1/4 -translate-y-12 w-[150dvw] z-0 pointer-events-none
+            md:top-0 md:-translate-y-8 md:right-0 md:translate-x-32 md:w-[74dvw]
+            lg:top-1/6 lg:-translate-y-0 lg:right-16 lg:w-[60dvw] lg:translate-x-0
+            ">
               <Image
                 src="/tryMock.svg"
                 alt="Product mockup on laptop"
@@ -62,31 +72,34 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="flex mt-24 lg:mt-32 justify-end gap-32 lg:mr-32 relative z-10 lg:w-auto w-full lg-ml-0">
-          <div className="lg:hidden absolute top-8 z-0 w-[80vw] -translate-x-40 pointer-events-none">
+        <section className="flex mt-24 lg:mt-32 justify-end gap-32 lg:mr-32 relative z-10 md:w-auto w-full lg-ml-0">
+          <div className="md:hidden absolute top-8 z-0 w-[80vw] -translate-x-40 pointer-events-none">
             <Image
               src="/mobile2.svg"
-              alt="Product mockup on laptop"
+              alt="Product mockup on mobile"
               width={2750}
               height={2580}
               className="w-full h-auto"
             />
           </div>
-          <div className="absolute hidden lg:block left-48 top-1/2 -translate-y-1/2 z-0 w-[30vw] pointer-events-none">
+          <div className="absolute hidden z-0 pointer-events-none
+          md:block md:w-[40vw] md:-translate-y-20 md:top-5 md:left-20
+          lg:left-48 lg:top-1/2 lg:-translate-y-1/2 lg:w-[30vw]
+          ">
             <Image
               src="/finalmobile.svg"
-              alt="Product mockup on laptop"
+              alt="Product mockup on mobile"
               width={2750}
               height={2580}
               className="w-full h-auto"
             />
           </div>
-          <div className="relative z-10">
-            <h3 className="text-4xl text-center">Why Freelancers Use Lancrly</h3>
-            <ul className="lg:mt-6 mt-12 w-1/2 lg:w-auto lg:mx-0 ml-auto mr-5">
+          <div className="relative z-10 md:mr-8">
+            <h3 className="text-4xl text-center md:text-end">Why Freelancers Use Lancrly</h3>
+            <ul className="md:mt-6 mt-12 w-1/2 md:w-2/3 lg:w-auto lg:mx-0 ml-auto mr-5">
               <li>
-                <div className="flex items-center gap-4 mb-5 lg:mb-0">
-                  <Check className="hidden lg:block min-w-16 max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
+                <div className="flex items-center gap-4 mb-5 md:mb-0">
+                  <Check className="hidden md:block min-w-16 max-w-16 md:min-w-16 md:max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
                   <div>
                     <p className="font-semibold text-xl">Instant Setup</p>
                     <p className="text-gray-600">Launch your page in under 5 minutes -- no code needed</p>
@@ -94,8 +107,8 @@ export default function Home() {
                 </div>
               </li>
               <li>
-                <div className="flex items-center gap-4 mb-5 lg:mb-0">
-                  <Check className="hidden lg:block min-w-16 max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
+                <div className="flex items-center gap-4 mb-5 md:mb-0">
+                  <Check className="hidden md:block min-w-16 max-w-16 md:min-w-16 md:max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
                   <div>
                     <p className="font-semibold text-xl">Portfolio-Ready</p>
                     <p className="text-gray-600">Add links to your best work, socials, or booking — everything in one place.</p>
@@ -103,8 +116,8 @@ export default function Home() {
                 </div>
               </li>
               <li>
-                <div className="flex items-center gap-4 mb-5 lg:mb-0">
-                  <Check className="hidden lg:block min-w-16 max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
+                <div className="flex items-center gap-4 mb-5 md:mb-0">
+                  <Check className="hidden md:block min-w-16 max-w-16 md:min-w-16 md:max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
                   <div>
                     <p className="font-semibold text-xl">Simple & Professional Design</p>
                     <p className="text-gray-600">Display your all your information without clutter</p>
@@ -112,8 +125,8 @@ export default function Home() {
                 </div>
               </li>
               <li>
-                <div className="flex items-center gap-4 mb-5 lg:mb-0">
-                  <Check className="hidden lg:block min-w-16 max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
+                <div className="flex items-center gap-4 mb-5 md:mb-0">
+                  <Check className="hidden md:block min-w-16 max-w-16 md:min-w-16 md:max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
                   <div>
                     <p className="font-semibold text-xl">Custom URL</p>
                     <p className="text-gray-600">Custom URL handle to keep shareable link on brand</p>
@@ -124,7 +137,7 @@ export default function Home() {
           </div>
         </section>
         <section className="mt-32 lg:mt-52 relative z-10">
-          <div className="border-2 border-purple-600 rounded-xl shadow-2xl h-72 lg:h-60 p-6 w-11/12 lg:w-1/2 mx-auto flex flex-col justify-around items-center">
+          <div className="border-2 border-purple-600 rounded-xl shadow-2xl h-72 lg:h-60 p-6 w-11/12 md:w-2/3 lg:w-1/2 mx-auto flex flex-col justify-around items-center">
             <p className="text-3xl text-center">Look Professional. Get Discovered.</p>
             <button className="mx-auto w-5/6 lg:w-1/2 font-semibold bg-purple-600 text-white shadow-md rounded-full py-4 text-xl hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Create Your Free Page</button>
             <p className="text-center">Sign up, set up, and share — all in under 5 minutes.</p>
