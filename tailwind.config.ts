@@ -15,6 +15,9 @@ export default {
       fontFamily: {
         inter: ['var(--font-inter)'],
       },
+      screens: {
+        'xs': '400px', // 👈 custom breakpoint
+      },
     },
   },
   plugins: [

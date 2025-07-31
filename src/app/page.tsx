@@ -15,8 +15,8 @@ export default function Home() {
       </header>
       <main className="">
         <section>
-          <div className="relative flex lg:ml-32 lg:items-center w-dvw lg:h-[82vh] md:h-[90vh] h-[76vh] overflow-hidden">
-            <div className="z-10 w-5/6 mx-auto flex flex-col justify-between pb-12
+          <div className="sm:bg-pink-200 relative flex lg:ml-32 lg:items-center w-dvw lg:h-[82vh] md:h-[90vh] h-[72vh] min-h-[625px] overflow-hidden">
+            <div className="z-10 w-5/6 mx-auto flex flex-col max-h-[750px] xs:max-h-none justify-between pb-12
             md:w-1/2 md:ml-8 md:mr-0 md:block
             lg:w-1/3 lg:pb-0
             ">
@@ -40,18 +40,22 @@ export default function Home() {
             </div>
 
             {/* Mockup container */}
-            <div className="
-            absolute right-[-20%] top-1/4 -translate-y-12 w-[150dvw] z-0 pointer-events-none
-            md:top-0 md:-translate-y-8 md:right-0 md:translate-x-32 md:w-[74dvw]
-            lg:top-1/6 lg:-translate-y-0 lg:right-16 lg:w-[60dvw] lg:translate-x-0
-            ">
-              <Image
-                src="/tryMock.svg"
-                alt="Product mockup on laptop"
-                width={2750}
-                height={2580}
-                className="w-full h-auto"
-              />
+            <div>
+              <div className="
+              absolute right-[25%] top-1/4 -translate-y-12 w-full z-0 pointer-events-none
+              xs:w-650px xs:flex xs:justify-center xs:right-0
+              md:top-0 md:-translate-y-8 md:right-0 md:translate-x-32 md:w-[74dvw]
+              lg:top-1/6 lg:-translate-y-0 lg:right-16 lg:w-[60dvw] lg:translate-x-0
+              ">
+                <Image
+                  priority
+                  src="/tryMock.svg"
+                  alt="Product mockup on laptop"
+                  width={2750}
+                  height={2580}
+                  className="w-[150%] max-w-[600px] h-auto"
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -72,8 +76,10 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="flex mt-24 lg:mt-32 justify-end gap-32 lg:mr-32 relative z-10 md:w-auto w-full lg-ml-0">
-          <div className="md:hidden absolute top-8 z-0 w-[80vw] -translate-x-40 pointer-events-none">
+        <section className="flex mt-24 h-[600px] max-h-[600px] min-h-[600px] lg:h-auto lg:mt-32 justify-end gap-32 lg:mr-32 relative z-10 md:w-auto w-full lg-ml-0">
+          <div className="md:hidden absolute top-[18%] z-0 w-[80vw] max-w-[300px] -translate-x-[48%] pointer-events-none
+            xs:flex xs:justify-center xs:left-24
+          ">
             <Image
               src="/mobile2.svg"
               alt="Product mockup on mobile"
@@ -84,7 +90,7 @@ export default function Home() {
           </div>
           <div className="absolute hidden z-0 pointer-events-none
           md:block md:w-[40vw] md:-translate-y-20 md:top-5 md:left-20
-          lg:left-48 lg:top-1/2 lg:-translate-y-1/2 lg:w-[30vw]
+          lg:left-48 lg:top-0 lg:-translate-y-32 lg:w-[30vw]
           ">
             <Image
               src="/finalmobile.svg"
@@ -96,7 +102,7 @@ export default function Home() {
           </div>
           <div className="relative z-10 md:mr-8">
             <h3 className="text-4xl text-center md:text-end">Why Freelancers Use Lancrly</h3>
-            <ul className="md:mt-6 mt-12 w-1/2 md:w-2/3 lg:w-auto lg:mx-0 ml-auto mr-5">
+            <ul className="md:mt-6 mt-12 min-h-[550px] h-[550px] max-h-[550px] lg:h-auto w-1/2 md:w-2/3 lg:w-auto lg:mx-0 ml-auto mr-5 flex flex-col justify-around lg:block">
               <li>
                 <div className="flex items-center gap-4 mb-5 md:mb-0">
                   <Check className="hidden md:block min-w-16 max-w-16 md:min-w-16 md:max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
@@ -136,7 +142,7 @@ export default function Home() {
             </ul>
           </div>
         </section>
-        <section className="mt-32 lg:mt-52 relative z-10">
+        <section className="mt-32 lg:mt-0 relative z-10">
           <div className="border-2 border-purple-600 rounded-xl shadow-2xl h-72 lg:h-60 p-6 w-11/12 md:w-2/3 lg:w-1/2 mx-auto flex flex-col justify-around items-center">
             <p className="text-3xl text-center">Look Professional. Get Discovered.</p>
             <button className="mx-auto w-5/6 lg:w-1/2 font-semibold bg-purple-600 text-white shadow-md rounded-full py-4 text-xl hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Create Your Free Page</button>

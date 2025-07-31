@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  console.log(user)
+  if (user) return
 //
 //  const pathname = request.nextUrl.pathname
 //  const isProtectedRoute = pathname.startsWith('/lancrdashboard') || pathname.startsWith('/resetpassword')

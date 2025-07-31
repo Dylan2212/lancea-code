@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/router'
 
 export default function AuthPage() {
   const [email, setEmail] = useState('')
@@ -12,6 +13,7 @@ export default function AuthPage() {
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   const [resetEmail, setResetEmail] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -20,7 +22,7 @@ export default function AuthPage() {
     if (mode === 'login') {
       res = await supabase.auth.signInWithPassword({ email, password })
     } else {
-      res = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: 'http://localhost:3000/auth/callback?next=/loading' } })
+      res = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/loading` } })
       if (res.data.user?.identities?.length === 0) {
         toast.error("Email already registered.")
         return
@@ -30,7 +32,8 @@ export default function AuthPage() {
     if (res.error) {
       toast.error(res.error.message)
     } else {
-      window.location.href = mode === "login" ? "/loading" : "/confim-email" // or redirect wherever you want after login/signup
+      const toPage = mode === "login" ? "/loading" : "/confim-email"
+      router.push(toPage)
     }
   }
 
@@ -41,7 +44,7 @@ export default function AuthPage() {
       return
     }
     const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-      redirectTo: `http://localhost:3000/resetpassword`
+      redirectTo: `${window.location.origin}/resetpassword`
     })
     if (error) {
       toast.error(`Error: ${error.message}`)
