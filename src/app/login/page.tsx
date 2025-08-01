@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 export default function AuthPage() {
   const [email, setEmail] = useState('')
