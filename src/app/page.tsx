@@ -13,7 +13,7 @@ export default function Home() {
         <p className="ml-8 text-3xl lg:text-5xl font-semibold text-purple-600">Lancrly</p>
         <button className="mr-8 bg-purple-600 text-white shadow-md rounded-full py-2 px-4 hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Log In / Sign Up</button>
       </header>
-      <main className="">
+      <main className="overflow-hidden">
         <section>
           <div className="relative flex w-dvw lg:h-[82vh] h-[72vh] min-h-[625px] overflow-hidden
             md:min-h-[550px] md:max-h-[650px] md:items-center
@@ -49,8 +49,9 @@ export default function Home() {
               <div className="
               absolute right-[25%] top-1/4 -translate-y-12 w-full z-0 pointer-events-none
               xs:w-650px xs:flex xs:justify-center xs:right-0
-              md:translate-y-52 md:top-0 md:translate-x-20 md:w-[74dvw] md:block
-              lg:top-[10%] lg:-translate-y-0 lg:right-0 lg:w-[70dvw] lg:translate-x-20
+              md:translate-y-32 md:top-0 md:translate-x-20 md:w-[74dvw] md:block
+              lg:-right-20 lg:w-[70dvw] lg:translate-x-0 lg:translate-y-[30%]
+              xl:w-[1100px] xl:translate-y-0 xl:-translate-x-20
               ">
                 <Image
                   priority
@@ -96,7 +97,7 @@ export default function Home() {
           <div className="absolute hidden z-0 pointer-events-none
           md:block md:w-[40vw] md:-translate-y-0 md:top-0 md:left-10
           lg:top-0 lg:-translate-y-32
-          xl:left-48 xl:w-[30vw]
+          xl:left-32 xl:w-[30vw]
           ">
             <Image
               src="/finalmobile.svg"
@@ -148,7 +149,7 @@ export default function Home() {
             </ul>
           </div>
         </section>
-        <section className="mt-32 lg:mt-20 relative z-10">
+        <section className="mt-32 lg:mt-20 relative z-10 pb-12">
           <div className="border-2 border-purple-600 rounded-xl shadow-2xl h-72 lg:h-60 p-6 w-11/12 md:w-2/3 lg:w-1/2 mx-auto flex flex-col justify-around items-center">
             <p className="text-3xl text-center">Look Professional. Get Discovered.</p>
             <button className="mx-auto w-5/6 xl:w-1/2 font-semibold bg-purple-600 text-white shadow-md rounded-full py-4 text-xl hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Create Your Free Page</button>
