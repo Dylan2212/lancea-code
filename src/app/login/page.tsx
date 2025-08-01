@@ -32,7 +32,7 @@ export default function AuthPage() {
     if (res.error) {
       toast.error(res.error.message)
     } else {
-      const toPage = mode === "login" ? "/loading" : "/confim-email"
+      const toPage = mode === "login" ? "/loading" : "/confirm-email"
       router.push(toPage)
     }
   }
