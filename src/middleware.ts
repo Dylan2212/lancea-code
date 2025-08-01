@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  
+
   const pathname = request.nextUrl.pathname
   const isProtectedRoute = pathname.startsWith('/lancrdashboard') || pathname.startsWith('/resetpassword')
 
@@ -35,5 +35,5 @@ export async function middleware(request: NextRequest) {
   return response
 }
 export const config = {
-  matcher: ['/lancrdashboard/:path*', '/resetpassword', '/confirm-email'],
+  matcher: ['/lancrdashboard/:path*', '/resetpassword'],
 }
