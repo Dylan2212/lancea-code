@@ -166,7 +166,7 @@ export default function Home() {
           <NextLink href="/terms" className="hover:underline cursor-pointer inline-block">
             Terms
           </NextLink>
-          <a href="mailto:hello@lancr.io" className="hover:underline">Contact</a>
+          <a href="mailto:dylan.anderson@lancrly.com" className="hover:underline">Contact</a>
         </div>
       </footer>
     </>
