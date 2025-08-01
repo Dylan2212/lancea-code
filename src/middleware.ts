@@ -22,19 +22,18 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (user) return
-//
-//  const pathname = request.nextUrl.pathname
-//  const isProtectedRoute = pathname.startsWith('/lancrdashboard') || pathname.startsWith('/resetpassword')
-//
-//  if (!user && isProtectedRoute) {
-//    const url = request.nextUrl.clone()
-//    url.pathname = '/noaccess'
-//    return NextResponse.redirect(url)
-//  }
-//
-//  return response
-//}
-//export const config = {
-//  matcher: ['/lancrdashboard/:path*', '/resetpassword', '/confirm-email'],
+  
+  const pathname = request.nextUrl.pathname
+  const isProtectedRoute = pathname.startsWith('/lancrdashboard') || pathname.startsWith('/resetpassword')
+
+  if (!user && isProtectedRoute) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/noaccess'
+    return NextResponse.redirect(url)
+  }
+
+  return response
+}
+export const config = {
+  matcher: ['/lancrdashboard/:path*', '/resetpassword', '/confirm-email'],
 }
