@@ -68,7 +68,7 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
       text-2xl ml-2 font-inter font-bold text-purple-600
       lg:ml-12 lg:text-4xl
       ">Lancrly</Link>
-      <div className="flex md:mr-10 items-center w-fit md:gap-8 justify-between">
+      <div className="flex md:mr-10 items-center w-fit md:gap-3 lg:gap-8 justify-between">
         <Link className="hidden md:flex md:gap-2 md:hov-standrd" onClick={() => !handle && toast.error("Add required fields to preview your site.")} href={handle ? `/${handle}` : "#"} target={handle ? "_blank" : undefined} rel={handle ? "noopener noreferrer" : undefined}><Globe />Preview Site</Link>
         <div className="hidden md:flex md:flex-row md:gap-2 md:bg-gray-100 md:rounded-full md:py-2 md:px-4 md:items-center">
           <label htmlFor="is-live-selector">Your site is:</label>
