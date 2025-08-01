@@ -48,7 +48,14 @@ export default function LancrHome () {
 
   const handle = useUserStore(state => state.handle)
   const username = useUserStore(state => state.username)
-  const userUrl = `${window.location.origin}/${handle}`
+  const [userUrl, setUserUrl] = useState("")
+  
+  useEffect(() => {
+    if (typeof window !== "undefined" && handle) {
+      setUserUrl(`${window.location.origin}/${handle}`)
+    }
+  }, [handle])
+
 
   const { isValid, isAvailable } = useHandleCheck(handle)
   const { isLive, changeInLiveStatus } = useChangeLiveStatus()
