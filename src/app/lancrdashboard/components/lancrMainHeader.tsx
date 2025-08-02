@@ -24,8 +24,9 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
 
   const handle = useOriginalUserStore(state => state.handle)
   const profileImage = useOriginalUserStore(state => state.profileImage)
+  const userId = useOriginalUserStore(state => state.userId)
 
-  const { isLive, changeInLiveStatus } = useChangeLiveStatus()
+  const { isLive, changeInLiveStatus } = useChangeLiveStatus(userId)
 
 
     useEffect(() => {
