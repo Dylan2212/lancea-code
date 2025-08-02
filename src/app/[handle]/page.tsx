@@ -9,7 +9,7 @@ export async function generateMetadata ({ params }: { params: Promise<{ handle: 
 
   const { data } = await supabase
     .from("users")
-    .select("handle")
+    .select("*")
     .eq("handle", handle)
     .maybeSingle()
 
