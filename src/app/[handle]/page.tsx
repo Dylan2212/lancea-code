@@ -2,10 +2,10 @@ export const dynamic = 'force-dynamic'
 import { notFound } from "next/navigation"
 import LinksPage from "../components/linksPage"
 import { createClient } from "@/utils/supabase/server"
-import { supabase } from "@/lib/supabaseClient"
 
 export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
+  const supabase = await createClient()
 
   const { data } = await supabase
     .from("users")

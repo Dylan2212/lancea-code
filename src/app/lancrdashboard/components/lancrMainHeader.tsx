@@ -69,8 +69,8 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
       text-2xl ml-2 font-inter font-bold text-purple-600
       lg:ml-12 lg:text-4xl
       ">Lancrly</Link>
-      <div className="flex md:mr-10 items-center w-fit md:gap-3 lg:gap-8 justify-between">
-        <Link className="hidden md:flex md:gap-2 md:hov-standrd" onClick={() => !handle && toast.error("Add required fields to preview your site.")} href={handle ? `/${handle}` : "#"} target={handle ? "_blank" : undefined} rel={handle ? "noopener noreferrer" : undefined}><Globe />Preview Site</Link>
+      <div className="flex md:mr-10 items-center w-fit md:gap-5 lg:gap-8 justify-between">
+        <Link className="hidden bg-gray-100 md:py-2 md:rounded-full md:px-4 md:flex md:gap-2 md:hov-standrd" onClick={() => !handle && toast.error("Add required fields to preview your site.")} href={handle ? `/${handle}` : "#"} target={handle ? "_blank" : undefined} rel={handle ? "noopener noreferrer" : undefined}><Globe />Preview Site</Link>
         <div className="hidden md:flex md:flex-row md:gap-2 md:bg-gray-100 md:rounded-full md:py-2 md:px-4 md:items-center">
           <label htmlFor="is-live-selector">Your site is:</label>
           <select value={isHydrated && isLive ? "Online" : "Hidden"} onChange={(e) => changeInLiveStatus(e)} name="is-live-selector" id="is-live-selector" className="bg-transparent [cursor:pointer!important] focus:outline-none focus:ring-0 focus:border-transparent">
