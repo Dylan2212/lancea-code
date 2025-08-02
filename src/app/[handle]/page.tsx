@@ -7,8 +7,6 @@ import { supabase } from "@/lib/supabaseClient"
 export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
 
-  console.log(handle)
-
   const { data } = await supabase
     .from("users")
     .select("handle")
@@ -21,14 +19,11 @@ export async function generateMetadata ({ params }: { params: Promise<{ handle: 
       description: `Portfolio for ${handle} on Lancrly`
     }
   } else {
-    console.log(data)
     return {
     title: `Lancrly 404`,
     description: `Could not find page`
     }
   }
-
-
 }
 
 async function isAuthenticatedUser (id: string) {
