@@ -54,6 +54,8 @@ export default function LancrHome () {
   useEffect(() => {
     if (typeof window !== "undefined" && handle) {
       setUserUrl(`${window.location.origin}/${handle}`)
+    } else {
+      setUserUrl("No Username. Add a username to get your custom link.")
     }
   }, [handle])
 
