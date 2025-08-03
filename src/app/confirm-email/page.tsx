@@ -1,25 +1,8 @@
 'use client'
 import Link from "next/link"
-//import { useRouter } from "next/navigation"
-//import { supabase } from "@/lib/supabaseClient"
-//import { useEffect } from "react"
 import PlainHeader from "../components/plainHeader"
 
 export default function ConfirmEmailPage() {
-  //const router = useRouter()
-
-  //useEffect(() => {
-  //  async function checkCanView () {
-  //    const { data } = await supabase.auth.getSession()
-//
-  //      if (data.session?.user.email_confirmed_at) {
-  //        router.replace("/lancrdashboard/overview")
-  //      }
-  //    }
-//
-  //    checkCanView()
-  //  }, [router]
-  //)
 
   return (
     <div className="bg-gray-50 max-h-dvh min-h-dvh flex flex-col">
