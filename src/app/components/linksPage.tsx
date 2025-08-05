@@ -1,8 +1,8 @@
-import { SocialLinks } from "@/lib/store/useUserStore"
+import { SocialLinks } from "@/lib/store/useOriginalUser"
 import Image from "next/image"
 import "./linkspage.css"
 import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
-import { SiInstagram, SiFacebook, SiX, SiLinkedin, SiMedium, SiYoutube, SiThreads, SiTiktok } from "react-icons/si"
+import { SiInstagram, SiFacebook, SiX, SiLinkedin, SiMedium, SiYoutube, SiThreads, SiTiktok, SiWhatsapp } from "react-icons/si"
 
 type Props = {
   userData: {
@@ -67,6 +67,11 @@ export default function LinksPage ({ userData }: Props) {
     medium: {
       label: "Medium",
       icon: <SiMedium size={24} color="#000000" /> // Medium is black
+    },
+
+    whatsapp: {
+      label: "WhatsApp",
+      icon: <SiWhatsapp size={24} color="#000000" /> // Medium is black
     }
   }
 

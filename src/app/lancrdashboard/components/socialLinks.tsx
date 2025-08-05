@@ -5,7 +5,7 @@ import { useUserStore } from "@/lib/store/useUserStore";
 export default function LancrSocialLinks () {
   const user = useUserStore(state => state)
 
-  const { facebook, x, instagram, medium, threads, tiktok } = user.socialLinks
+  const { facebook, x, instagram, medium, threads, tiktok, whatsapp, youtube, linkedin } = user.socialLinks
   const { setSocialLinks, socialLinks } = user
 
   return (
@@ -21,6 +21,9 @@ export default function LancrSocialLinks () {
             <TitleInput required={false} labelTitle="Medium" type="text" previewText="Medium.com" value={medium} handleChange={(e) => setSocialLinks({...socialLinks, medium: e.target.value})} maxChar={2048} inputName="medium" displayMaxChar={false}/>
             <TitleInput required={false} labelTitle="Threads" type="text" previewText="Threads.com" value={threads} handleChange={(e) => setSocialLinks({...socialLinks, threads: e.target.value})} maxChar={2048} inputName="threads" displayMaxChar={false}/>
             <TitleInput required={false} labelTitle="TikTok" type="text" previewText="Tiktok.com" value={tiktok} handleChange={(e) => setSocialLinks({...socialLinks, tiktok: e.target.value})} maxChar={2048} inputName="tiktok" displayMaxChar={false}/>
+            <TitleInput required={false} labelTitle="WhatAapp" type="text" previewText="whatsapp.com" value={whatsapp} handleChange={(e) => setSocialLinks({...socialLinks, whatsapp: e.target.value})} maxChar={2048} inputName="whatsapp" displayMaxChar={false}/>
+            <TitleInput required={false} labelTitle="YouTube" type="text" previewText="youtube.com" value={youtube} handleChange={(e) => setSocialLinks({...socialLinks, youtube: e.target.value})} maxChar={2048} inputName="youtube" displayMaxChar={false}/>
+            <TitleInput required={false} labelTitle="LinkedIn" type="text" previewText="linkedin.com" value={linkedin} handleChange={(e) => setSocialLinks({...socialLinks, linkedin: e.target.value})} maxChar={2048} inputName="linkedin" displayMaxChar={false}/>
           </section>
         </div>
   )

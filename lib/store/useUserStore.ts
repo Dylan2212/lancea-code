@@ -1,13 +1,6 @@
 import { create } from "zustand";
+import { SocialLinks } from "./useOriginalUser";
 
-export type SocialLinks = {
-  x: string,
-  medium: string,
-  threads: string
-  facebook: string,
-  instagram: string,
-  tiktok: string
-}
 
 type UserState = {
   userId: string,
@@ -58,7 +51,10 @@ export const useUserStore = create<UserState>()(
         x: "",
         medium: "",
         threads: "",
-        tiktok: ""
+        tiktok: "",
+        whatsapp: "",
+        youtube: "",
+        linkedin: ""
       },
       setUserId: (id) => set({ userId: id }),
       setSocialLinks: (links) => set({ socialLinks: links }),

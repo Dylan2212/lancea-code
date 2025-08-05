@@ -4,15 +4,7 @@ import { useAdditionalLinksStore } from "./store/useAdditionalLinksStore";
 import { useOriginalUserStore } from "./store/useOriginalUser";
 import { useOriginalAdditionalLinksStore } from "./store/useOriginalAdditionalLinks";
 import { AdditionalLink } from "./store/useAdditionalLinksStore";
-
-type SocialLinks = {
-  instagram: string,
-  facebook: string,
-  x: string,
-  medium: string,
-  threads: string,
-  tiktok: string
-}
+import { SocialLinks } from "./store/useOriginalUser";
 
 export type User = {
   id: string,

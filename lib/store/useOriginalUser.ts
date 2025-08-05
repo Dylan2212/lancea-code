@@ -7,7 +7,10 @@ export type SocialLinks = {
   threads: string,
   facebook: string,
   instagram: string,
-  tiktok: string
+  tiktok: string,
+  whatsapp: string,
+  youtube: string,
+  linkedin: string
 }
 
 type OriginalUserState = {
@@ -47,7 +50,10 @@ export const useOriginalUserStore = create<OriginalUserState>()(
         x: "",
         medium: "",
         threads: "",
-        tiktok: ""
+        tiktok: "",
+        whatsapp: "",
+        youtube: "",
+        linkedin: ""
       },
       setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
       setIsLive: (isLive: boolean) => set({ isLive }),
@@ -69,7 +75,10 @@ export const useOriginalUserStore = create<OriginalUserState>()(
             x: "",
             medium: "",
             threads: "",
-            tiktok: ""
+            tiktok: "",
+            whatsapp: "",
+            youtube: "",
+            linkedin:""
           }
         })
     }),
