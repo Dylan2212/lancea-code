@@ -1,8 +1,8 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { CircleUserRound, TextCursorInput, Link, Check } from "lucide-react"
-import NextLink from "next/link"
 import Image from "next/image"
+import Footer from "./components/footer"
 
 export default function Home() {
   const router = useRouter()
@@ -157,18 +157,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="bg-gray-300 text-center text-sm text-black py-8 mt-32">
-        <p>&copy; {new Date().getFullYear()} Lancr. Built for freelancers.</p>
-        <div className="mt-2 space-x-4">
-          <NextLink href="/privacy" className="hover:underline cursor-pointer inline-block">
-            Privacy
-          </NextLink>
-          <NextLink href="/terms" className="hover:underline cursor-pointer inline-block">
-            Terms
-          </NextLink>
-          <a href="mailto:dylan.anderson@lancrly.com" className="hover:underline">Contact</a>
-        </div>
-      </footer>
+      <Footer/>
     </>
   )
 }

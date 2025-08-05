@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabaseClient'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import Footer from '../components/footer'
 
 export default function AuthPage() {
   const [email, setEmail] = useState('')
@@ -56,7 +57,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div>
+    <div className='max-h-dvh h-dvh overflow-hidden'>
       <header className="h-20 flex justify-between items-center">
         <p className="ml-8 text-5xl font-semibold text-purple-600">Lancrly</p>
       </header>
@@ -75,6 +76,7 @@ export default function AuthPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            autoComplete="email"
           />
           <div className="relative w-full mb-3">
             <input
@@ -85,6 +87,7 @@ export default function AuthPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete={mode === 'login' ? "current-password" : "new-password"}
             />
             <button
               type="button"
@@ -122,6 +125,7 @@ export default function AuthPage() {
               placeholder="Enter your email"
               className="w-full p-2 mb-3 border rounded"
               value={resetEmail}
+              autoComplete='email'
               onChange={(e) => setResetEmail(e.target.value)}
               required
             />
@@ -188,13 +192,14 @@ export default function AuthPage() {
           <Image
             width={18}
             height={18}
-            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+            src="/googleicon.png"
             alt="Google logo"
             className="w-5 h-5"
           />
           <span className="text-sm text-gray-700 font-medium">Continue with Google</span>
         </button>
       </div>
+      <Footer/>
     </div>
   )
 }

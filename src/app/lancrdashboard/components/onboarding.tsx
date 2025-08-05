@@ -19,50 +19,51 @@ export default function Onboarding () {
       setHasSeenOnboarding(true)
     }
 
-    const intro = introJs.tour()
+    // Scroll to top first
+    window.scrollTo({ top: 0, behavior: "smooth" })
 
-    intro.setOptions({
-      steps: [
-        {
-          intro: "Welcome to your Lancrly dashboard! Let's take a quick tour."
-        },
+    // Delay intro to ensure scroll and render are complete
+    const timer = setTimeout(() => {
+      const intro = introJs()
 
-        {
-          element: "#bio-sect",
-          intro: "This is where you add basic profile information like bio, title, and profile image."
-        },
+      intro.setOptions({
+        steps: [
+          {
+            intro: "Welcome to your Lancrly dashboard! Let's take a quick tour."
+          },
+          {
+            element: "#bio-sect",
+            intro: "This is where you add basic profile information like bio, title, and profile image."
+          },
+          {
+            element: "#username",
+            intro: "Your username will be used to create your unique URL... EX: https://lancrly.com/yourusername"
+          },
+          {
+            element: "#social-section",
+            intro: "Your social links can be added here and will be displayed with their logos on your profile page."
+          },
+          {
+            element: "#additional-links-section",
+            intro: "All your other links — work samples, testimonials, etc. — can go here with custom titles."
+          }
+        ],
+        scrollToElement: true,
+        scrollTo: 'element',
+        showProgress: true,
+        hidePrev: true,
+        doneLabel: "Finish"
+      })
 
-        {
-          element: "#username",
-          intro: "Your username will be used to create your unique URL... EX: https://lancrly.com/yourusername"
-        },
-
-        {
-          element: "#social-section",
-          intro: "You're social links can be added here and will be displayed with their logos on your profile page."
-        },
-
-        {
-          element: "#additional-links-section",
-          intro: "All your other links, such as links to work examples, testimonials and more, can be added here. You also get to add a custom title which will show on the links button."
-        }
-      ],
-      showProgress: true,
-      hidePrev: true,
-      doneLabel: "Finish"
-    })
-
-    intro.onComplete(async () => {
-      await markIntroComplete()
-    })
-
-    intro.start()
+      intro.onComplete(markIntroComplete)
+      intro.start()
+    }, 400) // Adjust delay if needed
 
     return () => {
-      if (intro) {
-        intro.exit()
-      }
+      clearTimeout(timer)
+      introJs().exit()
     }
   }, [setHasSeenOnboarding])
+
   return null
 }
