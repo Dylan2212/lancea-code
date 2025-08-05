@@ -23,14 +23,15 @@ export type User = {
   title: string,
   profileImage: string,
   handle: string,
-  is_live: boolean
+  is_live: boolean,
+  has_seen_onboarding?: boolean
 }
 
 async function createUserInDB (uid: string, email: string | undefined) {
 
   const { error } = await supabase
     .from("users")
-    .insert([{ id: uid, email }])
+    .upsert([{ id: uid, email }])
 
   if (error) {
     console.log("Could not create user: " + JSON.stringify(error))
@@ -92,6 +93,7 @@ function setStoreData (user: User, links: AdditionalLink[] | null) {
     bio: user.bio || "",
     title: user.title || "",
     profileImage: user.profileImage || "",
+    has_seen_onboarding: user.has_seen_onboarding || false,
     handle: user.handle || "",
     isLive: user.is_live || false,
     socialLinks: user.socialLinks || {

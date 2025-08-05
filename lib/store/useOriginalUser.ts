@@ -17,13 +17,15 @@ type OriginalUserState = {
   title: string,
   profileImage: string,
   profileImageFile: File | null,
+  has_seen_onboarding: boolean,
   setProfileImageFile: (file: File | null) => void,
   bio: string,
   handle: string,
   socialLinks: SocialLinks,
   isLive: boolean,
   setIsLive: (isLive: boolean) => void,
-  reset: () => void
+  reset: () => void,
+  setHasSeenOnboarding: (seenOnboarding: boolean) => void
 }
 
 export const useOriginalUserStore = create<OriginalUserState>()(
@@ -35,6 +37,7 @@ export const useOriginalUserStore = create<OriginalUserState>()(
       title: "",
       handle: "",
       isLive: false,
+      has_seen_onboarding: false,
       profileImageFile: null,
       profileImage: "",
       bio: "",
@@ -48,6 +51,7 @@ export const useOriginalUserStore = create<OriginalUserState>()(
       },
       setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
       setIsLive: (isLive: boolean) => set({ isLive }),
+      setHasSeenOnboarding: (has_seen_onboarding: boolean) => set({has_seen_onboarding}),
       reset: () =>
         set({
           userId: "",

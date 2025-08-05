@@ -11,8 +11,10 @@ export default function LancrSocialLinks () {
   return (
         <div className="div-for-lancr-dashboard-sects">
           <section className="lancr-add-edit-sect box-support">
-            <p className="lancr-add-edit-sect-ttle">Add Social Links</p>
-            <p className="text-sm text-gray-500">Add links to your social profiles so potential clients can explore more of your work and connect with you on other platforms.</p>
+            <div id="social-section">
+              <p className="lancr-add-edit-sect-ttle">Add Social Links</p>
+              <p className="text-sm text-gray-500">Add links to your social profiles so potential clients can explore more of your work and connect with you on other platforms.</p>
+            </div>
             <TitleInput required={false} labelTitle="Facebook" type="text" previewText="Facebook.com" value={facebook} handleChange={(e) => setSocialLinks({...socialLinks, facebook: e.target.value})} maxChar={2048} inputName="facebook" displayMaxChar={false}/>
             <TitleInput required={false} labelTitle="X" type="text" previewText="X.com" value={x} handleChange={(e) => setSocialLinks({...socialLinks, x: e.target.value})} maxChar={2048} inputName="x" displayMaxChar={false}/>
             <TitleInput required={false} labelTitle="Instagram" type="text" previewText="Instagram.com" value={instagram} handleChange={(e) => setSocialLinks({...socialLinks, instagram: e.target.value})} maxChar={2048} inputName="instagram" displayMaxChar={false}/>

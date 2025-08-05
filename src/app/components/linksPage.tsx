@@ -101,7 +101,7 @@ export default function LinksPage ({ userData }: Props) {
       </a>
       <main className="
       w-screen h-fit mt-8 p-4
-      lg:w-[35rem] lg:max-w-2xl lg:mt-0 lg:h-fit lg:max-h-[92vh] lg:overflow-auto lg:border lg:rounded-lg lg:shadow-lg lg:bg-white
+      lg:w-[35rem] lg:max-w-2xl lg:h-fit lg:my-8 lg:border lg:rounded-lg lg:shadow-lg lg:bg-white
       ">
         <section className="relative pt-6">
           <a href={`mailto:${userData.email}`} className="hidden lg:inline links-page-contact-btn hov-standrd top-0 right-4">

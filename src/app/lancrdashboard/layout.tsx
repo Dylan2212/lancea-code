@@ -58,7 +58,7 @@ export default function Layout({ children }: Props) {
   }
 
   return (
-    <div className="flex flex-col h-dvh">
+    <div className="flex flex-col">
       <LancrMainHeader setShowDeleteModal={setShowDeleteModal} />
       <main className="flex flex-1 overflow-hidden">
           {children}

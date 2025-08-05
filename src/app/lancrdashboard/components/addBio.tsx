@@ -74,13 +74,15 @@ function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
   return (
       <div className="div-for-lancr-dashboard-sects">
         <section className="lancr-add-edit-sect box-support">
+          <div id="bio-sect">
             <p className="lancr-add-edit-sect-ttle">Bio</p>
             <p className="text-sm text-gray-500">Add basic information so viewers now more about you.</p>
+          </div>
             <div className="w-11/12 lg:w-3/4 mt-4 mx-auto">
               <p className="text-lg">Profile Image:</p>
               <div className="w-full mx-auto h-72 bg-gray-100 border-gray-400 border rounded-md flex items-center gap-3 justify-center flex-col">
                 <div className="w-32 h-32 rounded-full border overflow-hidden relative border-black">
-                  {<Image unoptimized priority fill sizes="128px" className="w-fit h-fit object-cover object-center" src={profileImage ? `${profileImage}` : "/profileImage.jpg"} alt="profile image"/>}
+                  {<Image unoptimized priority fill sizes="128px" className="w-fit h-fit object-cover object-center" src={profileImage ? `${profileImage}` : "/profileImage.jpg"} alt="Profile Image"/>}
                 </div>
                 <div className="w-1/2 h-8 relative flex justify-center items-center bg-white rounded-md hov-standrd hover:bg-gray-50">
                   <p>Upload a file</p>
@@ -91,7 +93,9 @@ function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
             <TitleInput loading={!isHydrated} required={true} previewText="John Doe" maxChar={80} inputName="username" displayMaxChar={true} type="text" labelTitle="Name" handleChange={(e) => setUsername(e.target.value)} value={username}/>
             <TitleInput loading={!isHydrated} required={true} previewText="Add your title" maxChar={45} inputName="title" displayMaxChar={true} type="text" labelTitle="Title" handleChange={(e) => setTitle(e.target.value)} value={title}/>
             <div className="relative mb-10">
-              <TitleInput required={true} previewText="Jdoe2819" maxChar={30} inputName="handle" displayMaxChar={true} type="text" labelTitle="Username" handleChange={(e) => userHandleChange(e)} value={handle}/>
+              <div id="username">
+                <TitleInput required={true} previewText="Jdoe2819" maxChar={30} inputName="handle" displayMaxChar={true} type="text" labelTitle="Username" handleChange={(e) => userHandleChange(e)} value={handle}/>
+              </div>
               <div className="absolute bottom-[-1.5rem] left-3">
                 {showInvalidCharMessage ? (
                   <p className="text-red-600 text-sm mt-1"> Only letters, numbers, &quot;.&quot;, &quot;-&quot;, and &quot;_&quot; are allowed. &quot;-&quot; cannot be the first or last character.</p>

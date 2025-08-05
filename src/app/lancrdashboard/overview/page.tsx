@@ -19,6 +19,9 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import Link from "next/link"
 import { Globe, CircleSmall } from "lucide-react"
 import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
+import dynamic from "next/dynamic"
+
+const Onboarding = dynamic(() => import('../components/onboarding'), { ssr: false })
 
 export default function LancrHome () {
   type BioData = {
@@ -49,7 +52,9 @@ export default function LancrHome () {
   const handle = useUserStore(state => state.handle)
   const username = useUserStore(state => state.username)
   const userId = useOriginalUserStore(state => state.userId)
+  const seenOnboarding = useOriginalUserStore(state => state.has_seen_onboarding)
   const [userUrl, setUserUrl] = useState("")
+
 
   useEffect(() => {
     if (typeof window !== "undefined" && handle) {
@@ -371,7 +376,8 @@ export default function LancrHome () {
   const isHydrated = useUserHydrated()
 
   return(
-    <main className="w-dvw overflow-auto" onSubmit={handleSubmit}>
+    <main className="w-dvw h-fit pt-16" onSubmit={handleSubmit}>
+      {!seenOnboarding && <Onboarding/>}
       {isHydrated ? (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, {username === "" ? "New User": username}</p>) : (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, <Skeleton height={25} width={200}/></p>) }
       <div className="mt-3 mx-3 flex justify-between">
         <Link className="flex gap-2 border shadow-md rounded-full w-fit px-4 py-2 md:hidden" onClick={() => !handle && toast.error("Add required fields to preview your site.")} href={handle ? `/${handle}` : "#"} target={handle ? "_blank" : undefined} rel={handle ? "noopener noreferrer" : undefined}><Globe />Preview Site</Link>

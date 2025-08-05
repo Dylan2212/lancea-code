@@ -49,6 +49,7 @@ export default function AdditionalLinks () {
     }
 
     toast.success("Link deleted!")
+    if (links.length <= 5) setMaxLinks(false)
     setLinks(updated)
     setOriginalLinks(updated)
   }
@@ -66,8 +67,10 @@ export default function AdditionalLinks () {
   return (
       <div className="div-for-lancr-dashboard-sects">
         <section className="lancr-add-edit-sect box-support">
+          <div id="additional-links-section">
             <p className="lancr-add-edit-sect-ttle">Additional Links</p>
-            <p className="text-sm text-gray-500">Add up to 5 additional links.</p>
+            <p className="text-sm text-gray-500">Add up to 10 additional links.</p>
+          </div>
             {links.map((link, index) => {
               return (
               <div key={link.id} className="flex border shadow-sm mt-8 py-2 items-center">
