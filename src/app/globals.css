@@ -154,3 +154,22 @@ input:-webkit-autofill {
   box-shadow: 0 0 0 1000px white inset !important;
   -webkit-text-fill-color: #000 !important;
 }
+
+/* Placeholder styles for tiptap */
+  /* Placeholder shows whenever editor is empty, focus or not */
+  .ProseMirror.is-editor-empty::before {
+    content: attr(data-placeholder);
+    color: #999;
+    position: absolute;
+    pointer-events: none;
+    height: 0;
+    top: 0;
+    left: 1rem;
+    user-select: none;
+  }
+
+  /* Remove default focus outline on editor */
+  .ProseMirror:focus {
+    outline: none;
+    box-shadow: none;
+  }

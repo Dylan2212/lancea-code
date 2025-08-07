@@ -5,23 +5,19 @@ import { useState, useEffect } from "react"
 import { useUserStore } from "@/lib/store/useUserStore"
 import useHandleCheck from "../../hooks/useHandleCheck"
 import { useUserHydrated } from "@/lib/store/useOriginalUser"
-
-//KEEP ADDITIONAL LINKS AND SOCIAL LINKS IF IT HAPPENDS
-//TO THEM IN ORDER OF HOW THEY ARE TYPED
-//DOES NOT NEED FIXED BEFORE LAUNCH
+import TiptapEditor from "./tiptapeditor"
 
 type Props = {
   profileImageFileRef: React.RefObject<File | null>
 }
 
 export default function AddBio ({ profileImageFileRef }: Props) {
-  const [isMaxCharacters, setIsMaxCharacters] = useState(false)
   const [showInvalidCharMessage, setShowInvalidCharMessage] = useState(false)
   
   const isHydrated = useUserHydrated()
   const user = useUserStore(state => state)
 
-  const { title, bio, username, handle, profileImage, changedProfileImage, setChangedProfileImage, setBio, setProfileImage, setHandle, setTitle, setUsername } = user
+  const { title, username, handle, profileImage, changedProfileImage, setChangedProfileImage, setProfileImage, setHandle, setTitle, setUsername } = user
 
   const {isAvailable, isValid, loading} = useHandleCheck(handle)
 
@@ -35,12 +31,6 @@ export default function AddBio ({ profileImageFileRef }: Props) {
 
 
   if (!user) return null
-
-  function textAreaChange (e: React.ChangeEvent<HTMLTextAreaElement>) {
-    if (e.target.value.length >= 150) setIsMaxCharacters(true)
-    if (e.target.value.length < 150 && isMaxCharacters) setIsMaxCharacters(false)
-    setBio(e.target.value)
-  }
 
   function handleFileChange (e: React.ChangeEvent<HTMLInputElement>) {
     const { files } = e.target
@@ -108,8 +98,7 @@ function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
             </div>
             <div className="mt-6 mb-3 ml-2">
               <label className="block text-lg" htmlFor="lancr-bio">Bio:</label>
-              <textarea className="text-area-lancr-add-edit" name="bio" id="lancr-bio" placeholder="Tell clients about yourself..." value={bio} onChange={textAreaChange}></textarea>
-              <p className={`max-characters ${isMaxCharacters && "text-red-600"}`}>Max: {bio.length}/{150} characters</p>
+              <TiptapEditor/>
             </div>
         </section>
       </div>
