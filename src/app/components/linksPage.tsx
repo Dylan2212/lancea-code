@@ -132,10 +132,10 @@ export default function LinksPage ({ userData }: Props) {
                 ">{userData.title}</h1>
             </div>
           </div>
-          <h2 className="
-            whitespace-pre-line mt-4 text-gray-700 w-5/6 mx-auto leading-tight pt-2 text-sm
+          <div className="
+            bio-container whitespace-pre-line mt-4 text-gray-700 w-5/6 mx-auto leading-tight pt-2 text-sm
             lg:text-base
-            " dangerouslySetInnerHTML={{__html: userData.bio}}></h2>
+            " dangerouslySetInnerHTML={{__html: userData.bio}}></div>
           <div className="w-5/6 mx-auto">{socialLinksBar()}</div>
         </section>
         {additionalLinks.length > 0 && <section className="border-t-2 mt-5">
