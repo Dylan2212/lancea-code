@@ -1,22 +1,31 @@
 "use client"
-import { ReactNode } from "react"
+import { ReactNode, useContext, useState, createContext } from "react"
 import LancrMainHeader from "./components/lancrMainHeader"
 import "./lancrMain.css"
 import DeleteAccountModal from "./components/DeleteAccountModal"
-import { useState } from "react"
 import toast from "react-hot-toast"
 import { supabase } from "@/lib/supabaseClient"
 import { useRouter } from "next/navigation"
+import FeedbackModal from "./components/feedbackModal"
 
 type Props = {
   children: ReactNode
 }
 
+type ModalContextType = {
+  openFeedbackModal: () => void
+};
+
+const ModalContext = createContext<ModalContextType | undefined>(undefined)
+
 export default function Layout({ children }: Props) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const router = useRouter()
-  
+
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false)
+
+  const openFeedbackModal = () => setShowFeedbackModal(true)
 
   async function deleteAccount() {
     setDeleting(true)
@@ -58,12 +67,23 @@ export default function Layout({ children }: Props) {
   }
 
   return (
-    <div className="flex flex-col">
-      <LancrMainHeader setShowDeleteModal={setShowDeleteModal} />
-      <main className="flex flex-1 overflow-hidden">
-          {children}
-      </main>
-      {showDeleteModal && (<DeleteAccountModal deleting={deleting} onClose={() => setShowDeleteModal(false)} onDelete={deleteAccount}/>)}
-    </div>
+    <ModalContext.Provider value={{ openFeedbackModal }}>
+      <div className="flex flex-col">
+        <LancrMainHeader setShowDeleteModal={setShowDeleteModal} />
+        <main className="flex flex-1 overflow-hidden">
+            {children}
+        </main>
+        {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)}/>}
+        {showDeleteModal && (<DeleteAccountModal deleting={deleting} onClose={() => setShowDeleteModal(false)} onDelete={deleteAccount}/>)}
+      </div>
+    </ModalContext.Provider>
   )
+}
+
+export function useModals () {
+  const context = useContext(ModalContext)
+  if (!context) {
+    throw new Error("useModals must be used within Layout")
+  }
+  return context
 }

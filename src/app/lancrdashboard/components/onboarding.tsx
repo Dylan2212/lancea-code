@@ -56,6 +56,7 @@ export default function Onboarding () {
       })
 
       intro.onComplete(markIntroComplete)
+      intro.onExit(markIntroComplete)
       intro.start()
     }, 400) // Adjust delay if needed
 

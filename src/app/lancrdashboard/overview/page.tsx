@@ -20,6 +20,7 @@ import Link from "next/link"
 import { Globe, CircleSmall } from "lucide-react"
 import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
 import dynamic from "next/dynamic"
+import { useModals } from "../layout"
 
 const Onboarding = dynamic(() => import('../components/onboarding'), { ssr: false })
 
@@ -54,6 +55,8 @@ export default function LancrHome () {
   const userId = useOriginalUserStore(state => state.userId)
   const seenOnboarding = useOriginalUserStore(state => state.has_seen_onboarding)
   const [userUrl, setUserUrl] = useState("")
+
+  const { openFeedbackModal } = useModals()
 
 
   useEffect(() => {
@@ -376,7 +379,7 @@ export default function LancrHome () {
   const isHydrated = useUserHydrated()
 
   return(
-    <main className="w-dvw h-fit pt-16" onSubmit={handleSubmit}>
+    <main className="w-dvw h-fit pt-16 relative" onSubmit={handleSubmit}>
       {!seenOnboarding && <Onboarding/>}
       {isHydrated ? (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, {username === "" ? "New User": username}</p>) : (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, <Skeleton height={25} width={200}/></p>) }
       <div className="mt-3 mx-3 flex justify-between">
@@ -394,11 +397,11 @@ export default function LancrHome () {
         </div>
       </div>
       {isLive &&<div className="
-      w-11/12 flex gap-3 mt-5
-      lg:w-3/4 items-center lg:gap-5 mx-auto lg:mt-10 box-support py-2">
-        <p className="font-semibold ml-2">Sharable Link:</p>
+      w-11/12 flex flex-col md:flex-row gap-3 mt-5 p-2
+      lg:w-3/4 md:items-center lg:gap-5 mx-auto lg:mt-10 box-support py-2">
+        <p className="font-semibold">Sharable Link:</p>
         <span className="text-gray-600">{userUrl}</span>
-        <button onClick={copyLink} className="px-3 text-sm border border-gray-500 items-center py-1 bg-white text-gray-500 rounded hover:bg-gray-100 hov-standrd">
+        <button onClick={copyLink} className="px-3 w-24 text-sm border border-gray-500 items-center py-1 bg-white text-gray-500 rounded hover:bg-gray-100 hov-standrd">
           {copied ? <p className="flex gap-2"><Copy className="w-4 h-4"/> Copied</p> : <p className="flex gap-2"><Copy className="w-4 h-4"/> Copy</p>}
         </button>
       </div>}
@@ -408,6 +411,9 @@ export default function LancrHome () {
         <AdditionalLlinks/>
         <SaveLancrSection type="submit" saving={saving}/>
       </form>
+      <button onClick={() => openFeedbackModal()} className="fixed left-3 bottom-6 hov-standrd hover:bg-purple-500 p-3 shadow-lg shadow-gray-500 rounded-full bg-purple-600 text-white">
+        <p className="text-sm font-semibold leading-none">Share Your Thoughts</p>
+      </button>
     </main>
   )
 }

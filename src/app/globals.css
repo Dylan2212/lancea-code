@@ -173,3 +173,22 @@ input:-webkit-autofill {
     outline: none;
     box-shadow: none;
   }
+
+  /* Hide default scrollbar but keep scrolling */
+.form-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.form-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+.form-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.2) transparent;
+}
