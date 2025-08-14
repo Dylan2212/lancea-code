@@ -7,6 +7,7 @@ import toast from "react-hot-toast"
 import { supabase } from "@/lib/supabaseClient"
 import { useRouter } from "next/navigation"
 import FeedbackModal from "./components/feedbackModal"
+import Sidebar from "./components/sidebar"
 
 type Props = {
   children: ReactNode
@@ -70,9 +71,12 @@ export default function Layout({ children }: Props) {
     <ModalContext.Provider value={{ openFeedbackModal }}>
       <div className="flex flex-col">
         <LancrMainHeader setShowDeleteModal={setShowDeleteModal} />
-        <main className="flex flex-1 overflow-hidden">
+        <main className="flex flex-1 justify-end">
+          <div className="w-5/6">
             {children}
+          </div>
         </main>
+        <Sidebar/>
         {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)}/>}
         {showDeleteModal && (<DeleteAccountModal deleting={deleting} onClose={() => setShowDeleteModal(false)} onDelete={deleteAccount}/>)}
       </div>

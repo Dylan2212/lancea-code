@@ -379,7 +379,7 @@ export default function LancrHome () {
   const isHydrated = useUserHydrated()
 
   return(
-    <main className="w-dvw h-fit pt-16 relative" onSubmit={handleSubmit}>
+    <main className="w-full h-[calc(100dvh-4rem)] overflow-auto mt-16 relative" onSubmit={handleSubmit}>
       {!seenOnboarding && <Onboarding/>}
       {isHydrated ? (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, {username === "" ? "New User": username}</p>) : (<p className="text-2xl font-semibold m-5 flex items-center gap-4">Welcome, <Skeleton height={25} width={200}/></p>) }
       <div className="mt-3 mx-3 flex justify-between">
