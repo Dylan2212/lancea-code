@@ -18,7 +18,7 @@ export default function RichTextEditor() {
   const setBio = useUserStore(state => state.setBio)
   const bio = useOriginalUserStore(state => state.bio)
 
-  const editor = useEditor({
+  const editor = useEditor(bio ? {
     extensions: [
       StarterKit,
       TextStyle,
@@ -38,7 +38,7 @@ export default function RichTextEditor() {
       setBio(editor.getHTML())
     },
     content: bio
-  })
+  } : {})
 
   useEffect(() => {
     if (!editor) return
