@@ -72,7 +72,7 @@ export default function Layout({ children }: Props) {
       <div className="flex flex-col">
         <LancrMainHeader setShowDeleteModal={setShowDeleteModal} />
         <main className="flex flex-1 justify-end">
-          <div className="w-5/6">
+          <div className="w-[85%]">
             {children}
           </div>
         </main>
