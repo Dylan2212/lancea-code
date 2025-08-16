@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabaseClient"
 import { useRouter } from "next/navigation"
 import FeedbackModal from "./components/feedbackModal"
 import Sidebar from "./components/sidebar"
+import BottomNav from "./components/bottomNav"
 
 type Props = {
   children: ReactNode
@@ -72,11 +73,12 @@ export default function Layout({ children }: Props) {
       <div className="flex flex-col">
         <LancrMainHeader setShowDeleteModal={setShowDeleteModal} />
         <main className="flex flex-1 justify-end">
-          <div className="w-[85%]">
+          <div className="lg:w-[80%] xl:w-[85%]">
             {children}
           </div>
         </main>
         <Sidebar/>
+        <BottomNav/>
         {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)}/>}
         {showDeleteModal && (<DeleteAccountModal deleting={deleting} onClose={() => setShowDeleteModal(false)} onDelete={deleteAccount}/>)}
       </div>
