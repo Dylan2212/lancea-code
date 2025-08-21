@@ -123,11 +123,11 @@ export default function LinksPage ({ userData }: Props) {
             </div>
             <div className="grid gap-2">
               <p className="
-                text-xl leading-none text-center w-2/3 mx-auto
+                text-xl leading-none text-center w-full mx-auto
                 lg:text-start lg:w-auto lg:mx-0
                 ">{userData.username}</p>
               <h1 className="
-                text-gray-500 leading-none text-center mx-auto w-2/3
+                text-gray-500 leading-none text-center mx-auto w-full
                   lg:text-start lg:mx-0 lg:w-auto
                 ">{userData.title}</h1>
             </div>
@@ -142,7 +142,7 @@ export default function LinksPage ({ userData }: Props) {
           <ul>
             {
               additionalLinks.map((link) => (
-                <li key={link.id} className="border-2 border-gray-600 rounded-full shadow-md text-lg flex items-center justify-center w-2/3 mx-auto my-3 py-2 hover:bg-gray-100">
+                <li key={link.id} className="border-2 border-gray-600 rounded-full shadow-md text-lg flex items-center justify-center w-2/3 mx-auto my-3 py-2 px-1 hover:bg-gray-100">
                   <a target="_blank" className="w-full h-full text-center" href={link.url}>{link.link_title}</a>
                 </li>
               ))
