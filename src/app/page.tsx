@@ -8,7 +8,7 @@ export default function Home() {
   const router = useRouter()
 
   return (
-    <>
+    <div className="relative pb-32">
       <header className="h-20 flex justify-between items-center">
         <p className="ml-8 text-3xl lg:text-5xl font-semibold text-purple-600">Lancrly</p>
         <button className="mr-8 bg-purple-600 text-white shadow-md rounded-full py-2 px-4 hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Log In / Sign Up</button>
@@ -158,6 +158,6 @@ export default function Home() {
         </section>
       </main>
       <Footer/>
-    </>
+    </div>
   )
 }

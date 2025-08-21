@@ -5,6 +5,8 @@ import { useOriginalUserStore } from "./store/useOriginalUser";
 import { useOriginalAdditionalLinksStore } from "./store/useOriginalAdditionalLinks";
 import { AdditionalLink } from "./store/useAdditionalLinksStore";
 import { SocialLinks } from "./store/useOriginalUser";
+import { useProjectsStore } from "./store/useProjectsStore";
+import { ProjectData } from "@/src/app/lancrdashboard/projects/addproject/page";
 
 export type User = {
   id: string,
@@ -34,7 +36,7 @@ async function createUserInDB (uid: string, email: string | undefined) {
 export async function fetchUserData (uid: string, email: string | undefined) {
   const { data, error } = await supabase
     .from("users")
-    .select("*, additional_links(*)")
+    .select("*, additional_links(*), projects(*)")
     .eq("id", uid)
     .maybeSingle()
 
@@ -51,17 +53,18 @@ export async function fetchUserData (uid: string, email: string | undefined) {
       .eq("id", uid)
       .single()
       
-    setStoreData(data, null)
+    setStoreData(data, null, null)
     return data as User
   }
 
-  setStoreData(data, data.additional_links)
+  setStoreData(data, data.additional_links, data.projects)
   return data as User
 }
 
-function setStoreData (user: User, links: AdditionalLink[] | null) {
+function setStoreData (user: User, links: AdditionalLink[] | null, projects: ProjectData[] | null) {
   const { setUserId, setSocialLinks, setEmail, setUsername, setBio, setTitle, setProfileImage, setHandle } = useUserStore.getState()
   const { setLinks } = useAdditionalLinksStore.getState()
+  const { setProjects } = useProjectsStore.getState()
   const { setOriginalLinks } = useOriginalAdditionalLinksStore.getState()
 
   if (user.id) setUserId(user.id)
@@ -76,6 +79,10 @@ function setStoreData (user: User, links: AdditionalLink[] | null) {
   if (links) {
     setLinks(links)
     setOriginalLinks(links)
+  }
+
+  if (projects) {
+    setProjects(projects)
   }
 
   useOriginalUserStore.setState({

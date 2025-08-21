@@ -1,3 +1,4 @@
+"use client"
 import { useModals } from "../layout"
 import SidebarButton from "./sidebarButton"
 import { BriefcaseBusiness, CircleUserRound } from "lucide-react"

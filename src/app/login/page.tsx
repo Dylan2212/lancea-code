@@ -57,7 +57,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className='max-h-dvh h-dvh overflow-hidden'>
+    <div className='max-h-dvh h-dvh overflow-hidden relative'>
       <header className="h-20 flex justify-between items-center">
         <p className="ml-8 text-5xl font-semibold text-purple-600">Lancrly</p>
       </header>

@@ -23,6 +23,15 @@ import dynamic from "next/dynamic"
 
 const Onboarding = dynamic(() => import('../components/onboarding'), { ssr: false })
 
+export const normalizeUrl = (url: string | undefined) => {
+  if (!url) return ''
+  url = url.trim()
+  if (!/^https?:\/\//i.test(url)) {
+    return 'https://' + url
+  }
+  return url
+}
+
 export default function LancrHome () {
   type BioData = {
     bio: string;
@@ -112,16 +121,6 @@ export default function LancrHome () {
 
     if (Object.keys(changed).length === 0) return null
     return changed
-  }
-
-
-  const normalizeUrl = (url: string | undefined) => {
-    if (!url) return ''
-    url = url.trim()
-    if (!/^https?:\/\//i.test(url)) {
-      return 'https://' + url
-    }
-    return url
   }
 
   function checkAdditionalLinksChanges (newLinks: PartialAdditionalLinkWithId[]) {
