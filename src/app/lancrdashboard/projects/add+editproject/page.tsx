@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation"
 import TitleInput from "../../components/titleInput"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SquarePlus, Trash2 } from "lucide-react"
 import toast from "react-hot-toast"
 import { supabase } from "@/lib/supabaseClient"
@@ -9,28 +9,54 @@ import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import ProjectGallery from "../components/dropzone"
 import { normalizeUrl } from "../../profile/page"
 import { v4 as uuidv4 } from 'uuid'
+import { useProjectsStore } from "@/lib/store/useProjectsStore"
+import { useSearchParams } from "next/navigation"
+import { MyFile } from "../components/dropzone"
 
 export type ProjectData = Partial<{
   title: string,
   description: string,
   link: string,
   results: string[],
-  uploaded_urls: string[]
+  uploaded_urls: Record<string, string>[],
+  cover: string | null,
+  id: string
 }>
+
+function capitalizeFirstLetter(str: string | null) {
+  if (!str) return "Add";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 
 export default function AddProject () {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const projectAction = capitalizeFirstLetter(searchParams.get("action"))
   const userId = useOriginalUserStore(state => state.userId)
+  const { projects, setProjects } = useProjectsStore.getState()
   const [maxProjects, setMaxProjects] = useState(false)
   const [adding, setAdding] = useState(false)
-  const [files, setFiles] = useState<(File & { preview: string })[]>([])
+  const [removedFiles, setRemovedFiles] = useState<string[]>([])
+  const [files, setFiles] = useState<MyFile[]>([])
+  const [cover, setCover] = useState<number>(0)
+  const [aspectRatio, setAspectRatio] = useState("[4/3]")
   const [ProjectData, setProjectData] = useState<ProjectData>({
     title: "",
     description: "",
     link: "",
     results: [],
-    uploaded_urls: []
+    uploaded_urls: [],
   })
+
+  useEffect(() => {
+    const idxParam = searchParams.get("idx")
+    if (idxParam === "null") return
+    const index = Number(idxParam)
+    const projectToEdit = projects[index]
+    setProjectData(projectToEdit)
+    
+  }, [setProjectData, projects, searchParams])
 
   function filledResult () {
     if (!ProjectData.results) return true
@@ -91,15 +117,16 @@ export default function AddProject () {
   async function saveToStorage () {
     if (!files) return
 
-    const uploadedUrls: string[] = []
+    const uploadedUrls: Record<string, string>[] = []
 
     for (const file of files) {
+      if (!file.file || !file.name) continue
       const fileExtension = file.name.split('.').pop()
       const filePath = `${userId}/${uuidv4()}.${fileExtension}`
 
       const { error } = await supabase.storage
         .from("projects")
-        .upload(filePath, file, {
+        .upload(filePath, file.file, {
           cacheControl: "3600",
           upsert: false,
         })
@@ -114,7 +141,7 @@ export default function AddProject () {
         .getPublicUrl(filePath)
 
       if (data) {
-        uploadedUrls.push(data.publicUrl)
+        uploadedUrls.push({url: data.publicUrl, aspectRatio: file.aspectRatio})
       }
     }
     return uploadedUrls
@@ -123,16 +150,27 @@ export default function AddProject () {
   async function saveProject (e: React.FormEvent) {
     e.preventDefault()
     setAdding(true)
+
+    if (files.length === 0) {
+      setAdding(false)
+      toast.error("Add at least one project image.")
+    }
+
     const finalLink = normalizeUrl(ProjectData.link)
     const uploadedUrls = await saveToStorage()
 
     const finalProjectData: ProjectData = {
       ...ProjectData,
       link: finalLink,
-      uploaded_urls: uploadedUrls
+      uploaded_urls: uploadedUrls,
+      id: uuidv4(),
+      cover: uploadedUrls ? uploadedUrls[cover].url : null
     }
 
     const success = await saveToDb(finalProjectData)
+    
+    setProjects([...projects, finalProjectData])
+
     setAdding(false)
     if (success) {
       toast.success("Project added!")
@@ -144,14 +182,14 @@ export default function AddProject () {
 
   return (
     <section className="pt-16">
-      <h1 className="text-2xl font-semibold m-5 mb-0">Add Project</h1>
+      <h1 className="text-2xl font-semibold m-5 mb-0">{projectAction} Project</h1>
       <div className="div-for-lancr-dashboard-sects">
         <form className="lancr-add-edit-sect" onSubmit={(e) => saveProject(e)}>
-          <TitleInput handleChange={(e) => onUpdate("title", e.target.value)} inputName="title" value={ProjectData.title} required labelTitle="Project Title" type="text" previewText="Project Title" maxChar={80} displayMaxChar/>
-          <ProjectGallery files={files} setFiles={setFiles}/>
+          <TitleInput handleChange={(e) => onUpdate("title", e.target.value)} inputName="title" value={ProjectData.title} required labelTitle="Project Title" type="text" previewText="Project Title" maxChar={65} displayMaxChar/>
+          <ProjectGallery removedFiles={removedFiles} setRemovedFiles={setRemovedFiles} aspectRatio={aspectRatio} setAspectRatio={setAspectRatio} files={files} setFiles={setFiles} cover={cover} setCover={setCover}/>
           <div className="mt-6 mb-3 ml-2">
             <label className="block text-lg" htmlFor="project-description">Description:<span className="text-red-500">*</span></label>
-            <textarea required className="lancr-add-edit-text-input h-40 resize-none" onChange={(e) => onUpdate("description", e.target.value)} name="project-description" id="project-description"></textarea>
+            <textarea value={ProjectData.description} required className="lancr-add-edit-text-input h-40 resize-none" onChange={(e) => onUpdate("description", e.target.value)} name="project-description" id="project-description"></textarea>
           </div>
           <div className="mt-6 mb-3 ml-2">
             <p className="text-lg">Results:</p>

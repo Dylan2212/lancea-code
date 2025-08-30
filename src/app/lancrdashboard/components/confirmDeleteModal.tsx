@@ -6,10 +6,11 @@ import { ClipLoader } from "react-spinners"
 type DeleteAccountModalProps = {
   onClose: () => void
   onDelete: () => void
-  deleting?: boolean
+  deleting?: boolean,
+  property: string
 }
 
-export default function DeleteAccountModal({ onDelete, onClose, deleting }: DeleteAccountModalProps) {
+export default function ConfirmDeleteModal ({ onDelete, onClose, deleting, property }: DeleteAccountModalProps) {
   useEffect(() => {
     Modal.setAppElement('body')
   }, [])
@@ -19,7 +20,7 @@ export default function DeleteAccountModal({ onDelete, onClose, deleting }: Dele
       <div className="bg-white p-6 rounded-lg shadow-md max-w-sm w-full text-center">
         <h2 className="text-lg font-semibold mb-4">Are you sure?</h2>
         <p className="text-sm text-gray-600 mb-6">
-          Deleting your account is permanent and cannot be undone.
+          Deleting your {property} is permanent and cannot be undone.
         </p>
         <div className="flex justify-center space-x-4">
           <button
@@ -30,7 +31,7 @@ export default function DeleteAccountModal({ onDelete, onClose, deleting }: Dele
           </button>
           <button
             onClick={async () => {
-              await onDelete()
+              onDelete()
               onClose()
             }}
             className="px-4 w-32 py-2 rounded bg-red-600 text-white hover:bg-red-700"

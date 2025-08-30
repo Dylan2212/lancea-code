@@ -6,7 +6,7 @@ import { useOriginalAdditionalLinksStore } from "./store/useOriginalAdditionalLi
 import { AdditionalLink } from "./store/useAdditionalLinksStore";
 import { SocialLinks } from "./store/useOriginalUser";
 import { useProjectsStore } from "./store/useProjectsStore";
-import { ProjectData } from "@/src/app/lancrdashboard/projects/addproject/page";
+import { ProjectData } from "@/src/app/lancrdashboard/projects/add+editproject/page";
 
 export type User = {
   id: string,

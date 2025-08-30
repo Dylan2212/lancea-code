@@ -2,7 +2,7 @@
 import { ReactNode, useContext, useState, createContext } from "react"
 import LancrMainHeader from "./components/lancrMainHeader"
 import "./lancrMain.css"
-import DeleteAccountModal from "./components/DeleteAccountModal"
+import ConfirmDeleteModal from "./components/confirmDeleteModal"
 import toast from "react-hot-toast"
 import { supabase } from "@/lib/supabaseClient"
 import { useRouter } from "next/navigation"
@@ -80,7 +80,7 @@ export default function Layout({ children }: Props) {
         <Sidebar/>
         <BottomNav/>
         {showFeedbackModal && <FeedbackModal onClose={() => setShowFeedbackModal(false)}/>}
-        {showDeleteModal && (<DeleteAccountModal deleting={deleting} onClose={() => setShowDeleteModal(false)} onDelete={deleteAccount}/>)}
+        {showDeleteModal && (<ConfirmDeleteModal property="account" deleting={deleting} onClose={() => setShowDeleteModal(false)} onDelete={deleteAccount}/>)}
       </div>
     </ModalContext.Provider>
   )
