@@ -13,13 +13,18 @@ import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { useSearchParams } from "next/navigation"
 import { MyFile } from "../components/dropzone"
 
+type CoverObj = {
+  coverUrl: string,
+  position: number
+}
+
 export type ProjectData = Partial<{
   title: string,
   description: string,
   link: string,
   results: string[],
   uploaded_urls: Record<string, string>[],
-  cover: string | null,
+  cover: CoverObj | null,
   id: string
 }>
 
@@ -27,7 +32,6 @@ function capitalizeFirstLetter(str: string | null) {
   if (!str) return "Add";
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
 
 export default function AddProject () {
   const router = useRouter()
@@ -39,9 +43,9 @@ export default function AddProject () {
   const [adding, setAdding] = useState(false)
   const [removedFiles, setRemovedFiles] = useState<string[]>([])
   const [files, setFiles] = useState<MyFile[]>([])
-  const [cover, setCover] = useState<number>(0)
   const [aspectRatio, setAspectRatio] = useState("[4/3]")
-  const [ProjectData, setProjectData] = useState<ProjectData>({
+  const [cover, setCover] = useState<number>(0)
+  const [projectData, setProjectData] = useState<ProjectData>({
     title: "",
     description: "",
     link: "",
@@ -55,14 +59,14 @@ export default function AddProject () {
     const index = Number(idxParam)
     const projectToEdit = projects[index]
     setProjectData(projectToEdit)
-    
+    setCover(projectToEdit.cover?.position ? projectToEdit.cover?.position : 0)
   }, [setProjectData, projects, searchParams])
 
   function filledResult () {
-    if (!ProjectData.results) return true
-    if (ProjectData.results?.length === 0) return true
+    if (!projectData.results) return true
+    if (projectData.results?.length === 0) return true
 
-    const last = ProjectData.results[ProjectData.results.length -1]
+    const last = projectData.results[projectData.results.length -1]
 
     if (last === "") {
       toast.error("Fill in the previous result before you add more results.")
@@ -75,7 +79,7 @@ export default function AddProject () {
   function addResult () {
     if (!filledResult()) return
     if (maxProjects) return
-    if (ProjectData.results?.length === 4) setMaxProjects(true)
+    if (projectData.results?.length === 4) setMaxProjects(true)
     setProjectData(prev => ({...prev, results: [...prev.results ?? [], ""]}))
   }
 
@@ -101,8 +105,7 @@ export default function AddProject () {
   async function saveToDb (finalProjectData: ProjectData) {
     const { error } = await supabase
       .from("projects")
-      .insert(finalProjectData)
-      .eq("user_id", userId)
+      .upsert(finalProjectData, { onConflict: "id" })
 
 
     if (error) {
@@ -116,11 +119,15 @@ export default function AddProject () {
 
   async function saveToStorage () {
     if (!files) return
-
     const uploadedUrls: Record<string, string>[] = []
 
     for (const file of files) {
-      if (!file.file || !file.name) continue
+
+      if (!file.file || !file.name) {
+        uploadedUrls.push({url: file.preview, aspectRatio: file.aspectRatio})
+        continue
+      }
+
       const fileExtension = file.name.split('.').pop()
       const filePath = `${userId}/${uuidv4()}.${fileExtension}`
 
@@ -147,60 +154,106 @@ export default function AddProject () {
     return uploadedUrls
   }
 
+  async function deleteFromStorage () {
+    const { error } = await supabase.storage
+      .from("projects")
+      .remove(removedFiles)
+
+    if (error) {
+      console.error("Error deleting from storage: ", error)
+      toast.error("Could not delete project images.")
+      return false
+    }
+    return true
+  }
+
   async function saveProject (e: React.FormEvent) {
     e.preventDefault()
     setAdding(true)
 
-    if (files.length === 0) {
+    try {
+      if (removedFiles.length) {
+        const couldRemoveImages = await deleteFromStorage()
+        if (!couldRemoveImages) {
+          toast.error("Could not save changes.")
+          return
+        }
+      }
+
+      if (files.length === 0) {
+        setAdding(false)
+        toast.error("Add at least one project image.")
+      }
+
+      const finalLink = normalizeUrl(projectData.link)
+      const uploadedUrls = await saveToStorage()
+
+      const finalProjectData: ProjectData = {
+        ...projectData,
+        link: finalLink,
+        uploaded_urls: uploadedUrls,
+        id: !projectData.id ? uuidv4() : projectData.id,
+        cover: uploadedUrls && uploadedUrls[cover] ? {coverUrl: uploadedUrls[cover].url, position: cover} : {coverUrl: files[cover].preview, position: cover}
+      }
+
+      const success = await saveToDb(finalProjectData)
+
+      if (success) {
+        setAdding(false)
+        if (projectAction === "Edit") {
+          const index = Number(searchParams.get("idx"))
+          const updatedProjectsArry = projects.map((project, i) => (
+            i === index ? finalProjectData : project
+          ))
+          setProjects(updatedProjectsArry)
+        } else {
+          setProjects([...projects, finalProjectData])
+        }
+
+        if (projectAction === "Edit") {
+          toast.success("Project updated!")
+        } else {
+          toast.success("Project added")
+        }
+
+        router.push("/lancrdashboard/projects")
+      } else {
+        toast.error("Could not add project.2/")
+        setAdding(false)
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error("Could not add project.1/")
       setAdding(false)
-      toast.error("Add at least one project image.")
-    }
-
-    const finalLink = normalizeUrl(ProjectData.link)
-    const uploadedUrls = await saveToStorage()
-
-    const finalProjectData: ProjectData = {
-      ...ProjectData,
-      link: finalLink,
-      uploaded_urls: uploadedUrls,
-      id: uuidv4(),
-      cover: uploadedUrls ? uploadedUrls[cover].url : null
-    }
-
-    const success = await saveToDb(finalProjectData)
-    
-    setProjects([...projects, finalProjectData])
-
-    setAdding(false)
-    if (success) {
-      toast.success("Project added!")
-      router.push("/lancrdashboard/projects")
     }
 
     return
   }
 
   return (
-    <section className="pt-16">
+    <section className="py-16 w-screen lg:pb-0 lg:w-full">
       <h1 className="text-2xl font-semibold m-5 mb-0">{projectAction} Project</h1>
-      <div className="div-for-lancr-dashboard-sects">
+      <div className="w-full mx-auto max-w-[1250px]">
         <form className="lancr-add-edit-sect" onSubmit={(e) => saveProject(e)}>
-          <TitleInput handleChange={(e) => onUpdate("title", e.target.value)} inputName="title" value={ProjectData.title} required labelTitle="Project Title" type="text" previewText="Project Title" maxChar={65} displayMaxChar/>
-          <ProjectGallery removedFiles={removedFiles} setRemovedFiles={setRemovedFiles} aspectRatio={aspectRatio} setAspectRatio={setAspectRatio} files={files} setFiles={setFiles} cover={cover} setCover={setCover}/>
+          <TitleInput handleChange={(e) => onUpdate("title", e.target.value)} inputName="title" value={projectData.title} required labelTitle="Project Title" type="text" previewText="Project Title" maxChar={65} displayMaxChar/>
+          <ProjectGallery setRemovedFiles={setRemovedFiles} aspectRatio={aspectRatio} setAspectRatio={setAspectRatio} files={files} setFiles={setFiles} cover={cover} setCover={setCover}/>
           <div className="mt-6 mb-3 ml-2">
             <label className="block text-lg" htmlFor="project-description">Description:<span className="text-red-500">*</span></label>
-            <textarea value={ProjectData.description} required className="lancr-add-edit-text-input h-40 resize-none" onChange={(e) => onUpdate("description", e.target.value)} name="project-description" id="project-description"></textarea>
+            <textarea value={projectData.description} required className="lancr-add-edit-text-input h-40 resize-none" onChange={(e) => onUpdate("description", e.target.value)} name="project-description" id="project-description"></textarea>
           </div>
           <div className="mt-6 mb-3 ml-2">
             <p className="text-lg">Results:</p>
             {
-              ProjectData.results?.map((result, index) => (
-                <div key={index} className="flex justify-between w-5/6 px-6 py-4 border rounded-md border-gray-400 shadow-sm mb-4 last:mb-0">
-                  <div className="flex items-center gap-3 w-2/3">
+              projectData.results?.map((result, index) => (
+                <div key={index} className="flex items-center gap-5 justify-between w-11/12 px-6 py-4 border rounded-md border-gray-400 shadow-sm mb-4 last:mb-0
+                lg:w-5/6
+                ">
+                  <div className="flex flex-col gap-1 w-11/12 
+                  lg:w-2/3 lg:flex-row lg:items-center lg:gap-3">
                     <p>Result:</p>
                     <input onChange={(e) => resultChange(e.target.value, index)} value={result ?? ""} className="rounded-lg border py-1 px-3 focus:outline-purple-600 w-full" placeholder="Achieved..." type="text" name="" id="" />
                   </div>
-                  <Trash2 className="w-12 h-6 mt-6 mb-3 cursor-pointer hov-standrd hover:text-red-600" onClick={() => deleteResult(index)}/>
+                  <Trash2 className="w-12 h-6 lg:mt-6 lg:mb-3 cursor-pointer hov-standrd hover:text-red-600" onClick={() => deleteResult(index)}/>
                 </div>
               ))
             }
@@ -209,12 +262,12 @@ export default function AddProject () {
               Add Result
             </button>
           </div>
-          <TitleInput handleChange={(e) => onUpdate("link", e.target.value)} inputName="link" value={ProjectData.link} required={false} labelTitle="Live Demo Link" type="text" previewText="https://example.com" maxChar={2000} displayMaxChar={false} />
-          <div className="flex justify-end gap-5 w-5/ mt-10">
-            <button className="rounded-md bg-gray-300 hover:bg-gray-400 hov-standrd w-40 text-lg px-6 py-2 mr-6
+          <TitleInput handleChange={(e) => onUpdate("link", e.target.value)} inputName="link" value={projectData.link} required={false} labelTitle="Live Demo Link" type="text" previewText="https://example.com" maxChar={2000} displayMaxChar={false} />
+          <div className="flex justify-end gap-5 w-11/12 lg:w-5/6 mt-10">
+            <button type="button" className="rounded-md bg-gray-300 hover:bg-gray-400 hov-standrd w-fit text-lg px-6 py-2 mr-6
               lg:mr-0" onClick={() => router.back()}>Cancel</button>
-            <button type="submit" className="rounded-md bg-purple-600 text-white hover:bg-purple-500 hov-standrd w-40 text-lg px-6 py-2 mr-6
-              lg:mr-0">{adding ? "Adding..." : "Add Project"}</button>
+            <button type="submit" className="rounded-md bg-purple-600 text-white hover:bg-purple-500 hov-standrd w-fit text-lg px-6 py-2 mr-6
+              lg:mr-0">{projectAction !== "Edit" ? (adding ? "Adding..." : "Add Project") : (adding ? "Saving..." : "Save Changes")}</button>
           </div>
         </form>
       </div>

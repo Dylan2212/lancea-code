@@ -81,7 +81,7 @@ function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
               </div>
             </div>
             <TitleInput loading={!isHydrated} required={true} previewText="John Doe" maxChar={80} inputName="username" displayMaxChar={true} type="text" labelTitle="Name" handleChange={(e) => setUsername(e.target.value)} value={username}/>
-            <TitleInput loading={!isHydrated} required={true} previewText="Add your title" maxChar={45} inputName="title" displayMaxChar={true} type="text" labelTitle="Title" handleChange={(e) => setTitle(e.target.value)} value={title}/>
+            <TitleInput loading={!isHydrated} required={true} previewText="Add your title" maxChar={70} inputName="title" displayMaxChar={true} type="text" labelTitle="Title" handleChange={(e) => setTitle(e.target.value)} value={title}/>
             <div className="relative mb-10">
               <div id="username">
                 <TitleInput required={true} previewText="Jdoe2819" maxChar={30} inputName="handle" displayMaxChar={true} type="text" labelTitle="Username" handleChange={(e) => userHandleChange(e)} value={handle}/>
