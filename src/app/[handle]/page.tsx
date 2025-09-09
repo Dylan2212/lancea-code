@@ -1,76 +1,32 @@
-export const dynamic = 'force-dynamic'
-import { notFound } from "next/navigation"
-import LinksPage from "../components/linksPage"
-import { createClient } from "@/utils/supabase/server"
+"use client"
+import "./components/linkspage.css"
+import { SocialLinks } from "@/lib/store/useOriginalUser"
+import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
+import { ProjectData } from "../lancrdashboard/projects/add+editproject/page"
+import UserProject from "./components/userProject"
+import { useContext } from "react"
+import { UserContext } from "./components/layoutClient"
 
-export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
-  const { handle } = await params
-  const supabase = await createClient()
-
-  const { data } = await supabase
-    .from("users")
-    .select("*")
-    .eq("handle", handle)
-    .maybeSingle()
-
-  if (data) {
-    return {
-      title: `${handle} | Lancrly`,
-      description: `Portfolio for ${handle} on Lancrly`
-    }
-  } else {
-    return {
-    title: `Lancrly 404`,
-    description: `Could not find page`
-    }
-  }
+export type UserData = {
+  id: string,
+  email: string,
+  title: string,
+  profileImage: string,
+  socialLinks: SocialLinks,
+  username: string,
+  bio: string,
+  additional_links: AdditionalLink[],
+  projects: ProjectData[],
+  handle: string
 }
 
-async function isAuthenticatedUser (id: string) {
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  return user?.id === id
-}
-
-async function fetchByURLUsername (handle: string) {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from("users")
-    .select("*, additional_links(*)")
-    .eq("handle", handle)
-    .maybeSingle()
-
-  if (error) {
-    notFound()
-  }
-
-  if (!data) {
-    notFound()
-  }
-
-  if (!data.is_live) {
-    const inPreview = await isAuthenticatedUser(data.id)
-    if (!inPreview) {
-      notFound()
-    }
-  }
-
-  return data
-}
-
-export default async function LancrLinksPage({ params }: { params: Promise<{ handle: string }> }) {
-  const { handle } = await params
-
-  const userData = await fetchByURLUsername(handle)
-
+export default function LancrLinksPage () {
+  const { projects } = useContext(UserContext)
   return (
-    <main>
-      <LinksPage userData={userData}/>
-    </main>
+    <div>
+      {projects?.map(project => (
+        <UserProject key={project.id} project={project}/>
+      ))}
+    </div>
   )
 }

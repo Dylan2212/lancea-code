@@ -19,3 +19,7 @@
 .bio-container p {
   margin: 0 0 1em 0;
 }
+
+.user-nav-link {
+  @apply rounded-full py-1 px-2 text-sm
+}
