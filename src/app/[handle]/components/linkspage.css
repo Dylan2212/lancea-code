@@ -23,3 +23,7 @@
 .user-nav-link {
   @apply rounded-full py-1 px-2 text-sm
 }
+
+.will-change-transform {
+  will-change: transform;
+}

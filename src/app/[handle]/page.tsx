@@ -4,8 +4,10 @@ import { SocialLinks } from "@/lib/store/useOriginalUser"
 import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
 import { ProjectData } from "../lancrdashboard/projects/add+editproject/page"
 import UserProject from "./components/userProject"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { UserContext } from "./components/layoutClient"
+import NoProjects from "./components/noProjects"
+import ProjectModal from "./components/projectModal"
 
 export type UserData = {
   id: string,
@@ -22,11 +24,19 @@ export type UserData = {
 
 export default function LancrLinksPage () {
   const { projects } = useContext(UserContext)
+  const [displayFullProject, setDisplayFullProject] = useState({show: false, index: 0})
+
+  if (!projects) return null
+
   return (
-    <div>
-      {projects?.map(project => (
-        <UserProject key={project.id} project={project}/>
-      ))}
+    <div className="grid grid-cols-1 w-full
+    lg:grid-cols-2
+    xl:grid-cols-3
+    ">
+      {projects?.length ? projects?.map((project, index) => (
+        <UserProject key={project.id} index={index} project={project} setDisplayFullProject={setDisplayFullProject}/>
+      )) : <NoProjects/>}
+      {displayFullProject.show && <ProjectModal project={projects[displayFullProject.index]} onClose={() => setDisplayFullProject({show: false, index: 0})}/>}
     </div>
   )
 }

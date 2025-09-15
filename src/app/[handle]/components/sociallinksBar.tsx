@@ -1,5 +1,5 @@
 import { SiInstagram, SiFacebook, SiX, SiLinkedin, SiMedium, SiYoutube, SiThreads, SiTiktok, SiWhatsapp } from "react-icons/si"
-import { UserData } from "../../userPage/page"
+import { UserData } from "../page"
 
 type MyProps = {
   userData: UserData
@@ -63,13 +63,13 @@ export default function SocialLinksBar ({ userData }: MyProps) {
   if (isEmptySocialLinks) return
   return (
     <div className="
-      flex box-support rounded-full gap-5 py-2 px-4 w-fit mt-5
+      flex box-support rounded-md gap-5 py-2 px-4 w-fit mt-5
       ">
       {Object.entries(userData.socialLinks).map(([platform, link]) => {
         if (!link || !socialConfig[platform]) return null
           const config = socialConfig[platform]
           return (
-            <a key={platform} href={link} target="_blank" rel="noopener noreferrer"className="flex items-center gap-2 hover:underline">
+            <a key={platform} href={`${link}`} target="_blank" rel="noopener noreferrer"className="flex items-center gap-2 hover:underline">
               {config.icon}
             </a>
           )
