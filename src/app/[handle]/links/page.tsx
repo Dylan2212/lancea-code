@@ -1,6 +1,7 @@
 "use client"
 import { UserContext } from "../components/layoutClient"
 import { useContext } from "react"
+import NoLinks from "../components/noLinks"
 
 export default function UserLinks () {
   const data = useContext(UserContext)
@@ -10,7 +11,7 @@ export default function UserLinks () {
 
   return (
     <>
-      {additionalLinks.length > 0 && <section className="border-t-2 mt-5">
+      {additionalLinks.length > 0 ? <section className="border-t-2 mt-5">
         <ul>
           {
             additionalLinks.map((link) => (
@@ -20,7 +21,7 @@ export default function UserLinks () {
             ))
           }
         </ul>
-      </section>}
+      </section> : <NoLinks/>}
     </>
   )
 }

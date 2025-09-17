@@ -29,14 +29,20 @@ export default function LancrLinksPage () {
   if (!projects) return null
 
   return (
-    <div className="grid grid-cols-1 w-full
-    sm:grid-cols-2 sm:gap-4
-    xl:grid-cols-3
-    ">
-      {projects?.length ? projects?.map((project, index) => (
-        <UserProject key={project.id} index={index} project={project} setDisplayFullProject={setDisplayFullProject}/>
-      )) : <NoProjects/>}
-      {displayFullProject.show && <ProjectModal project={projects[displayFullProject.index]} onClose={() => setDisplayFullProject({show: false, index: 0})}/>}
-    </div>
+    <>
+      {projects?.length ?
+      <div className="grid grid-cols-1 w-full
+      sm:grid-cols-2 sm:gap-4
+      xl:grid-cols-3
+      ">
+        {projects?.map((project, index) => (
+          <UserProject key={project.id} index={index} project={project} setDisplayFullProject={setDisplayFullProject}/>
+        ))}
+        {displayFullProject.show && <ProjectModal project={projects[displayFullProject.index]} onClose={() => setDisplayFullProject({show: false, index: 0})}/>}
+      </div>
+      :
+      <NoProjects/>
+      }
+    </>
   )
 }
