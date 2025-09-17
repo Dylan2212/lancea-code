@@ -59,16 +59,23 @@ export default function UserProjectGallery({ images, cover }: Props) {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-4">
+    <div className="w-screen mx-auto pt-4
+    lg:p-4
+    ">
       <div
         className="relative w-full aspect-[4/3] group rounded-xl cursor-pointer"
-        onClick={() => setOpen(true)}
+        onClick={photos.length > 1 ? () => setOpen(true) : undefined}
       >
         <Image src={cover} alt="Cover" fill className="object-cover rounded-xl" />
-        <p className="absolute group-hover:bg-black transition-all duration-200 ease-in-out bottom-2 right-2 text-sm font-semibold text-white bg-black/50 rounded-full px-3 py-2">View +{photos.length - 1} more</p>
+        {photos.length > 1 && <p className="absolute group-hover:bg-black transition-all duration-200 ease-in-out bottom-2 right-2 text-sm font-semibold text-white bg-black/50 rounded-full px-3 py-2">View +{photos.length - 1} more</p>}
       </div>
-      {open && <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-6">
-        <div className="relative bg-white rounded-2xl max-w-6xl w-full px-6 pb-6 py-12 overflow-y-auto max-h-[90vh]">
+      {open && <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-0
+      lg:p-6
+      ">
+        <div className="relative bg-white rounded-2xl w-screen px-2 pb-6 py-12 overflow-y-auto max-h-[90vh]
+        sm:w-11/12 sm:px-3
+        lg:max-w-6xl lg:w-full lg:px-6
+        ">
           <X onClick={() => setOpen(false)} className="absolute top-2 right-3 cursor-pointer rounded-md w-8 h-8 transition-all ease-in-out duration-300 hover:bg-red-500 hover:text-white" />
           <PhotoAlbum
             photos={photos}

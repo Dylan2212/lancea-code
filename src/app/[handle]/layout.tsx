@@ -74,9 +74,9 @@ export default async function Layout ({ children, params }: { children: React.Re
   const userData: UserData = await fetchByURLUsername(handle)
 
   return (
-    <div className="div-container-for-middle-align bg-gradient-to-b from-[#f5f3ff] to-white">
+    <div className="div-container-for-middle-align bg-gradient-to-b from-[#f9f8ff] to-white">
       <div className="
-          flex-1 w-2/3 flex relative
+          flex-1 w-full flex relative
           lg:items-center lg:justify-center
         ">
         <a href={`mailto:${userData.email}`} className="sm:hidden fixed links-page-contact-btn hov-standrd top-6 right-4">
