@@ -41,6 +41,12 @@ export default function RichTextEditor() {
   })
 
   useEffect(() => {
+    if (editor && bio) {
+      editor.commands.setContent(bio)
+    }
+  }, [editor, bio])
+
+  useEffect(() => {
     if (!editor) return
 
     const forceRerender = () => {

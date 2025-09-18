@@ -49,6 +49,12 @@ export default function AddBio ({ profileImageFileRef }: Props) {
 function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
   const newValue = e.target.value
 
+  if (newValue === "") {
+    setHandle("");
+    setShowInvalidCharMessage(false);
+    return;
+  }
+
   const isValid =
     /^[a-zA-Z0-9._-]+$/.test(newValue) &&
     !/^-|-$/.test(newValue)
