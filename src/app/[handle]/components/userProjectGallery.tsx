@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react"
 import PhotoAlbum, { RenderImageContext, RenderImageProps } from "react-photo-album";
 import "react-photo-album/masonry.css";
@@ -19,6 +19,18 @@ type Photo = {
 
 export default function UserProjectGallery({ images, cover }: Props) {
   const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+  if (open) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [open]);
+
   if (!images || !cover) return null;
 
   // Parse aspect ratio or fallback to 1:1
@@ -67,7 +79,7 @@ export default function UserProjectGallery({ images, cover }: Props) {
         onClick={photos.length > 1 ? () => setOpen(true) : undefined}
       >
         <Image src={cover} alt="Cover" fill className="object-cover rounded-xl" />
-        {photos.length > 1 && <p className="absolute group-hover:bg-black transition-all duration-200 ease-in-out bottom-2 right-2 text-sm font-semibold text-white bg-black/50 rounded-full px-3 py-2">View +{photos.length - 1} more</p>}
+        {photos.length > 1 && <p className="absolute group-hover:bg-black transition-all duration-200 ease-in-out bottom-2 right-2 text-sm font-semibold text-white bg-black/75 rounded-full px-3 py-2">View +{photos.length - 1} more</p>}
       </div>
       {open && <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-0
       lg:p-6

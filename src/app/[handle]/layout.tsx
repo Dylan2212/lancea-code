@@ -99,7 +99,7 @@ export default async function Layout ({ children, params }: { children: React.Re
               ">
                 <Image sizes="96px" className="object-cover object-center" fill alt="profile image" src={`${userData.profileImage ? userData.profileImage : "/profileImage.jpg"}`}/>
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full">
                 <p className="
                   text-xl leading-none text-center w-2/3 mx-auto
                   lg:text-start lg:w-auto lg:mx-0

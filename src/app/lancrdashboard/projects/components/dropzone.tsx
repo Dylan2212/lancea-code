@@ -92,7 +92,7 @@ export default function ProjectGallery ({ files, setFiles, cover, setCover, setR
         <div {...getRootProps({ className: "dropzone" })} className="flex flex-col items-center justify-center cursor-pointer border rounded-lg shadow-md p-2 hov-standrd">
           <input {...getInputProps()} />
           <SquarePlus className="h-10 w-10"/>
-          <p>Drag & drop some files here, or click to select files</p>
+          <p className="text-center">Drag & drop some files here, or click to select files</p>
         </div>
 
         <Masonry breakpointCols={{default: 2, 768: 1}} className="my-masonry-grid py-10 px-6" columnClassName="my-masonry-grid_column">

@@ -235,11 +235,14 @@ export default function AddProject () {
       <h1 className="text-2xl font-semibold m-5 mb-0">{projectAction} Project</h1>
       <div className="w-full mx-auto max-w-[1250px]">
         <form className="lancr-add-edit-sect" onSubmit={(e) => saveProject(e)}>
-          <TitleInput handleChange={(e) => onUpdate("title", e.target.value)} inputName="title" value={projectData.title} required labelTitle="Project Title" type="text" previewText="Project Title" maxChar={65} displayMaxChar/>
+          <TitleInput handleChange={(e) => onUpdate("title", e.target.value)} inputName="title" value={projectData.title} required labelTitle="Project Title" type="text" previewText="Project Title" maxChar={115} displayMaxChar/>
           <ProjectGallery setRemovedFiles={setRemovedFiles} aspectRatio={aspectRatio} setAspectRatio={setAspectRatio} files={files} setFiles={setFiles} cover={cover} setCover={setCover}/>
           <div className="mt-6 mb-3 ml-2">
             <label className="block text-lg" htmlFor="project-description">Description:<span className="text-red-500">*</span></label>
-            <textarea value={projectData.description} required className="lancr-add-edit-text-input h-40 resize-none" onChange={(e) => onUpdate("description", e.target.value)} name="project-description" id="project-description"></textarea>
+            <textarea maxLength={1000} value={projectData.description} required className="lancr-add-edit-text-input h-40 resize-none" onChange={(e) => onUpdate("description", e.target.value)} name="project-description" id="project-description"></textarea>
+            <p className={`max-characters ${projectData.description?.length === 1000 && "text-red-600"}`}>
+              Max: {projectData.description?.length}/{1000} characters
+            </p>
           </div>
           <div className="mt-6 mb-3 ml-2">
             <p className="text-lg">Results:</p>
@@ -251,7 +254,12 @@ export default function AddProject () {
                   <div className="flex flex-col gap-1 w-11/12 
                   lg:w-2/3 lg:flex-row lg:items-center lg:gap-3">
                     <p>Result:</p>
-                    <input onChange={(e) => resultChange(e.target.value, index)} value={result ?? ""} className="rounded-lg border py-1 px-3 focus:outline-purple-600 w-full" placeholder="Achieved..." type="text" name="" id="" />
+                    <div className="w-full">
+                      <input maxLength={80} onChange={(e) => resultChange(e.target.value, index)} value={result ?? ""} className="rounded-lg border py-1 px-3 focus:outline-purple-600 w-full" placeholder="Achieved..." type="text" name="" id="" />
+                      <p className={`max-characters ${result.length === 80 && "text-red-600"}`}>
+                        Max: {result.length}/{80} characters
+                      </p>
+                    </div>
                   </div>
                   <Trash2 className="w-12 h-6 lg:mt-6 lg:mb-3 cursor-pointer hov-standrd hover:text-red-600" onClick={() => deleteResult(index)}/>
                 </div>

@@ -12,9 +12,6 @@ type Props = {
   project: ProjectData
 }
 
-// ADD CHARACTER LIMITS TO PROJECT DATA
-// SOME LABELS IN ADD EDIT POINT TO WRONG HTML
-
 export default function ProjectModal({ onClose, project }: Props) {
   useEffect(() => {
     Modal.setAppElement("body")

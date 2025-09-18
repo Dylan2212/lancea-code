@@ -5,7 +5,7 @@ type MyProps = {
   type: string,
   previewText: string,
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  inputName: string
+  inputName: string,
   maxChar: number,
   value: string | undefined,
   displayMaxChar: boolean,
@@ -21,7 +21,7 @@ export default function TitleInput ({ previewText, inputName, displayMaxChar, ha
 
   return (
     <div className={!className ? "mt-6 mb-3 ml-2" : `${className}`}>
-      <label className="block text-lg" htmlFor="title-input">{labelTitle}:{required && <span className="text-red-500">*</span>}</label>
+      <label className="block text-lg" htmlFor={inputName}>{labelTitle}:{required && <span className="text-red-500">*</span>}</label>
 
       <div className="relative w-full">
         {loading ? (
@@ -34,7 +34,7 @@ export default function TitleInput ({ previewText, inputName, displayMaxChar, ha
             required={required}
             name={inputName}
             type={type}
-            id="title-input"
+            id={inputName}
             maxLength={maxChar}
             value={value}
             placeholder={previewText}

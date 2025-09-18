@@ -1,5 +1,5 @@
 "use client"
-import { ReactNode, useContext, useState, createContext } from "react"
+import { ReactNode, useContext, useState, createContext, useEffect } from "react"
 import LancrMainHeader from "./components/lancrMainHeader"
 import "./lancrMain.css"
 import ConfirmDeleteModal from "./components/confirmDeleteModal"
@@ -26,6 +26,28 @@ export default function Layout({ children }: Props) {
   const router = useRouter()
 
   const [showFeedbackModal, setShowFeedbackModal] = useState(false)
+
+  useEffect(() => {
+  if (showDeleteModal) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [showDeleteModal]);
+
+useEffect(() => {
+  if (showFeedbackModal) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [showFeedbackModal]);
 
   const openFeedbackModal = () => setShowFeedbackModal(true)
 

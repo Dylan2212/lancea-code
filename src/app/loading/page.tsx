@@ -29,7 +29,7 @@ export default function Loading () {
 
       try {
         await fetchUserData(uid, email)
-        router.push(`/lancrdashboard/overview`)
+        router.push(`/lancrdashboard/profile`)
       } catch (err) {
         console.error("Failed to fetch data: " + err)
       }
