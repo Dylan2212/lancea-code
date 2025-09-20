@@ -20,17 +20,9 @@ import Link from "next/link"
 import { Globe, CircleSmall } from "lucide-react"
 import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
 import dynamic from "next/dynamic"
+import { normalizeUrl } from "@/utils/normalizeUrl"
 
 const Onboarding = dynamic(() => import('../components/onboarding'), { ssr: false })
-
-export const normalizeUrl = (url: string | undefined) => {
-  if (!url) return ''
-  url = url.trim()
-  if (!/^https?:\/\//i.test(url)) {
-    return 'https://' + url
-  }
-  return url
-}
 
 export default function LancrHome () {
   type BioData = {
