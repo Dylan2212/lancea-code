@@ -37,11 +37,13 @@ export default function AddProject () {
   const router = useRouter()
   const searchParams = useSearchParams()
   const projectAction = capitalizeFirstLetter(searchParams.get("action"))
+  const globalIndex: number = Number(searchParams.get("idx"))
   const userId = useOriginalUserStore(state => state.userId)
   const { projects, setProjects } = useProjectsStore.getState()
   const [maxProjects, setMaxProjects] = useState(false)
   const [adding, setAdding] = useState(false)
   const [removedFiles, setRemovedFiles] = useState<string[]>([])
+  const [addedFile, setAddedFile] = useState(false)
   const [files, setFiles] = useState<MyFile[]>([])
   const [aspectRatio, setAspectRatio] = useState("[4/3]")
   const [cover, setCover] = useState<number>(0)
@@ -97,7 +99,7 @@ export default function AddProject () {
 
   function deleteResult (index: number) {
     setProjectData(prev => {
-      const updatedResults = prev.results?.splice(index, 1)
+      const updatedResults = prev.results?.filter((_,i) => i !== index)
       return { ...prev, results: updatedResults }
     })
   }
@@ -124,7 +126,7 @@ export default function AddProject () {
     for (const file of files) {
 
       if (!file.file || !file.name) {
-        uploadedUrls.push({url: file.preview, aspectRatio: file.aspectRatio})
+        uploadedUrls.push({url: file.url, aspectRatio: file.aspectRatio})
         continue
       }
 
@@ -171,6 +173,36 @@ export default function AddProject () {
     e.preventDefault()
     setAdding(true)
 
+    if (projectAction === "Edit") {
+      const storeProject = projects[globalIndex]
+      const hasChanged = Object.keys(projectData).some(key => {
+          const useKey = key as keyof typeof projectData
+
+          if (typeof projectData[useKey] !== 'object') {
+            return projectData[useKey] !== storeProject[useKey];
+          }
+
+          if (Array.isArray(projectData[useKey])) {
+            if (removedFiles.length > 0) return true
+            if (addedFile) return true
+            return JSON.stringify(projectData[useKey]) !== JSON.stringify(storeProject[useKey])
+          }
+
+          if (typeof projectData[useKey] === 'object') {
+            const project = Object(storeProject[useKey])
+            return cover !== project.position
+          }
+
+          return false
+      })
+
+      if (!hasChanged) {
+        toast.error("No changes to update.")
+        setAdding(false)
+        return
+      }
+    }
+
     try {
       if (removedFiles.length) {
         const couldRemoveImages = await deleteFromStorage()
@@ -193,7 +225,7 @@ export default function AddProject () {
         link: finalLink,
         uploaded_urls: uploadedUrls,
         id: !projectData.id ? uuidv4() : projectData.id,
-        cover: uploadedUrls && uploadedUrls[cover] ? {coverUrl: uploadedUrls[cover].url, position: cover} : {coverUrl: files[cover].preview, position: cover}
+        cover: uploadedUrls && uploadedUrls[cover] ? {coverUrl: uploadedUrls[cover].url, position: cover} : {coverUrl: files[cover].url, position: cover}
       }
 
       const success = await saveToDb(finalProjectData)
@@ -236,7 +268,7 @@ export default function AddProject () {
       <div className="w-full mx-auto max-w-[1250px]">
         <form className="lancr-add-edit-sect" onSubmit={(e) => saveProject(e)}>
           <TitleInput handleChange={(e) => onUpdate("title", e.target.value)} inputName="title" value={projectData.title} required labelTitle="Project Title" type="text" previewText="Project Title" maxChar={115} displayMaxChar/>
-          <ProjectGallery setRemovedFiles={setRemovedFiles} aspectRatio={aspectRatio} setAspectRatio={setAspectRatio} files={files} setFiles={setFiles} cover={cover} setCover={setCover}/>
+          <ProjectGallery addedFile={addedFile} setAddedFile={setAddedFile} setRemovedFiles={setRemovedFiles} aspectRatio={aspectRatio} setAspectRatio={setAspectRatio} files={files} setFiles={setFiles} cover={cover} setCover={setCover}/>
           <div className="mt-6 mb-3 ml-2">
             <label className="block text-lg" htmlFor="project-description">Description:<span className="text-red-500">*</span></label>
             <textarea maxLength={1000} value={projectData.description} required className="lancr-add-edit-text-input h-40 resize-none" onChange={(e) => onUpdate("description", e.target.value)} name="project-description" id="project-description"></textarea>
@@ -255,7 +287,7 @@ export default function AddProject () {
                   lg:w-2/3 lg:flex-row lg:items-center lg:gap-3">
                     <p>Result:</p>
                     <div className="w-full">
-                      <input maxLength={80} onChange={(e) => resultChange(e.target.value, index)} value={result ?? ""} className="rounded-lg border py-1 px-3 focus:outline-purple-600 w-full" placeholder="Achieved..." type="text" name="" id="" />
+                      <input required maxLength={80} onChange={(e) => resultChange(e.target.value, index)} value={result ?? ""} className="rounded-lg border py-1 px-3 focus:outline-purple-600 w-full" placeholder="Achieved..." type="text" name="" id="" />
                       <p className={`max-characters ${result.length === 80 && "text-red-600"}`}>
                         Max: {result.length}/{80} characters
                       </p>

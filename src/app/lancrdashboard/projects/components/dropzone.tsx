@@ -9,7 +9,7 @@ import { useSearchParams } from "next/navigation"
 
 export type MyFile = {
   file?: File
-  preview: string
+  url: string
   aspectRatio: string
   id: string
   name?: string
@@ -22,10 +22,12 @@ type MyProps = {
   setCover: React.Dispatch<React.SetStateAction<number>>,
   aspectRatio: string,
   setAspectRatio: React.Dispatch<React.SetStateAction<string>>,
-  setRemovedFiles: React.Dispatch<React.SetStateAction<string[]>>
+  setRemovedFiles: React.Dispatch<React.SetStateAction<string[]>>,
+  setAddedFile: React.Dispatch<React.SetStateAction<boolean>>,
+  addedFile: boolean
 }
 
-export default function ProjectGallery ({ files, setFiles, cover, setCover, setRemovedFiles }: MyProps) {
+export default function ProjectGallery ({ files, setFiles, cover, setCover, setRemovedFiles, setAddedFile, addedFile }: MyProps) {
 
   const projects = useProjectsStore(state => state.projects)
   const searchParams = useSearchParams()
@@ -36,7 +38,7 @@ export default function ProjectGallery ({ files, setFiles, cover, setCover, setR
     const index = Number(idxParam)
     if (!projects[index] || !projects[index]?.uploaded_urls) return
     const alreadyAddedUrls: MyFile[] = projects[index].uploaded_urls.map((urlObj) => ({
-      preview: urlObj.url,
+      url: urlObj.url,
       aspectRatio: urlObj.aspectRatio,
       id: uuidv4()
     }))
@@ -45,39 +47,38 @@ export default function ProjectGallery ({ files, setFiles, cover, setCover, setR
   }, [projects, searchParams, setFiles])
 
   const onDrop = (acceptedFiles: File[]) => {
+    if (!addedFile) {setAddedFile(true)}
     setFiles([...files, ...acceptedFiles.map(file =>
-      Object.assign(file, {file: file, preview: URL.createObjectURL(file), aspectRatio: "4/3", id: uuidv4() })
+      Object.assign(file, {file: file, url: URL.createObjectURL(file), aspectRatio: "4/3", id: uuidv4() })
     )])
   }
 
   function deleteFile (toDelete: number) {
 
     if (!files[toDelete].file) {
-      const split = files[toDelete].preview.split("/projects/")
+      const split = files[toDelete].url.split("/projects/")
       const filePath = split[1]
       setRemovedFiles(prev => [...prev, filePath])
     }
     
     setFiles(prevFiles => {
       const fileToDelete = prevFiles[toDelete];
-      if (fileToDelete?.preview) {
-        URL.revokeObjectURL(fileToDelete.preview);
+      if (fileToDelete?.url) {
+        URL.revokeObjectURL(fileToDelete.url);
       }
 
       const newFiles = prevFiles.filter((_, idx) => idx !== toDelete);
 
-      setCover(prevCover => {
-        if (toDelete === prevCover) {
-          return 0
-        } else if (toDelete < prevCover) {
-          return prevCover - 1
-        } else if (newFiles.length === 0) {
-          return -1
-        }
-        return prevCover;
-      });
-
       return newFiles;
+    })
+
+    setCover(prevCover => {
+      if (toDelete === prevCover) {
+        return 0
+      } else if (toDelete < prevCover) {
+        return prevCover - 1
+      }
+      return prevCover;
     });
   }
 
@@ -100,7 +101,7 @@ export default function ProjectGallery ({ files, setFiles, cover, setCover, setR
             <div key={file.id} className={`${cover === idx ? "ring ring-offset-4 ring-purple-600 rounded-lg" : ""} mb-6`}>
               <div style={{aspectRatio: `${file.aspectRatio}` }} className={`overflow-hidden mx-auto rounded relative shadow-md border`}>
                 <Image
-                  src={file.preview}
+                  src={file.url}
                   className={`image-crisp object-cover`}
                   alt={file.name || "Uploaded File"}
                   fill
