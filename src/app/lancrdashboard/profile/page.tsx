@@ -392,7 +392,7 @@ export default function LancrHome () {
           {copied ? <p className="flex gap-2"><Copy className="w-4 h-4"/> Copied</p> : <p className="flex gap-2"><Copy className="w-4 h-4"/> Copy</p>}
         </button>
       </div>}
-      <form action="">
+      <form className="pb-16 lg:pb-0" action="">
         <AddBio profileImageFileRef={profileImageFileRef}/>
         <LancrSocialLinks/>
         <AdditionalLlinks/>
