@@ -29,7 +29,7 @@ export default function Onboarding () {
       intro.setOptions({
         steps: [
           {
-            intro: "Welcome to your Lancrly dashboard! Let's take a quick tour."
+            intro: "Thanks for signing up to Lancrly! Let's start by creating your custom link."
           },
           {
             element: "#bio-sect",

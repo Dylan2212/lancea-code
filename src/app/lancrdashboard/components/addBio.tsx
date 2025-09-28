@@ -82,7 +82,7 @@ function userHandleChange(e: React.ChangeEvent<HTMLInputElement>) {
                 </div>
                 <div className="w-1/2 h-8 relative flex justify-center items-center bg-white rounded-md hov-standrd hover:bg-gray-50">
                   <p>Upload a file</p>
-                  <input className="w-full inset-0 hov-standrd h-full absolute opacity-0" type="file" name="profileImgUrl" id="profile-image" accept="image/*" onChange={handleFileChange}/>
+                  <input className="w-full inset-0 hov-standrd h-full absolute opacity-0" type="file" name="profileImgUrl" id="profile-image" accept="image/*" onChange={}/>
                 </div>
               </div>
             </div>
