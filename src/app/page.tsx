@@ -55,6 +55,7 @@ export default function Home() {
               ">
                 <Image
                   priority
+                  fetchPriority="high"
                   src="/tryMock.svg"
                   alt="Product mockup on laptop"
                   width={2750}

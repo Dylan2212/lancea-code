@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import "./apply.css"
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
 
