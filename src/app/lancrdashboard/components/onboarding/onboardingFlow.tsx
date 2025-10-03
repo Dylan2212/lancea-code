@@ -20,7 +20,7 @@ export default function OnboardingFlow () {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black/50"></div>
-      <div className="relative bg-white rounded-xl shadow-xl p-5 w-[500px] z-10">
+      <div className="relative bg-white rounded-xl shadow-xl p-5 w-11/12 max-w-[500px] z-10">
         {steps[0]}
       </div>
     </div>
