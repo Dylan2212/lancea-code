@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.onboarding-btn {
+  @apply rounded-lg w-24 py-3 bg-purple-600 font-semibold text-lg text-white
+}

@@ -32,6 +32,9 @@ type UserState = {
 
   handle: string,
   setHandle: (handle: string) => void
+
+  createdCustomUrl: boolean,
+  setCreatedCustomUrl: (createdCustomUrl: boolean) => void
 }
 
 export const useUserStore = create<UserState>()(
@@ -44,6 +47,7 @@ export const useUserStore = create<UserState>()(
       profileImageFile: null,
       bio: "",
       changedProfileImage: false,
+      createdCustomUrl: false,
       profileImage: "",
       socialLinks: {
         instagram: "",
@@ -65,6 +69,7 @@ export const useUserStore = create<UserState>()(
       setTitle: (title) => set({ title }),
       setProfileImageFile: (file) => set({profileImageFile: file}),
       setHandle: (handle) => set({ handle}),
-      setChangedProfileImage: (changedProfileImage) => set({ changedProfileImage })
+      setChangedProfileImage: (changedProfileImage) => set({ changedProfileImage }),
+      setCreatedCustomUrl: (createdCustomUrl) => set({ createdCustomUrl })
     }),
 )

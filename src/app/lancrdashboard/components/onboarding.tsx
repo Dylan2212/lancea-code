@@ -24,20 +24,16 @@ export default function Onboarding () {
 
     // Delay intro to ensure scroll and render are complete
     const timer = setTimeout(() => {
-      const intro = introJs()
+      const intro = introJs.tour()
 
       intro.setOptions({
         steps: [
           {
-            intro: "Thanks for signing up to Lancrly! Let's start by creating your custom link."
+            intro: "Great! Now that we have your custom URL, let&apos;s take a quick look around the website."
           },
           {
             element: "#bio-sect",
             intro: "This is where you add basic profile information like bio, title, and profile image."
-          },
-          {
-            element: "#username",
-            intro: "Your username will be used to create your unique URL... EX: https://lancrly.com/yourusername"
           },
           {
             element: "#social-section",

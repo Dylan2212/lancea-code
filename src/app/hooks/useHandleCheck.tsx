@@ -8,15 +8,10 @@ export default function useHandleCheck (handle: string) {
   const userId = useUserStore.getState().userId
 
   const isValid =  (() => {
+    if (!handle) return false
     const reserved = ["admin", "api", "login", "signup", "logout", "settings"]
     
     if (reserved.includes(handle.toLowerCase())) return false
-    
-    const restrictedCharacters =
-      /^[a-zA-Z0-9._-]+$/.test(handle) &&
-      !/^-|-$/.test(handle)
-    
-    if (!restrictedCharacters) return false
     
     return handle.length > 0 && handle.length <= 30 && !handle.includes(" ")
   })()
