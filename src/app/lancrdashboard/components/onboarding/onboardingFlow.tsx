@@ -2,19 +2,19 @@ import StepOne from "./stepOne"
 import "./onboarding.css"
 import { useState } from "react"
 import useHandleCheck from "@/src/app/hooks/useHandleCheck"
-import { useUserStore } from "@/lib/store/useUserStore"
+import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 
 export default function OnboardingFlow () {
   const [handle, setHandle] = useState("")
   const {isAvailable, isValid, loading} = useHandleCheck(handle)
-  const setCreatedCustomUrl = useUserStore(state => state.setCreatedCustomUrl)
+  const setHasSeenOnboarding = useOriginalUserStore(state => state.setHasSeenOnboarding)
 
   const steps = [
     <StepOne nextStep={nextStep} key="stepOne" handle={handle} setHandle={setHandle} isValid={isValid} isAvailable={isAvailable} loading={loading} />
   ]
 
   function nextStep () {
-    setCreatedCustomUrl(true)
+    setHasSeenOnboarding(true)
   }
 
   return (

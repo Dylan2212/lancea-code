@@ -65,9 +65,9 @@ export default function AdditionalLinks () {
   }
 
   return (
-      <div className="div-for-lancr-dashboard-sects">
+      <div className="div-for-lancr-dashboard-sects" id="additional-links-section">
         <section className="lancr-add-edit-sect box-support">
-          <div id="additional-links-section">
+          <div>
             <p className="lancr-add-edit-sect-ttle">Additional Links</p>
             <p className="text-sm text-gray-500">Add up to 10 additional links.</p>
           </div>

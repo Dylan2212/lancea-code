@@ -61,7 +61,7 @@ export default function StepOne ({ handle, setHandle, nextStep, isAvailable, isV
 
     const { error } = await supabase
       .from("users")
-      .update({"handle": handle})
+      .update({"handle": handle, "has_seen_onboarding": true})
       .eq("id", userId)
 
     if (error) {
