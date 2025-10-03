@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .onboarding-btn {
-  @apply rounded-lg w-24 py-3 bg-purple-600 font-semibold text-lg text-white
+  @apply rounded-lg w-24 py-3 bg-purple-600 font-semibold text-lg text-white hover:bg-purple-500 transition-all ease-in-out duration-200
 }
