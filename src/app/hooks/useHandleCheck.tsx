@@ -11,7 +11,9 @@ export default function useHandleCheck (handle: string) {
     if (!handle) return false
     const reserved = ["admin", "api", "login", "signup", "logout", "settings"]
     
-    if (reserved.includes(handle.toLowerCase())) return false
+    if (reserved.includes(handle.toLowerCase())) {
+      return false
+    }
     
     return handle.length > 0 && handle.length <= 30 && !handle.includes(" ")
   })()
@@ -19,12 +21,13 @@ export default function useHandleCheck (handle: string) {
   useEffect(() => {
     if (!isValid) {
       setIsAvailable(null)
+      setLoading(false)
       return
     }
 
-    const debounce = setTimeout(async () => {
-      setLoading(true)
+    setLoading(true)
 
+    const debounce = setTimeout(async () => {
       const { data, error } = await supabase
         .from("users")
         .select("id")
