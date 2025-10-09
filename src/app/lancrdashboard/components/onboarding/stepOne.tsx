@@ -97,8 +97,8 @@ export default function StepOne ({ handle, setHandle, nextStep, isAvailable, isV
         <p className="font-semibold text-2xl text-gray-900">Welcome to Lancrly!</p>
         <p className="text-gray-600 text-sm leading-relaxed">Let&apos;s set up your custom link — it&apos;s how clients will find your portfolio.</p>
         <div className="flex flex-col w-full justify-center items-center py-8">
-          <label className="block w-5/6 text-sm font-semibold text-gray-600 mb-1">Custom Url</label>
-          <form onSubmit={finishStep} className="relative w-5/6">
+          <label className="block w-full md:w-5/6 text-sm font-semibold text-gray-600 mb-1">Custom Url<span className="text-red-500">*</span></label>
+          <form onSubmit={finishStep} className="relative w-full md:w-5/6">
             <input maxLength={30 + prefix.length} value={prefix + handle} onChange={(e) => handleInput(e)} className="w-full shadow rounded-xl ring-1 ring-gray-200 bg-white mb-1 px-4 py-4 text-lg text-gray-900 placeholder-gray-400 focus:ring-[#E9D5FF] focus:ring-2 focus:outline-none transition" type="text" placeholder="lancrly.com/" />
             <>
               {loading && <div className="absolute right-4 top-1/2 -translate-y-1/2"><ClipLoader size={30} color="#7E22CE"/></div>}
@@ -108,9 +108,9 @@ export default function StepOne ({ handle, setHandle, nextStep, isAvailable, isV
             </>
           </form>
           {showInvalidCharMessage && (
-            <p className="text-red-600 text-sm mt-1 w-5/6"> Only letters, numbers, &quot;.&quot;, &quot;-&quot;, and &quot;_&quot; are allowed. &quot;-&quot; cannot be the first or last character.</p>
+            <p className="text-red-600 text-sm mt-1 w-full md:w-5/6"> Only letters, numbers, &quot;.&quot;, &quot;-&quot;, and &quot;_&quot; are allowed. &quot;-&quot; cannot be the first or last character.</p>
           )}
-          {maxCharacters && <p className="text-red-600 w-5/6 text-sm mt-1">Max character limit reached</p>}
+          {maxCharacters && <p className="text-red-600 w-full md:w-5/6 text-sm mt-1">Max character limit reached</p>}
         </div>
       </div>
       <div className="w-full flex flex-row-reverse justify-between">
