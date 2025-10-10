@@ -5,6 +5,12 @@ import useHandleCheck from "@/src/app/hooks/useHandleCheck"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import StepTwo from "./stepTwo"
 
+//TODO
+//MAX CHARACTERS FOR ALL ONBOARDING INPUTS
+//ADD SUBMIT INSTEAD OF NEXT ON CUSTOM URL
+//ADD CONTINUE ON SUCCESS INSTEAD OF AUTOMATIC REDIRECT
+//POST ONBOARDING TIP CARD
+
 export default function OnboardingFlow () {
   const [handle, setHandle] = useState("")
   const {isAvailable, isValid, loading} = useHandleCheck(handle)
