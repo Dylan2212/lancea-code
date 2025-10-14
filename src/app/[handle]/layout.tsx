@@ -97,7 +97,7 @@ export default async function Layout ({ children, params }: { children: React.Re
               min-w-32 min-h-32 max-w-32 max-h-32 shadow-lg relative rounded-full overflow-hidden
               lg:min-w-24 lg:min-h-24 lg:max-w-24 lg:max-h-24 lg:border
               ">
-                <Image sizes="96px" className="object-cover object-center" fill alt="profile image" src={`${userData.profileImage ? userData.profileImage : "/profileImage.jpg"}`}/>
+                <Image sizes="128px" className="object-cover object-center" fill alt="profile image" src={`${userData.profileImage ? userData.profileImage : "/profileImage.jpg"}`}/>
               </div>
               <div className="grid gap-2 w-full">
                 <p className="

@@ -28,7 +28,8 @@ type OriginalUserState = {
   isLive: boolean,
   setIsLive: (isLive: boolean) => void,
   reset: () => void,
-  setHasSeenOnboarding: (seenOnboarding: boolean) => void
+  setHasSeenOnboarding: (seenOnboarding: boolean) => void,
+  setProfileImage: (url: string) => void
 }
 
 export const useOriginalUserStore = create<OriginalUserState>()(
@@ -58,6 +59,7 @@ export const useOriginalUserStore = create<OriginalUserState>()(
       setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
       setIsLive: (isLive: boolean) => set({ isLive }),
       setHasSeenOnboarding: (has_seen_onboarding: boolean) => set({has_seen_onboarding}),
+      setProfileImage: (profileImage: string) => set({ profileImage }),
       reset: () =>
         set({
           userId: "",

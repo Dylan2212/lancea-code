@@ -7,16 +7,19 @@ import { useState } from "react"
 
 type MyProps = {
   previousStep: () => void,
-  finishOnboarding: () => void
+  nextStep: () => void
 }
 
-export default function StepTwo ({ previousStep, finishOnboarding }: MyProps) {
-  const { setTitle, setUsername } = useUserStore()
-  const [tempTitle, setTempTitle] = useState("")
-  const [tempUsername, setTempUsername] = useState("")
+export default function StepTwo ({ previousStep, nextStep }: MyProps) {
   const userId = useOriginalUserStore(state => state.userId)
+  const storeTitle = useOriginalUserStore(state => state.title)
+  const storeUsername = useOriginalUserStore(state => state.username)
+  const { setTitle, setUsername } = useUserStore()
+  const [tempTitle, setTempTitle] = useState(storeTitle)
+  const [tempUsername, setTempUsername] = useState(storeUsername)
 
-  async function finish () {
+
+  async function next () {
     const testTitle = tempTitle.replace(/\s+/g, '')
     const testUsername = tempUsername.replace(/\s+/g, '')
 
@@ -45,7 +48,7 @@ export default function StepTwo ({ previousStep, finishOnboarding }: MyProps) {
     setTitle(tempTitle)
     setUsername(tempUsername)
 
-    finishOnboarding()
+    nextStep()
   }
 
   function prev () {
@@ -68,24 +71,32 @@ export default function StepTwo ({ previousStep, finishOnboarding }: MyProps) {
           <input
             type="text"
             value={tempUsername}
+            maxLength={80}
             onChange={(e) => setTempUsername(e.target.value)}
             placeholder="John Doe"
             className="w-full shadow rounded-xl ring-1 ring-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-[#E9D5FF] focus:ring-2 focus:outline-none transition"
           />
+          <p className={`max-characters ml-0 w-full md:w-5/6 ${tempUsername.length >= 80 && "text-red-600"}`}>
+            Max: {tempUsername.length}/{80} characters
+          </p>
         </div>
         <div>
           <label className="block text-sm font-semibold text-gray-600 mb-1">Title<span className="text-red-500">*</span></label>
           <input
             type="text"
+            maxLength={80}
             value={tempTitle}
             onChange={(e) => setTempTitle(e.target.value)}
             placeholder="Product Designer"
             className="w-full shadow rounded-xl ring-1 ring-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-[#E9D5FF] focus:ring-2 focus:outline-none transition"
           />
+          <p className={`max-characters ml-0 w-full md:w-5/6 ${tempTitle.length >= 80 && "text-red-600"}`}>
+            Max: {tempTitle.length}/{80} characters
+          </p>
         </div>
       </div>
       <div className="w-full flex flex-row-reverse justify-between">
-        <button className="onboarding-btn" onClick={finish}>Finish</button>
+        <button className="onboarding-btn" onClick={next}>Next</button>
         <button className="onboarding-btn" onClick={prev}>Previous</button>
       </div>
     </>
