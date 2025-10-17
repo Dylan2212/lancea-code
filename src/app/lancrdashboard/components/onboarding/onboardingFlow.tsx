@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import StepTwo from "./stepTwo"
 import StepThree from "./stepThree"
+import StepFour from "./stepFour"
 
 //TODO
 //CONDITIONAL STATE AS EMPTY STRING OR ORIGINAL STORE VALUE... MAYBE JUST ORIGINAL STORE VALUE IF IT IS DEFAULT ""
@@ -16,7 +17,8 @@ export default function OnboardingFlow () {
   const steps = [
     <StepOne nextStep={nextStep} key="stepOne" />,
     <StepTwo key="stepTwo" previousStep={previousStep} nextStep={nextStep} />,
-    <StepThree key="stepThree" finishOnboarding={finishOnboarding} previous={previousStep} />
+    <StepThree key="stepThree" nextStep={nextStep} previous={previousStep} />,
+    <StepFour key="stepFour" finishOnboarding={finishOnboarding} previous={previousStep}/>
   ]
 
   function nextStep () {

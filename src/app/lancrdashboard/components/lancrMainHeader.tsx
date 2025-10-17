@@ -83,7 +83,7 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
           />
         </div>
           <div className="relative mr-2 lg:mr-0" ref={dropdownRef}>
-            <div onClick={showDropDown} className="rounded-full py-2 px-4 hover:bg-gray-100 hov-standrd flex items-center gap-2">
+            <div onClick={showDropDown} className="relative rounded-full py-2 px-4 hover:bg-gray-100 hov-standrd flex items-center gap-2">
               <Image className="img-in-lancr-main-header object-cover object-center" fill src={profileImage ? `${profileImage}` : "/profileImage.jpg"} sizes="128px" alt="freelancer profile picture"/>
               <p className="text-sm text-gray-500 ml-8">@{isHydrated ? handle : <Skeleton height={20} width={80}/>}</p>
               <ChevronDown />

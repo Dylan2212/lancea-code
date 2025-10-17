@@ -11,6 +11,7 @@ import CharacterCount from '@tiptap/extension-character-count'
 import { CharacterCountLimit } from '../tiptap/characterLimit'
 import { useUserStore } from '@/lib/store/useUserStore'
 import { useOriginalUserStore } from '@/lib/store/useOriginalUser'
+import "../tiptap/tiptap.css"
 
 export default function RichTextEditor() {
   const [color, setColor] = useState('#000000')
@@ -31,6 +32,7 @@ export default function RichTextEditor() {
         placeholder: 'Start writing your text here...',
         showOnlyWhenEditable: true,
         showOnlyCurrent: true,
+        emptyEditorClass: 'is-editor-empty'
       }),
     ],
     immediatelyRender: false,
@@ -69,7 +71,7 @@ export default function RichTextEditor() {
 
   return (
     <>
-      <div className="relative border border-gray-300 rounded-lg mt-1 shadow-sm p-4 bg-white w-11/12 lg:w-5/6">
+      <div className="relative border border-gray-300 rounded-lg mt-1 pt-4 shadow-sm bg-white">
         <div className="relative">
           <EditorContent
             editor={editor}
@@ -117,7 +119,7 @@ export default function RichTextEditor() {
             />
           </div>
         </div>
-        <p className={`max-characters text-end w-full ${characterCount >= 600 && "text-red-600"}`}>{`Max: ${characterCount}/600 characters`}</p>
+        <p className={`max-characters text-end pr-5 w-full ${characterCount >= 600 && "text-red-600"}`}>{`Max: ${characterCount}/600 characters`}</p>
       </div>
     </>
   )

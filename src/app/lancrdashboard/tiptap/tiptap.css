@@ -1,0 +1,15 @@
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #9ca3af; /* gray-400 */
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 0.95rem;
+  pointer-events: none;
+  display: block;
+}
+
+/* Hide TipTap's default placeholder style */
+.ProseMirror p[data-placeholder]::before {
+  content: none !important;
+}

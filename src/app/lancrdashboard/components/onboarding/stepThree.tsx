@@ -7,12 +7,13 @@ import { supabase } from "@/lib/supabaseClient"
 import { useUserStore } from "@/lib/store/useUserStore"
 
 type MyProps = {
-  finishOnboarding: () => void,
+  nextStep: () => void,
   previous: () => void
 }
 
-export default function StepThree ({ finishOnboarding, previous }: MyProps) {
+export default function StepThree ({ nextStep, previous }: MyProps) {
   const profileImgUrl = useOriginalUserStore(state => state.profileImage)
+  const storeFile = useOriginalUserStore(state => state.profileImageFile)
   const setProfileImgUrl = useOriginalUserStore(state => state.setProfileImage)
   const [file, setFile] = useState<File>()
   const [saving, setSaving] = useState(false)
@@ -31,6 +32,10 @@ export default function StepThree ({ finishOnboarding, previous }: MyProps) {
 
   async function saveProfileImage () {
     if (!file) {
+      if (storeFile) {
+        nextStep()
+        return
+      }
       toast.error("No file to save.")
       return
     }
@@ -89,7 +94,7 @@ export default function StepThree ({ finishOnboarding, previous }: MyProps) {
     }))
 
     setSaving(false)
-    finishOnboarding()
+    nextStep()
   }
 
   return (
@@ -102,7 +107,7 @@ export default function StepThree ({ finishOnboarding, previous }: MyProps) {
           Upload a clear photo of yourself so clients can put a face to your name and build instant trust.
         </p>
       </div>
-      <div className="space-y-6 mt-10 mb-14 w-full md:w-11/12 mx-auto flex flex-col items-center justify-center">
+      <div className="relative space-y-6 mt-10 mb-14 w-full md:w-11/12 mx-auto flex flex-col items-center justify-center">
         {!saving ? <><div className="relative flex flex-col items-center justify-center w-40 h-40 outline-offset-4 bg-gray-50 outline-2 outline-dashed outline-[#E9D5FF] rounded-full overflow-hidden hover:outline-[#6B21A8] transition duration-200 ease-in-out">
           {profileImgUrl && <Image fill sizes="128px" className="w-full h-full object-cover object-center rounded-full" alt="User profile image" src={profileImgUrl}/>}
           <p className="text-gray-500 text-sm text-center px-4">Upload a file</p>
@@ -123,7 +128,7 @@ export default function StepThree ({ finishOnboarding, previous }: MyProps) {
         }
       </div>
       <div className="w-full flex flex-row-reverse justify-between">
-        <button className="onboarding-btn" onClick={saveProfileImage}>Finish</button>
+        <button className="onboarding-btn" onClick={saveProfileImage}>Nect</button>
         <button className="onboarding-btn" onClick={previous}>Previous</button>
       </div>
     </>

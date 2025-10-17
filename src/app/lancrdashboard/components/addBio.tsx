@@ -66,7 +66,9 @@ export default function AddBio ({ profileImageFileRef }: Props) {
             <TitleInput loading={!isHydrated} required={true} previewText="Add your title" maxChar={70} inputName="title" displayMaxChar={true} type="text" labelTitle="Title" handleChange={(e) => setTitle(e.target.value)} value={title}/>
             <div className="mt-6 mb-3 ml-2">
               <label className="block text-lg" htmlFor="lancr-bio">Bio:</label>
-              <TiptapEditor/>
+              <div className="w-11/12 lg:w-5/6">
+                <TiptapEditor/>
+              </div>
             </div>
         </section>
       </div>
