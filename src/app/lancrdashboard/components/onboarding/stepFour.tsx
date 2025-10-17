@@ -18,6 +18,7 @@ export default function StepFour ({ finishOnboarding, previous }: MyProps) {
       ...state,
       bio: bio
     }))
+
     previous()
   }
 
@@ -31,6 +32,11 @@ export default function StepFour ({ finishOnboarding, previous }: MyProps) {
       toast.error("Could not save bio.")
       return
     }
+
+    useOriginalUserStore.setState(state => ({
+      ...state,
+      bio: bio
+    }))
 
     finishOnboarding()
   }
