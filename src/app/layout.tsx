@@ -22,6 +22,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Lancrly | All your freelancing links in one place",
+  applicationName: "Lancrly",
   description: "Freelancer? Build a simple public page to show off your bio, portfolio, socials, and contact info — with Lancrly.",
   icons: {
     icon: "/favicon.png",
