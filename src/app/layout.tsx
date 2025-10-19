@@ -24,7 +24,8 @@ export const metadata: Metadata = {
   title: "Lancrly | All your freelancing links in one place",
   description: "Freelancer? Build a simple public page to show off your bio, portfolio, socials, and contact info — with Lancrly.",
   icons: {
-    icon: "/Lancrly.png"
+    icon: "/favicon.png",
+    shortcut: "/favicon.png"
   }
 };
 
