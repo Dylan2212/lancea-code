@@ -128,7 +128,7 @@ export default function StepThree ({ nextStep, previous }: MyProps) {
         }
       </div>
       <div className="w-full flex flex-row-reverse justify-between">
-        <button className="onboarding-btn" onClick={saveProfileImage}>Nect</button>
+        <button className="onboarding-btn" onClick={saveProfileImage}>Next</button>
         <button className="onboarding-btn" onClick={previous}>Previous</button>
       </div>
     </>

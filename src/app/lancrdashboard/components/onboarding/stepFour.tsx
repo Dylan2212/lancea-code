@@ -5,11 +5,11 @@ import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
 
 type MyProps = {
-  finishOnboarding: () => void,
+  nextStep: () => void,
   previous: () => void
 }
 
-export default function StepFour ({ finishOnboarding, previous }: MyProps) {
+export default function StepFour ({ nextStep, previous }: MyProps) {
   const bio = useUserStore(state => state.bio)
   const userId = useOriginalUserStore(state => state.userId)
 
@@ -22,7 +22,7 @@ export default function StepFour ({ finishOnboarding, previous }: MyProps) {
     previous()
   }
 
-  async function finish () {
+  async function next () {
     const { error } = await supabase
       .from("users")
       .update({"bio": bio})
@@ -38,7 +38,7 @@ export default function StepFour ({ finishOnboarding, previous }: MyProps) {
       bio: bio
     }))
 
-    finishOnboarding()
+    nextStep()
   }
 
   return (
@@ -57,7 +57,7 @@ export default function StepFour ({ finishOnboarding, previous }: MyProps) {
         </div>
       </div>
       <div className="w-full flex flex-row-reverse justify-between">
-        <button className="onboarding-btn" onClick={finish}>Finish</button>
+        <button className="onboarding-btn" onClick={next}>Next</button>
         <button className="onboarding-btn" onClick={previousStep}>Previous</button>
       </div>
     </>
