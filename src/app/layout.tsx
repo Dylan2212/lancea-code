@@ -39,6 +39,29 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.png"></link>
+        <meta name="Lancrly"/>
+        <Script id="structured-data" type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Lancrly",
+            "url": "https://lancrly.com",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://lancrly.com/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          })}
+        </Script>
+        <Script id="organization-schema" type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Lancrly",
+            "url": "https://lancrly.com",
+            "logo": "https://lancrly.com/favicon.png"
+          })}
+        </Script>
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-K0DWC1QSM6"
