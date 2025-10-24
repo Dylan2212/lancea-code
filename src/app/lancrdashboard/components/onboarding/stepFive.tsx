@@ -7,6 +7,7 @@ import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { useUserStore } from "@/lib/store/useUserStore"
 import { SocialLinks } from "@/lib/store/useOriginalUser"
 import { supabase } from "@/lib/supabaseClient"
+import { findSocialPlatform } from "@/utils/findSocialPlatform"
 
 type MyProps = {
   nextStep: () => void,
@@ -25,33 +26,6 @@ export default function StepFive ({ nextStep, previous }: MyProps) {
     setAddedLinks(tempLinks)
     
   }, [])
-
-  const platformDomains = {
-    instagram: ["instagram.com"],
-    x: ["twitter.com", "x.com"],
-    linkedin: ["linkedin.com"],
-    tiktok: ["tiktok.com"],
-    youtube: ["youtube.com", "youtu.be"],
-    github: ["github.com"],
-    medium: ["medium.com"],
-    reddit: ["reddit.com"],
-    discord: ["discord.gg", "discord.com"],
-    pinterest: ["pinterest.com"],
-    whatsapp: ["wa.me", "whatsapp.com"],
-    facebook: ["facebook.com"]
-  }
-
-  function findSocialPlatform (url: string) {
-    const domain = url.toLowerCase()
-
-    for (const [platform, domains] of Object.entries(platformDomains)) {
-      if (domains.some((d) => domain.includes(d))) {
-        return platform
-      }
-    }
-
-    return false
-  }
 
   function addSocialLink (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
