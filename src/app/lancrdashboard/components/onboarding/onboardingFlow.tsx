@@ -6,31 +6,38 @@ import StepTwo from "./stepTwo"
 import StepThree from "./stepThree"
 import StepFour from "./stepFour"
 import FinalOnboarding from "./finalOnboarding"
+import StepFive from "./stepFive"
 
 //TODO
-//POST ONBOARDING TIP CARD
+//POST ONBOARDING TIP CARDs
 
 export default function OnboardingFlow () {
-  const [currentStep, setCurrentStep] = useState(0)
+  const savedIndex = useOriginalUserStore(state => state.onboardingIndex)
+  const [currentStep, setCurrentStep] = useState(savedIndex)
   const setHasSeenOnboarding = useOriginalUserStore(state => state.setHasSeenOnboarding)
+  const setOnboardingIndex = useOriginalUserStore(state => state.setOnboardingIndex)
 
   const steps = [
     <StepOne nextStep={nextStep} key="stepOne" />,
     <StepTwo key="stepTwo" previousStep={previousStep} nextStep={nextStep} />,
     <StepThree key="stepThree" nextStep={nextStep} previous={previousStep} />,
     <StepFour key="stepFour" nextStep={nextStep} previous={previousStep}/>,
+    <StepFive key="stepFive" previous={previousStep} nextStep={nextStep} />,
     <FinalOnboarding key="finalStep" finishOnboarding={finishOnboarding} previous={previousStep}/>
   ]
 
   function nextStep () {
     setCurrentStep(prev => prev + 1)
+    setOnboardingIndex(savedIndex + 1)
   }
 
   function previousStep () {
     setCurrentStep(prev => prev - 1)
+    setOnboardingIndex(savedIndex - 1)
   }
 
   function finishOnboarding () {
+    setOnboardingIndex(0)
     setHasSeenOnboarding(true)
   }
 

@@ -45,7 +45,7 @@ export default function StepFour ({ nextStep, previous }: MyProps) {
     <>
       <div className="w-11/12 space-y-1">
         <p className="font-semibold text-2xl text-gray-900">
-          Bio
+          Bio (Optional)
         </p>
         <p className="text-gray-600 text-sm leading-relaxed">
           Write a short bio that highlights who you are, what you do, and what makes your work stand out.

@@ -54,7 +54,11 @@ export const useUserStore = create<UserState>()(
         tiktok: "",
         whatsapp: "",
         youtube: "",
-        linkedin: ""
+        linkedin: "",
+        reddit: "",
+        discord: "",
+        github: "",
+        pinterest: "",
       },
       setUserId: (id) => set({ userId: id }),
       setSocialLinks: (links) => set({ socialLinks: links }),

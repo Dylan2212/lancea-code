@@ -1,58 +1,85 @@
-import { SiInstagram, SiFacebook, SiX, SiLinkedin, SiMedium, SiYoutube, SiThreads, SiTiktok, SiWhatsapp } from "react-icons/si"
+import { SiInstagram, SiReddit, SiDiscord, SiPinterest, SiFacebook, SiGithub, SiX, SiLinkedin, SiMedium, SiYoutube, SiThreads, SiTiktok, SiWhatsapp } from "react-icons/si"
 import { UserData } from "../page"
+import { Link } from "lucide-react"
 
 type MyProps = {
   userData: UserData
 }
 
-const socialConfig: {
+export const socialConfig: {
   [key: string]: {
     label: string,
     icon: React.ReactNode
   }
 } = {
   instagram: {
-    label: "Instagram",
+    label: "instagram",
     icon: <SiInstagram size={24} color="#E4405F" />
   },
 
   facebook: {
-    label: "Facebook",
-    icon: <SiFacebook size={24} color="#1877F2" /> // Official blue
+    label: "facebook",
+    icon: <SiFacebook size={24} color="#1877F2" />
   },
 
   x: {
-    label: "X (Twitter)",
+    label: "x",
     icon: <SiX size={24} color="#000000" />
   },
 
   linkedin: {
-    label: "LinkedIn",
+    label: "linkedin",
     icon: <SiLinkedin size={24} color="#0A66C2" />
   },
 
   youtube: {
-    label: "YouTube",
+    label: "youtube",
     icon: <SiYoutube size={24} color="#FF0000" />
   },
 
   threads: {
-    label: "Threads",
-    icon: <SiThreads size={24} color="#000000" /> // Threads is mostly black
+    label: "threads",
+    icon: <SiThreads size={24} color="#000000" />
   },
 
   tiktok: {
-    label: "TikTok",
-    icon: <SiTiktok size={24} color="#010101" /> // Black or near black
+    label: "tiktok",
+    icon: <SiTiktok size={24} color="#010101" />
   },
 
   medium: {
-    label: "Medium",
-    icon: <SiMedium size={24} color="#000000" /> // Medium is black
+    label: "medium",
+    icon: <SiMedium size={24} color="#000000" />
   },
+
   whatsapp: {
-    label: "WhatsApp",
-    icon: <SiWhatsapp size={24} color="#000000" /> // Medium is black
+    label: "whatsapp",
+    icon: <SiWhatsapp size={24} color="#000000" />
+  },
+
+  github: {
+    label: "github",
+    icon: <SiGithub size={24} color="#000000" />
+  },
+
+  discord: {
+    label: "discord",
+    icon: <SiDiscord size={24} color="#5865F2" />
+  },
+
+  pinterest: {
+    label: "pinterest",
+    icon: <SiPinterest size={24} color="#E60023" />
+  },
+
+  reddit: {
+    label: "reddit",
+    icon: <SiReddit size={24} color="#FF4500" />
+  },
+
+  unknown: {
+    label: "unknown",
+    icon: <Link size={24} />
   }
 }
 

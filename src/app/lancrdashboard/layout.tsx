@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation"
 import FeedbackModal from "./components/feedbackModal"
 import Sidebar from "./components/sidebar"
 import BottomNav from "./components/bottomNav"
+import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 
 type Props = {
   children: ReactNode
@@ -77,7 +78,7 @@ useEffect(() => {
         return
       }
 
-      // On success, close modal (handled outside or here if you pass setter) and sign out
+      useOriginalUserStore.getState().reset()
       localStorage.clear()
 
       toast.success("Account Deleted")

@@ -10,7 +10,11 @@ export type SocialLinks = {
   tiktok: string,
   whatsapp: string,
   youtube: string,
-  linkedin: string
+  linkedin: string,
+  reddit: string,
+  discord: string,
+  github: string,
+  pinterest: string
 }
 
 type OriginalUserState = {
@@ -21,6 +25,8 @@ type OriginalUserState = {
   profileImage: string,
   profileImageFile: File | null,
   has_seen_onboarding: boolean,
+  onboardingIndex: number,
+  setOnboardingIndex: (onboardingIndex: number) => void,
   setProfileImageFile: (file: File | null) => void,
   bio: string,
   handle: string,
@@ -45,6 +51,8 @@ export const useOriginalUserStore = create<OriginalUserState>()(
       profileImageFile: null,
       profileImage: "",
       bio: "",
+      onboardingIndex: 0,
+      setOnboardingIndex: (onboardingIndex: number) => set({ onboardingIndex }),
       socialLinks: {
         instagram: "",
         facebook: "",
@@ -54,7 +62,11 @@ export const useOriginalUserStore = create<OriginalUserState>()(
         tiktok: "",
         whatsapp: "",
         youtube: "",
-        linkedin: ""
+        linkedin: "",
+        reddit: "",
+        discord: "",
+        github: "",
+        pinterest: "",
       },
       setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
       setIsLive: (isLive: boolean) => set({ isLive }),
@@ -80,7 +92,11 @@ export const useOriginalUserStore = create<OriginalUserState>()(
             tiktok: "",
             whatsapp: "",
             youtube: "",
-            linkedin:""
+            linkedin:"",
+            reddit: "",
+            discord: "",
+            github: "",
+            pinterest: "",
           }
         })
     }),
