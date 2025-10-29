@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useEffect } from "react"
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { useSearchParams } from "next/navigation"
+import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 
 export type MyFile = {
   file?: File
@@ -24,17 +25,18 @@ type MyProps = {
   setAspectRatio: React.Dispatch<React.SetStateAction<string>>,
   setRemovedFiles: React.Dispatch<React.SetStateAction<string[]>>,
   setAddedFile: React.Dispatch<React.SetStateAction<boolean>>,
-  addedFile: boolean
+  addedFile: boolean,
+  fromAPC?: number
 }
 
-export default function ProjectGallery ({ files, setFiles, cover, setCover, setRemovedFiles, setAddedFile, addedFile }: MyProps) {
-
+export default function ProjectGallery ({ files, setFiles, cover, setCover, setRemovedFiles, setAddedFile, addedFile, fromAPC }: MyProps) {
+  const seenOnboarding = useOriginalUserStore(state => state.has_seen_onboarding)
   const projects = useProjectsStore(state => state.projects)
   const searchParams = useSearchParams()
 
   useEffect(() => {
     const idxParam = searchParams.get("idx")
-    if (idxParam === "null") return
+    if (idxParam === "null" || idxParam === null && fromAPC !== 10) return
     const index = Number(idxParam)
     if (!projects[index] || !projects[index]?.uploaded_urls) return
     const alreadyAddedUrls: MyFile[] = projects[index].uploaded_urls.map((urlObj) => ({
@@ -44,13 +46,17 @@ export default function ProjectGallery ({ files, setFiles, cover, setCover, setR
     }))
 
     setFiles(alreadyAddedUrls)
-  }, [projects, searchParams, setFiles])
+  }, [projects, searchParams, setFiles, fromAPC])
 
   const onDrop = (acceptedFiles: File[]) => {
     if (!addedFile) {setAddedFile(true)}
     setFiles([...files, ...acceptedFiles.map(file =>
       Object.assign(file, {file: file, url: URL.createObjectURL(file), aspectRatio: "4/3", id: uuidv4() })
     )])
+
+    if (cover === -1 && files.length === 0) {
+      setCover(0)
+    }
   }
 
   function deleteFile(toDelete: number) {
@@ -86,8 +92,7 @@ export default function ProjectGallery ({ files, setFiles, cover, setCover, setR
   return (
     <div className="ml-2 mt-6">
       <label className="block text-lg" htmlFor="project-gallery">Gallery:<span className="text-red-500">* <span className="text-xs">(Add 1 picture as a cover image)</span></span></label>
-      <section className="lancr-add-edit-sect w-11/12 border rounded-md
-      lg:w-5/6
+      <section className="lancr-add-edit-sect w-full border rounded-md
       ">
         <div {...getRootProps({ className: "dropzone" })} className="flex flex-col items-center justify-center cursor-pointer border rounded-lg shadow-md p-2 hov-standrd">
           <input {...getInputProps()} />
@@ -95,7 +100,7 @@ export default function ProjectGallery ({ files, setFiles, cover, setCover, setR
           <p className="text-center">Drag & drop some files here, or click to select files</p>
         </div>
 
-        <Masonry breakpointCols={{default: 2, 768: 1}} className="my-masonry-grid py-10 px-6" columnClassName="my-masonry-grid_column">
+        <Masonry breakpointCols={seenOnboarding ? {default: 2, 768: 1} : {default: 1}} className="my-masonry-grid py-10 px-6" columnClassName="my-masonry-grid_column">
           {files.map((file, idx) => (
             <div key={file.id} className={`${cover === idx ? "ring ring-offset-4 ring-purple-600 rounded-lg" : "hover:ring-offset-4 hover:ring hover:ring-purple-300 hover:rounded-lg"} mb-6 transition-all ease-in-out duration-200`}>
               <div onClick={() => {

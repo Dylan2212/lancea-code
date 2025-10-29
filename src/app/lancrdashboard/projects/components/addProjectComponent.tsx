@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import ProjectGallery, { MyFile } from "../components/dropzone"
 import TitleInput from "../../components/titleInput"
 import toast from "react-hot-toast"
@@ -26,10 +26,12 @@ export type ProjectData = Partial<{
 
 type MyProps = {
   globalIndex: number,
-  projectAction: string
+  projectAction: string,
+  setProjectPage: React.Dispatch<React.SetStateAction<{showing: boolean, index: number, action: string}>> | "NULL"
 }
 
-export default function AddProjectClient ({ globalIndex, projectAction }: MyProps) {
+export default function AddProjectClient ({ globalIndex, projectAction, setProjectPage }: MyProps) {
+  const seenOnboarding = useOriginalUserStore(state => state.has_seen_onboarding)
   const router = useRouter()
   const userId = useOriginalUserStore(state => state.userId)
   const { projects, setProjects } = useProjectsStore.getState()
@@ -150,6 +152,7 @@ export default function AddProjectClient ({ globalIndex, projectAction }: MyProp
 
   async function saveProject(e: React.FormEvent) {
     e.preventDefault()
+    e.stopPropagation()
     setAdding(true)
 
     // Check for changes if editing
@@ -202,7 +205,6 @@ export default function AddProjectClient ({ globalIndex, projectAction }: MyProp
 
       const finalLink = normalizeUrl(projectData.link)
       const uploadedUrls = await saveToStorage()
-
       const finalProjectData: ProjectData = {
         ...projectData,
         link: finalLink,
@@ -230,7 +232,12 @@ export default function AddProjectClient ({ globalIndex, projectAction }: MyProp
           toast.success("Project added")
         }
 
-        router.push("/lancrdashboard/projects")
+        if (!seenOnboarding && setProjectPage !== "NULL") {
+          setProjectPage({showing: false, index: -1, action: "Add"})
+        } else {
+          router.push("/lancrdashboard/projects")
+        }
+
       } else {
         toast.error("Could not add project.2/")
         setAdding(false)
@@ -243,9 +250,9 @@ export default function AddProjectClient ({ globalIndex, projectAction }: MyProp
   }
 
   return (
-    <section className="py-16 w-screen lg:pb-0 lg:w-full">
-      <h1 className="text-2xl font-semibold m-5 mb-0">{projectAction} Project</h1>
-      <form className="lancr-add-edit-sect ml-10" onSubmit={saveProject}>
+    <section className="w-full lg:pb-0 lg:w-full">
+      <h1 className="text-2xl font-semibold mb-0">{projectAction} Project</h1>
+      <form className="lancr-add-edit-sect" onSubmit={saveProject}>
         <TitleInput
           handleChange={e => onUpdate("title", e.target.value)}
           inputName="title"
@@ -266,6 +273,7 @@ export default function AddProjectClient ({ globalIndex, projectAction }: MyProp
           cover={cover}
           setCover={setCover}
           aspectRatio="[4/3]"
+          fromAPC={projectAction === "Edit" ? 10 : 0}
           setAspectRatio={() => {}}
         />
         <div className="mt-6 mb-3 ml-2">
@@ -279,11 +287,11 @@ export default function AddProjectClient ({ globalIndex, projectAction }: MyProp
           <p className="text-lg">Results:</p>
           {
             projectData.results?.map((result, index) => (
-              <div key={index} className="flex items-center gap-5 justify-between w-11/12 px-6 py-4 border rounded-md border-gray-400 shadow-sm mb-4 last:mb-0
-              lg:w-5/6
+              <div key={index} className="flex items-center gap-5 justify-between px-6 py-4 border rounded-md border-gray-400 shadow-sm mb-4 last:mb-0
+              w-full
               ">
                 <div className="flex flex-col gap-1 w-11/12 
-                lg:w-2/3 lg:flex-row lg:items-center lg:gap-3">
+                lg:w-full lg:flex-row lg:items-center lg:gap-3">
                   <p>Result:</p>
                   <div className="w-full">
                     <input required maxLength={80} onChange={(e) => resultChange(e.target.value, index)} value={result ?? ""} className="rounded-lg border py-1 px-3 focus:outline-purple-600 w-full" placeholder="Achieved..." type="text" name="" id="" />
@@ -302,9 +310,9 @@ export default function AddProjectClient ({ globalIndex, projectAction }: MyProp
           </button>
         </div>
         <TitleInput handleChange={(e) => onUpdate("link", e.target.value)} inputName="link" value={projectData.link} required={false} labelTitle="Live Demo Link" type="text" previewText="https://example.com" maxChar={2000} displayMaxChar={false} />
-        <div className="flex justify-end gap-5 w-11/12 lg:w-5/6 mt-10">
+        <div className="flex justify-end gap-5 w-full mt-10">
           <button type="button" className="rounded-md bg-gray-300 hover:bg-gray-400 hov-standrd w-fit text-lg px-6 py-2 mr-6
-            lg:mr-0" onClick={() => router.back()}>Cancel</button>
+            lg:mr-0" onClick={setProjectPage !== "NULL" ? () => setProjectPage({showing: false, index: -1, action: "Add"}) : () => router.back()}>Cancel</button>
           <button type="submit" className="rounded-md bg-purple-600 text-white hover:bg-purple-500 hov-standrd w-fit text-lg px-6 py-2 mr-6
             lg:mr-0">{projectAction !== "Edit" ? (adding ? "Adding..." : "Add Project") : (adding ? "Saving..." : "Save Changes")}</button>
         </div>

@@ -62,7 +62,7 @@ export default function StepOne ({ nextStep }: MyProps ) {
 
     const { error } = await supabase
       .from("users")
-      .update({"handle": handle, "has_seen_onboarding": true})
+      .update({"handle": handle})
       .eq("id", userId)
 
     if (error) {

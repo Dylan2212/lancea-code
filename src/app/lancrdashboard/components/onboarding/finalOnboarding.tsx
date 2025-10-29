@@ -19,18 +19,22 @@ export default function FinalOnboarding ({ finishOnboarding, previous }: MyProps
         </p>
       </div>
       <div className="flex flex-col space-y-4 w-full md:w-10/12">
-        <div className="flex items-center space-x-3 bg-white shadow-sm ring-1 ring-gray-200 rounded-xl px-5 py-4">
-          <Briefcase className="text-[#7E22CE] w-5 h-5" />
-          <p className="text-gray-700 text-sm">
-            <span className="font-semibold">Add projects</span> to showcase your work and experience.
-          </p>
+        <div className="flex items-center justify-between bg-white shadow-sm ring-1 ring-gray-200 rounded-xl px-5 py-4">
+          <div className="flex items-center space-x-3">
+            <Briefcase className="text-[#7E22CE] w-5 h-5" />
+            <p className="text-gray-700 text-sm">
+              <span className="font-semibold">Add projects</span> to showcase your work and experience.
+            </p>
+          </div>
         </div>
 
-        <div className="flex items-center space-x-3 bg-white shadow-sm ring-1 ring-gray-200 rounded-xl px-5 py-4">
-          <Rocket className="text-[#7E22CE] w-5 h-5" />
-          <p className="text-gray-700 text-sm">
-            <span className="font-semibold">Make your site live</span> and share it with the world!
-          </p>
+        <div className="flex items-center justify-between bg-white shadow-sm ring-1 ring-gray-200 rounded-xl px-5 py-4">
+          <div className="flex items-center space-x-3">
+            <Rocket className="text-[#7E22CE] w-5 h-5" />
+            <p className="text-gray-700 text-sm">
+              <span className="font-semibold">Make your site live</span> and share it with the world!
+            </p>
+          </div>
         </div>
       </div>
       <div className="w-full flex flex-row-reverse justify-between">

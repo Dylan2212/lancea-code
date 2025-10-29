@@ -8,14 +8,15 @@ import Link from "next/link"
 type MyProps = {
   project: ProjectData,
   setShowDeleteModal: Dispatch<SetStateAction<DeleteObj>>,
-  idx: number
+  idx: number,
+  setProjectPage?: React.Dispatch<React.SetStateAction<{showing: boolean, index: number, action: string}>>
 }
 
-export default function Project ({ project, setShowDeleteModal, idx }: MyProps) {
+export default function Project ({ project, setShowDeleteModal, idx, setProjectPage }: MyProps) {
   if (!project.cover?.coverUrl) return
   const isVideo = project.cover?.coverUrl.split('.').pop()?.match(/mp4|mov|webm/i)
   return (
-    <div className="w-11/12 rounded-lg group mx-auto lg:mx-0 md:w-[300px]">
+    <div className="w-full rounded-lg group mx-auto lg:mx-0 md:w-[300px]">
       <div className="relative aspect-[4/3] w-full">
         {isVideo ? (
           <video src={project.cover.coverUrl} controls className="object-cover aspect-[4/3]"/>
@@ -24,7 +25,8 @@ export default function Project ({ project, setShowDeleteModal, idx }: MyProps) 
           }
         <div className="flex transition-all duration-300 bg-black/50 rounded-b-lg z-10 absolute w-full bottom-0 h-16 items-center justify-end gap-4 pr-5
         lg:pointer-events-none lg:group-hover:pointer-events-auto lg:opacity-0 lg:group-hover:opacity-100">
-          <Link href={`/lancrdashboard/projects/add+editproject?action=edit&idx=${idx}`} className="py-2 px-4 text-white hover:bg-purple-500 hov-standrd bg-purple-600 rounded-lg">Edit</Link>
+          {!setProjectPage ? <Link href={`/lancrdashboard/projects/add+editproject?action=edit&idx=${idx}`} className="py-2 px-4 text-white hover:bg-purple-500 hov-standrd bg-purple-600 rounded-lg">Edit</Link>
+          : <button className="py-2 px-4 text-white hover:bg-purple-500 hov-standrd bg-purple-600 rounded-lg" onClick={() => setProjectPage({showing: true, index: idx, action: "Edit"})}>Edit</button>}
           <button onClick={() => setShowDeleteModal({show: true, id: project.id || "", index: idx})} className="py-2 px-4 rounded-lg bg-white text-red-600 hover:bg-gray-200 hov-standrd">Delete</button>
         </div>
       </div>

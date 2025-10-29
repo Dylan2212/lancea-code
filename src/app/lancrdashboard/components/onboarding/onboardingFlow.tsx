@@ -7,6 +7,7 @@ import StepThree from "./stepThree"
 import StepFour from "./stepFour"
 import FinalOnboarding from "./finalOnboarding"
 import StepFive from "./stepFive"
+import StepSix from "./stepSix"
 
 //TODO
 //POST ONBOARDING TIP CARDs
@@ -23,6 +24,7 @@ export default function OnboardingFlow () {
     <StepThree key="stepThree" nextStep={nextStep} previous={previousStep} />,
     <StepFour key="stepFour" nextStep={nextStep} previous={previousStep}/>,
     <StepFive key="stepFive" previous={previousStep} nextStep={nextStep} />,
+    <StepSix key="stepSix" previousStep={previousStep} nextStep={nextStep}/>,
     <FinalOnboarding key="finalStep" finishOnboarding={finishOnboarding} previous={previousStep}/>
   ]
 
@@ -44,7 +46,14 @@ export default function OnboardingFlow () {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black/50"></div>
-      <div className="relative bg-white rounded-xl shadow-xl p-5 w-11/12 max-w-[500px] z-10">
+      <div id="scroll-container" className="relative bg-white rounded-xl shadow-xl p-5 w-11/12 max-w-[500px] max-h-[500px] overflow-y-auto z-10 [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:bg-transparent
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  hover:[&::-webkit-scrollbar-thumb]:bg-gray-400
+  [scrollbar-width:thin]
+  [scrollbar-color:theme(colors.gray.300)_transparent]
+  [&::-webkit-scrollbar-button]:hidden">
         {steps[currentStep]}
       </div>
     </div>

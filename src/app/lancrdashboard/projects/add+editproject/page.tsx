@@ -25,6 +25,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ a
     <AddProjectClient
       globalIndex={globalIndex}
       projectAction={projectAction}
+      setProjectPage={"NULL"}
     />
   )
 }

@@ -1,12 +1,9 @@
 "use client"
-import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { SquarePlus } from "lucide-react"
 import Link from "next/link"
 import Project from "./components/project";
-import { useState } from "react";
 import ConfirmDeleteModal from "../components/confirmDeleteModal";
-import { supabase } from "@/lib/supabaseClient";
-import toast from "react-hot-toast";
+import useProjectsManager from "../../hooks/useProjectsManager";
 
 export type DeleteObj = {
   show: boolean,
@@ -15,60 +12,7 @@ export type DeleteObj = {
 }
 
 export default function Projects () {
-  const projects = useProjectsStore((state) => state.projects)
-  const [showDeleteModal, setShowDeleteModal] = useState({show: false, id: "", index: 0})
-  const [deleting, setDeleting] = useState(false)
-  const setProjects = useProjectsStore(state => state.setProjects)
-
-  function removeFromStore () {
-    const updated = projects.filter(project => project.id !== showDeleteModal.id)
-    setProjects(updated)
-  }
-
-  async function deleteStoredImages () {
-    const toDeleteImages = projects[showDeleteModal.index].uploaded_urls?.map(image => image.url.split("/projects/")[1])
-
-    if (!toDeleteImages) return
-
-    const { error } = await supabase.storage
-      .from("projects")
-      .remove(toDeleteImages)
-
-    if (error) {
-      console.error("Could not delete project: ", error)
-      return false
-    } else {
-      return true
-    }
-  }
-
-  async function deleteProject () {
-    setDeleting(true)
-
-    const deleteFromStorage = await deleteStoredImages()
-    
-    if (!deleteFromStorage) {
-      toast.error("Could not delete project.")
-      return
-    }
-
-    const { error } = await supabase
-      .from("projects")
-      .delete()
-      .eq("id", showDeleteModal.id)
-
-    if (error) {
-      toast.error("Could not delete project.")
-      setDeleting(false)
-      return
-    }
-
-    removeFromStore()
-    toast.success("Project deleted.")
-    setDeleting(false)
-    return
-  }
-
+  const { projects, setShowDeleteModal, showDeleteModal, deleteProject, deleting } = useProjectsManager()
   return (
     <section className="pt-16 w-screen lg:w-full">
       <h1 className="text-2xl font-semibold m-5 mb-0">My Projects</h1>
