@@ -22,10 +22,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ a
   const globalIndex = Number(params.idx ?? 0)
 
   return (
-    <AddProjectClient
-      globalIndex={globalIndex}
-      projectAction={projectAction}
-      setProjectPage={"NULL"}
-    />
+    <div className="pt-16 pb-10 lg:pb-0">
+      <AddProjectClient
+        globalIndex={globalIndex}
+        projectAction={projectAction}
+        setProjectPage={"NULL"}
+      />
+    </div>
   )
 }

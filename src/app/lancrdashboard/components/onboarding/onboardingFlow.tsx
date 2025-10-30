@@ -8,15 +8,15 @@ import StepFour from "./stepFour"
 import FinalOnboarding from "./finalOnboarding"
 import StepFive from "./stepFive"
 import StepSix from "./stepSix"
-
-//TODO
-//POST ONBOARDING TIP CARDs
+import { supabase } from "@/lib/supabaseClient"
+import toast from "react-hot-toast"
 
 export default function OnboardingFlow () {
   const savedIndex = useOriginalUserStore(state => state.onboardingIndex)
   const [currentStep, setCurrentStep] = useState(savedIndex)
   const setHasSeenOnboarding = useOriginalUserStore(state => state.setHasSeenOnboarding)
   const setOnboardingIndex = useOriginalUserStore(state => state.setOnboardingIndex)
+  const userId = useOriginalUserStore(state => state.userId)
 
   const steps = [
     <StepOne nextStep={nextStep} key="stepOne" />,
@@ -38,7 +38,17 @@ export default function OnboardingFlow () {
     setOnboardingIndex(savedIndex - 1)
   }
 
-  function finishOnboarding () {
+  async function finishOnboarding () {
+    const { error } = await supabase
+      .from("users")
+      .update({"has_seen_onboarding": true})
+      .eq("id", userId)
+
+    if (error) {
+      toast.error("Could not complete onboarding.")
+      return
+    }
+
     setOnboardingIndex(0)
     setHasSeenOnboarding(true)
   }

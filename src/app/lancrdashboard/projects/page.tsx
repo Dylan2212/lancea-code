@@ -30,7 +30,9 @@ export default function Projects () {
             <p>Add A Project</p>
           </Link>
           {projects?.length > 0 && projects.filter(Boolean).map((project, index) => (
-            <Project idx={index} key={project.id} project={project} setShowDeleteModal={setShowDeleteModal}/>
+            <div key={project.id} className="w-11/12 mx-auto sm:w-full sm:mx-0">
+              <Project idx={index} key={project.id} project={project} setShowDeleteModal={setShowDeleteModal}/>
+            </div>
           ))}
         </div>
       </div>
