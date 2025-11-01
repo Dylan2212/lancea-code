@@ -48,7 +48,7 @@ export default function LancrHome () {
     resetAdditionalLinksFromOriginal()
   }, [])
 
-  const handle = useUserStore(state => state.handle)
+  const handle = useOriginalUserStore(state => state.handle)
   const username = useUserStore(state => state.username)
   const userId = useOriginalUserStore(state => state.userId)
   const seenOnboarding = useOriginalUserStore(state => state.has_seen_onboarding)
