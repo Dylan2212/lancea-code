@@ -17,6 +17,7 @@ export default function OnboardingFlow () {
   const setHasSeenOnboarding = useOriginalUserStore(state => state.setHasSeenOnboarding)
   const setOnboardingIndex = useOriginalUserStore(state => state.setOnboardingIndex)
   const userId = useOriginalUserStore(state => state.userId)
+  const isLive = useOriginalUserStore(state => state.isLive)
 
   const steps = [
     <StepOne nextStep={nextStep} key="stepOne" />,
@@ -41,7 +42,7 @@ export default function OnboardingFlow () {
   async function finishOnboarding () {
     const { error } = await supabase
       .from("users")
-      .update({"has_seen_onboarding": true})
+      .update({"has_seen_onboarding": true, "is_live": isLive})
       .eq("id", userId)
 
     if (error) {
@@ -56,7 +57,7 @@ export default function OnboardingFlow () {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black/50"></div>
-      <div id="scroll-container" className="relative bg-white rounded-xl shadow-xl p-5 w-11/12 max-w-[500px] max-h-[500px] overflow-y-auto z-10 [&::-webkit-scrollbar]:w-2
+      <div id="scroll-container" className="relative bg-white rounded-xl shadow-xl p-5 w-11/12 max-w-[500px] max-h-[525px] overflow-y-auto z-10 [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:bg-transparent
   [&::-webkit-scrollbar-thumb]:bg-gray-300
   [&::-webkit-scrollbar-thumb]:rounded-full
