@@ -21,14 +21,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lancrly | All your freelancing links in one place",
+  title: "Lancrly | Effortless Freelance Portfolio & Link Page Builder",
   applicationName: "Lancrly",
-  description: "Freelancer? Build a simple public page to show off your bio, portfolio, socials, and contact info — with Lancrly.",
+  description: "Lancrly gives freelancers a professional portfolio website — no design skills needed. Create a sleek page to showcase your work, bio, and contact info in minutes. Perfect for freelancers who want to attract more clients beyond Upwork and Fiverr.",
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png"
   }
-};
+}
 
 export default function RootLayout({
   children,
@@ -53,6 +53,19 @@ export default function RootLayout({
             }
           })}
         </Script>
+        <Script
+          id="ld-json-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Lancrly",
+              alternateName: "Lancrly.com",
+              url: "https://lancrly.com",
+            }),
+          }}
+        />
         <Script id="organization-schema" type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
