@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
-
+import "@/styles/fonts.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +14,11 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 });
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope'
+})
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -90,7 +95,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${manrope.variable} antialiased`}
       >
         <Toaster position="top-right"/>
         {children}

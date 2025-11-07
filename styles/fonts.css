@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'Lazydog';
+  src: url('/fonts/Lazydog/lazy_dog.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

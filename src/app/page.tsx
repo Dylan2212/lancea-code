@@ -3,71 +3,29 @@ import { useRouter } from "next/navigation"
 import { CircleUserRound, TextCursorInput, Link, Check } from "lucide-react"
 import Image from "next/image"
 import Footer from "./components/footer"
+import Hero from "./components/hero"
 
 export default function Home() {
   const router = useRouter()
 
   return (
     <div className="relative pb-32">
-      <header className="h-20 flex justify-between items-center">
-        <p className="ml-8 text-3xl lg:text-5xl font-semibold text-purple-600">Lancrly</p>
-        <button className="mr-8 bg-purple-600 text-white shadow-md rounded-full py-2 px-4 hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Log In / Sign Up</button>
+      <header className="h-20 fixed w-dvw z-50 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.65)_20%,rgba(255,255,255,0.1)_100%)] shadow-[0_10px_25px_rgba(255,255,255,0.2)] backdrop-blur-md overflow-hidden flex justify-between items-center">
+        <div className="flex items-center h-20 ml-4">
+          <Image
+            width={150}
+            height={60}
+            alt="Lancrly logo"
+            src="/lancrly.png"
+            className="object-contain"
+          />
+        </div>
+        <button className="rounded-xl px-4 text-center py-2.5 mr-8 bg-[#7E22CE] font-medium font-sans text-white hover:bg-[#6B21A8] shadow-sm hover:shadow-md transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1" onClick={() => router.push("/login")}>Log In</button>
       </header>
       <main className="overflow-hidden">
-        <section>
-          <div className="relative flex w-dvw lg:h-[82vh] h-[72vh] min-h-[625px] overflow-hidden
-            md:min-h-[550px] md:max-h-[650px] md:items-center
-            lg:ml-5
-            xl:ml-32
-          ">
-            <div className="z-10 w-5/6 mx-auto flex flex-col max-h-[750px] xs:max-h-none justify-between pb-12
-            md:w-1/2 md:ml-8 md:mr-0 md:block
-            lg:w-1/2 lg:pb-0
-            xl:w-1/3
-            ">
-              <h1 className="text-4xl text-center font-semibold leading-tight
-              md:text-start
-              lg:text-5xl
-              ">
-                A link-in-bio page for all your freelancing links
-              </h1>
-              <div>
-                <h2 className="md:mt-5 mb-3 lg:mb-0 text-lg text-gray-600">
-                  All your freelancing links in one simple, shareable page that makes you look legit.
-                </h2>
-                <button
-                  className="md:mt-8 text-lg border-2 border-purple-600 shadow-lg rounded-lg py-3 px-6 hov-standrd hover:bg-gray-100"
-                  onClick={() => router.push("/login")}
-                >
-                  Create your free page
-                </button>
-              </div>
-            </div>
-
-            {/* Mockup container */}
-            <div>
-              <div className="
-              absolute right-[25%] top-1/4 -translate-y-12 w-full z-0 pointer-events-none
-              xs:w-650px xs:flex xs:justify-center xs:right-0
-              md:translate-y-32 md:top-0 md:translate-x-20 md:w-[74dvw] md:block
-              lg:-right-20 lg:w-[70dvw] lg:translate-x-0 lg:translate-y-[30%]
-              xl:w-[1100px] xl:translate-y-0 xl:-translate-x-20
-              ">
-                <Image
-                  priority
-                  fetchPriority="high"
-                  src="/tryMock.svg"
-                  alt="Product mockup on laptop"
-                  width={2750}
-                  height={2580}
-                  className="w-[150%] max-w-[600px] md:w-full md:max-w-none h-auto"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+        <Hero/>
         <section className="relative z-40">
-          <h3 className="text-4xl text-center">Get Set Up In Minutes</h3>
+          <h3 className="text-4xl text-center mt-8">Set Up Your Freelance Portfolio in Minutes</h3>
           <div className="flex w-11/12 lg:w-2/3 mx-auto justify-around items-center mt-14">
             <div className="w-1/3 lg:w-56 h-32">
               <CircleUserRound className="w-10 h-10 mx-auto" />

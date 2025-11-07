@@ -12,7 +12,7 @@ import { useAdditionalLinksStore } from "@/lib/store/useAdditionalLinksStore"
 import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
 import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
-import useHandleCheck from "../../hooks/useHandleCheck"
+import useHandleCheck from "../../hooks/useValidHandle"
 import { Copy } from "lucide-react"
 import Skeleton from "react-loading-skeleton"
 import 'react-loading-skeleton/dist/skeleton.css'

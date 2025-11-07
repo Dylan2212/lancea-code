@@ -4,7 +4,8 @@ import { useState } from "react"
 import toast from "react-hot-toast"
 import { ClipLoader } from "react-spinners"
 import { Check, X } from "lucide-react"
-import useHandleCheck from "@/src/app/hooks/useHandleCheck"
+import useHandleCheck from "@/src/app/hooks/useValidHandle"
+import useCheckHandle from "@/src/app/hooks/useCheckHandleInput"
 
 type MyProps = {
   nextStep: () => void
@@ -13,44 +14,12 @@ type MyProps = {
 export default function StepOne ({ nextStep }: MyProps ) {
   const prefix = "lancrly.com/"
   const storeHandle = useOriginalUserStore(state => state.handle)
-  const [showInvalidCharMessage, setShowInvalidCharMessage] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [maxCharacters, setMaxCharacters] = useState(false)
   const userId = useOriginalUserStore(state => state.userId)
   const [success, setSuccess] = useState(false)
-  const [handle, setHandle] = useState(storeHandle)
-  const {isAvailable, isValid, loading} = useHandleCheck(handle)
-
-  function handleInput (e: React.ChangeEvent<HTMLInputElement>) {
-    const input = e.target.value.split("/")[1]
-
-    if (input === undefined) return
-
-    if (input.length === 30) {
-      setMaxCharacters(true)
-    }
-
-    if (maxCharacters && input.length < 30) {
-      setMaxCharacters(false)
-    }
-
-    if (input === "") {
-      setHandle("")
-      setShowInvalidCharMessage(false)
-      return
-    }
-
-    const isValid =
-      /^[a-zA-Z0-9._-]+$/.test(input) &&
-      !/^-|-$/.test(input)
-
-    if (isValid) {
-      setHandle(input)
-      setShowInvalidCharMessage(false)
-    } else {
-      setShowInvalidCharMessage(true)
-    }
-  }
+  const [input, setInput] = useState(storeHandle)
+  const { handle, maxCharacters, showInvalidCharMessage } = useCheckHandle(input)
+  const { isAvailable, isValid, loading } = useHandleCheck(handle)
 
   async function submitUrl () {
     if (!isAvailable || !isValid || !handle) {
@@ -95,7 +64,7 @@ export default function StepOne ({ nextStep }: MyProps ) {
             e.stopPropagation()
             submitUrl()
           }} className="relative w-full md:w-5/6">
-            <input maxLength={30 + prefix.length} value={prefix + handle} onChange={(e) => handleInput(e)} className="w-full shadow rounded-xl ring-1 pr-14 ring-gray-200 bg-white mb-1 px-4 py-4 text-lg text-gray-900 placeholder-gray-400 focus:ring-[#E9D5FF] focus:ring-2 focus:outline-none transition" type="text" placeholder="lancrly.com/" />
+            <input maxLength={30 + prefix.length} value={prefix + handle} onChange={(e) => setInput(e.target.value)} className="w-full shadow rounded-xl ring-1 pr-14 ring-gray-200 bg-white mb-1 px-4 py-4 text-lg text-gray-900 placeholder-gray-400 focus:ring-[#E9D5FF] focus:ring-2 focus:outline-none transition" type="text" placeholder="lancrly.com/" />
             <>
               {loading && <div className="absolute right-4 top-1/2 -translate-y-1/2"><ClipLoader size={30} color="#7E22CE"/></div>}
               {!loading && isValid && isAvailable && <Check className="absolute right-4 top-1/2 -translate-y-1/2 text-[#7E22CE] w-[30px] h-[30px]" />}

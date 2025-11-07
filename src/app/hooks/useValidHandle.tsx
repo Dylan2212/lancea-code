@@ -2,7 +2,7 @@ import { useUserStore } from "@/lib/store/useUserStore"
 import { supabase } from "@/lib/supabaseClient"
 import { useState, useEffect } from "react"
 
-export default function useHandleCheck (handle: string) {
+export default function useValidHandle (handle: string) {
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const userId = useUserStore.getState().userId
