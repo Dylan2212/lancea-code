@@ -5,44 +5,31 @@ import { supabase } from '@/lib/supabaseClient'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { useUserStore } from '@/lib/store/useUserStore'
 import Link from 'next/link'
 
-export default function AuthPage() {
+export default function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showForgotPassword, setShowForgotPassword] = useState(false)
-  const [resetEmail, setResetEmail] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const handle = useUserStore(state => state.handle)
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    const res = await supabase.auth.signInWithPassword({ email, password })
+    
+    const res = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/loading` } })
+    
+    if (res.data.user?.identities?.length === 0) {
+        toast.error("Email already registered.")
+        return
+    }
 
     if (res.error) {
       toast.error(res.error.message)
     } else {
-      const toPage = "/loading"
+      const toPage = "/confirm-email"
       router.push(toPage)
-    }
-  }
-
-  const handleForgotPassword = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!resetEmail) {
-      toast.error("Please enter your email.")
-      return
-    }
-    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-      redirectTo: `${window.location.origin}/resetpassword`
-    })
-    if (error) {
-      toast.error(`Error: ${error.message}`)
-    } else {
-      toast.success('Password reset email sent! Check your inbox.')
-      setShowForgotPassword(false)
-      setResetEmail('')
     }
   }
 
@@ -62,14 +49,17 @@ export default function AuthPage() {
         </div>
       </header>
       <h1 className="relative text-5xl pt-24 break-words text-center font-sans font-extrabold tracking-tight text-gray-900 mb-3">
-        Welcome back
+        {handle
+          ? `Claim /${handle} on Lancrly today`
+          : "Claim your Lancrly page"}
       </h1>
+        
       <h2 className="relative text-lg font-sans text-gray-600 text-center mx-auto mb-10 max-w-md">
-        Access your Lancrly page
+        Sign up for free — it only takes a minute.
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 200 20"
-            className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-[50%] opacity-80"
+            className="absolute bottom-[-16px] left-1/2 -translate-x-1/2 w-[80%] opacity-80"
           >
             <path
               d="M5 14 C 60 14, 140 16, 195 18"
@@ -87,11 +77,12 @@ export default function AuthPage() {
             </defs>
           </svg>
       </h2>
+
       <div className="w-11/12 sm:max-w-md mx-auto p-8 rounded-2xl bg-white border border-gray-100 shadow-[0_10px_40px_-10px_rgba(126,34,206,0.25),0_4px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_15px_45px_-10px_rgba(126,34,206,0.35),0_6px_12px_rgba(0,0,0,0.08)] transition-all duration-300 backdrop-blur-sm">
         <h3 className="text-2xl font-bold mb-6 text-gray-800 font-sans text-center">
-          Log In
+          Sign Up
         </h3>
-
+        
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="email"
@@ -103,16 +94,17 @@ export default function AuthPage() {
             required
             autoComplete="email"
           />
+
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
-              className="w-full p-3 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-[#E9D5FF] focus:outline-none transition"
+              className="w-full p-3 pr-10 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-[#E9D5FF] focus:outline-none transition"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              autoComplete={"current-password"}
+              autoComplete="new-password"
             />
             <button
               type="button"
@@ -123,70 +115,26 @@ export default function AuthPage() {
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
+        
           <button
             type="submit"
             className="w-full py-3 rounded-xl font-sans font-semibold text-white bg-[#7E22CE] hover:bg-[#6B21A8] shadow-md hover:shadow-lg transition-all duration-200"
           >
-            Log In
+            Sign Up
           </button>
         </form>
-        {!showForgotPassword && 
-            <div className='mt-0'>
-              <button
-                type="button"
-                style={{ marginTop: 0 }}
-                onClick={() => setShowForgotPassword(true)}
-                className="text-[#7E22CE] hover:text-[#6B21A8] transition-all duration-200 ease-in-out underline text-sm"
-              >
-                Forgot Password?
-              </button>
-            </div>
-          }
-        {/* Forgot Password form inline */}
-        {showForgotPassword && (
-          <form
-            onSubmit={handleForgotPassword}
-            className="mt-4 p-6 rounded-2xl border border-purple-100 bg-gradient-to-br from-purple-50 via-white to-purple-50 shadow-inner"
-          >
-            <p className="mb-3 text-center text-base font-semibold text-[#6B21A8]">
-              Reset your password
-            </p>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full p-3 mb-4 border border-gray-200 rounded-xl text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-[#E9D5FF] focus:outline-none transition"
-              value={resetEmail}
-              autoComplete="email"
-              onChange={(e) => setResetEmail(e.target.value)}
-              required
-            />
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                type="button"
-                onClick={() => setShowForgotPassword(false)}
-                className="flex-1 py-3 rounded-xl border border-[#7E22CE] text-[#7E22CE] hover:bg-purple-50 transition-all duration-200"
-              >
-                Cancel
-              </button>
-                            <button
-                type="submit"
-                className="flex-1 py-3 rounded-xl font-semibold text-white bg-[#7E22CE] hover:bg-[#6B21A8] shadow-md hover:shadow-lg transition-all duration-200"
-              >
-                Send reset email
-              </button>
-            </div>
-          </form>
-        )}
+        
         <div className="flex items-center my-6">
           <div className="flex-grow h-px bg-gray-200"></div>
           <span className="mx-4 text-gray-500 text-sm font-medium">OR</span>
           <div className="flex-grow h-px bg-gray-200"></div>
         </div>
+        
         {/* Google OAuth */}
         <button
           onClick={() =>
             supabase.auth.signInWithOAuth({
-              provider: 'google',
+              provider: "google",
               options: {
                 redirectTo: `${window.location.origin}/loading`,
               },
@@ -196,17 +144,18 @@ export default function AuthPage() {
           aria-label="Continue with Google"
         >
           <Image
-            width={18}
-            height={18}
+            width={20}
+            height={20}
             src="/googleicon.png"
             alt="Google logo"
-            className="w-5 h-5"
           />
-          <span className="text-sm text-gray-700 font-medium">Continue with Google</span>
+          <span className="text-sm text-gray-700 font-medium">
+            Continue with Google
+          </span>
         </button>
         <div className='w-full text-sm flex justify-center items-center mt-5 gap-1'>
-          <p className='text-gray-500'>Don&apos;t have an account?</p>
-          <Link className='underline text-[#7E22CE] hover:text-[#6B21A8] transition-all duration-200 ease-in-out' href="/signup">Sign up</Link>
+          <p className='text-gray-500'>Already have an account?</p>
+          <Link className='underline text-[#7E22CE] hover:text-[#6B21A8] transition-all duration-200 ease-in-out' href="/login">Log in</Link>
         </div>
       </div>
     </div>

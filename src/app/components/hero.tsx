@@ -1,3 +1,5 @@
+"use client"
+
 import useCheckHandle from "../hooks/useCheckHandleInput"
 import { useState } from "react"
 import useValidHandle from "../hooks/useValidHandle"
@@ -5,16 +7,19 @@ import { X, Check } from "lucide-react"
 import { ClipLoader } from "react-spinners"
 import { useRouter } from "next/navigation"
 import HeroImage from "./heroImage"
+import { useUserStore } from "@/lib/store/useUserStore"
 
 export default function Hero () {
   const prefix = "lancrly.com/"
   const [input, setInput] = useState("")
   const { handle, showInvalidCharMessage, maxCharacters } = useCheckHandle(input)
   const { isAvailable, isValid, loading } = useValidHandle(handle)
+  const setHandle = useUserStore(state => state.setHandle)
   const router = useRouter()
 
   function submitUrl () {
-    router.push("/login")
+    setHandle(handle)
+    router.push("/signup")
   }
 
   return (
@@ -68,7 +73,7 @@ export default function Hero () {
                     <p className="text-red-600 text-sm font-sans mt-1 w-full md:w-5/6"> Only letters, numbers, &quot;.&quot;, &quot;-&quot;, and &quot;_&quot; are allowed. &quot;-&quot; cannot be the first or last character.</p>
                   )}
                 </div>
-                <button onClick={submitUrl} className="rounded-xl w-full mx-auto font-sans text-xl font-semibold py-5 text-center mr-8 bg-[#7E22CE] text-white hover:bg-[#6B21A8] shadow-sm hover:shadow-md transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1
+                <button onClick={submitUrl} className="rounded-xl w-full mx-auto font-sans text-xl font-semibold py-5 text-center mr-8 bg-[#7E22CE] text-white hover:bg-[#6B21A8] shadow-sm hover:shadow-md transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#E9D5FF] focus:ring-offset-white focus:ring-offset-1
                 lg:w-48 lg:text-lg lg:font-medium
                 ">Claim Your Page</button>
               </div>

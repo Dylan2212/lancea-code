@@ -20,7 +20,7 @@ export default function Home() {
             className="object-contain"
           />
         </div>
-        <button className="rounded-xl px-4 text-center py-2.5 mr-8 bg-[#7E22CE] font-medium font-sans text-white hover:bg-[#6B21A8] shadow-sm hover:shadow-md transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1" onClick={() => router.push("/login")}>Log In</button>
+        <button className="rounded-xl px-4 text-center py-2.5 mr-8 bg-[#7E22CE] font-medium font-sans text-white hover:bg-[#6B21A8] shadow-sm hover:shadow-md transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#E9D5FF] focus:ring-offset-white focus:ring-offset-1" onClick={() => router.push("/login")}>Log In</button>
       </header>
       <main className="overflow-hidden">
         <Hero/>
