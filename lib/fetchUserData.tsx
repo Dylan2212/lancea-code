@@ -47,6 +47,8 @@ export async function fetchUserData (uid: string, email: string | undefined) {
   if (!data) {
     await createUserInDB(uid, email)
 
+    await new Promise((res) => setTimeout(res, 500))
+
     const { data } = await supabase
       .from("users")
       .select("*")
@@ -66,6 +68,7 @@ function setStoreData (user: User, links: AdditionalLink[] | null, projects: Pro
   const { setLinks } = useAdditionalLinksStore.getState()
   const { setProjects } = useProjectsStore.getState()
   const { setOriginalLinks } = useOriginalAdditionalLinksStore.getState()
+  const { handle } = useOriginalUserStore.getState()
 
   if (user.id) setUserId(user.id)
   if (user.socialLinks) setSocialLinks(user.socialLinks)
@@ -93,7 +96,7 @@ function setStoreData (user: User, links: AdditionalLink[] | null, projects: Pro
     title: user.title || "",
     profileImage: user.profileImage || "",
     has_seen_onboarding: user.has_seen_onboarding || false,
-    handle: user.handle || "",
+    handle: user.handle || handle || "",
     isLive: user.is_live || false,
     socialLinks: user.socialLinks || {
       instagram: "",

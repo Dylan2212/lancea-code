@@ -7,18 +7,20 @@ import { X, Check } from "lucide-react"
 import { ClipLoader } from "react-spinners"
 import { useRouter } from "next/navigation"
 import HeroImage from "./heroImage"
-import { useUserStore } from "@/lib/store/useUserStore"
+import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 
 export default function Hero () {
   const prefix = "lancrly.com/"
   const [input, setInput] = useState("")
   const { handle, showInvalidCharMessage, maxCharacters } = useCheckHandle(input)
   const { isAvailable, isValid, loading } = useValidHandle(handle)
-  const setHandle = useUserStore(state => state.setHandle)
   const router = useRouter()
 
   function submitUrl () {
-    setHandle(handle)
+    useOriginalUserStore.setState(state => ({
+      ...state,
+      handle: handle
+    }))
     router.push("/signup")
   }
 

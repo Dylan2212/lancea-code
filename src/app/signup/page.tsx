@@ -48,7 +48,7 @@ export default function SignUp() {
           </Link>
         </div>
       </header>
-      <h1 className="relative text-5xl pt-24 break-words text-center font-sans font-extrabold tracking-tight text-gray-900 mb-3">
+      <h1 className="relative text-5xl w-[95%] mx-auto pt-24 break-words text-center font-sans font-extrabold tracking-tight text-gray-900 mb-3">
         {handle
           ? `Claim /${handle} on Lancrly today`
           : "Claim your Lancrly page"}
