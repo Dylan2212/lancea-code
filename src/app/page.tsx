@@ -1,9 +1,10 @@
 "use client"
 import { useRouter } from "next/navigation"
-import { CircleUserRound, TextCursorInput, Link, Check } from "lucide-react"
+import { Check } from "lucide-react"
 import Image from "next/image"
 import Footer from "./components/footer"
 import Hero from "./components/hero"
+import StepsSection from "./components/stepsSection"
 
 export default function Home() {
   const router = useRouter()
@@ -24,23 +25,7 @@ export default function Home() {
       </header>
       <main className="overflow-hidden">
         <Hero/>
-        <section className="relative z-40">
-          <h3 className="text-4xl text-center mt-8">Set Up Your Freelance Portfolio in Minutes</h3>
-          <div className="flex w-11/12 lg:w-2/3 mx-auto justify-around items-center mt-14">
-            <div className="w-1/3 lg:w-56 h-32">
-              <CircleUserRound className="w-10 h-10 mx-auto" />
-              <p className="text-center text-gray-600 mt-3">Create your account</p>
-            </div>
-            <div className="w-1/3 lg:w-56 h-32">
-              <TextCursorInput className="w-10 h-10 mx-auto" />
-              <p className="text-center text-gray-600 mt-3">Fill input fields with your information and save</p>
-            </div>
-            <div className="w-1/3 lg:w-56 h-32">
-              <Link className="w-10 h-10 mx-auto" />
-              <p className="text-center mt-3 text-gray-600">Share the link to your page</p>
-            </div>
-          </div>
-        </section>
+        <StepsSection/>
         <section className="flex mt-24 h-[600px] max-h-[600px] min-h-[600px] lg:h-auto lg:mt-32 justify-end gap-32 xl:mr-32 relative z-10 md:w-auto w-full lg-ml-0">
           <div className="md:hidden absolute top-[18%] z-0 w-[80vw] max-w-[300px] -translate-x-[48%] pointer-events-none
             xs:flex xs:justify-center xs:left-24
