@@ -1,6 +1,6 @@
 "use client"
 import "./components/linkspage.css"
-import { SocialLinks } from "@/lib/store/useOriginalUser"
+import { SocialLinks } from "@/lib/store/socialLinksType"
 import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
 import { ProjectData } from "../lancrdashboard/projects/add+editproject/page"
 import UserProject from "./components/userProject"

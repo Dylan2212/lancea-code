@@ -1,5 +1,5 @@
 "use client"
-import { SocialLinks } from "@/lib/store/useOriginalUser";
+import { SocialLinks } from "@/lib/store/socialLinksType";
 import { useUserStore } from "@/lib/store/useUserStore";
 import { useState } from "react";
 import { v4 as uuidv4} from "uuid";
@@ -8,6 +8,7 @@ import { socialConfig } from "../../[handle]/components/sociallinksBar";
 import { findSocialPlatform } from "@/utils/findSocialPlatform";
 import { normalizeUrl } from "@/utils/normalizeUrl";
 import toast from "react-hot-toast";
+
 
 export default function LancrSocialLinks () {
   const socialLinks = useUserStore(state => state.socialLinks)

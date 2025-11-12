@@ -3,8 +3,9 @@ import Image from "next/image"
 import TitleInput from "./titleInput"
 import { useState, useEffect } from "react"
 import { useUserStore } from "@/lib/store/useUserStore"
-import { useUserHydrated } from "@/lib/store/useOriginalUser"
 import TiptapEditor from "./tiptapeditor"
+import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
+
 
 type Props = {
   profileImageFileRef: React.RefObject<File | null>
@@ -12,11 +13,13 @@ type Props = {
 
 export default function AddBio ({ profileImageFileRef }: Props) {
   const [showInvalidCharMessage, setShowInvalidCharMessage] = useState(false)
-  
-  const isHydrated = useUserHydrated()
-  const user = useUserStore(state => state)
-
-  const { title, username, profileImage, changedProfileImage, setChangedProfileImage, setProfileImage, setTitle, setUsername } = user
+  const title = useUserStore(state => state.title)
+  const setTitle = useUserStore(state => state.setTitle)
+  const username = useUserStore(state => state.username)
+  const setUsername = useUserStore(state => state.setUsername)
+  const profileImage = useUserStore(state => state.profileImage)
+  const changedProfileImage = useUserStore(state => state.changedProfileImage)
+  const setChangedProfileImage = useUserStore(state => state.setChangedProfileImage)
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>
@@ -27,8 +30,6 @@ export default function AddBio ({ profileImageFileRef }: Props) {
   }, [showInvalidCharMessage]);
 
 
-  if (!user) return null
-
   function handleFileChange (e: React.ChangeEvent<HTMLInputElement>) {
     const { files } = e.target
       if (files && files[0]) {
@@ -36,12 +37,18 @@ export default function AddBio ({ profileImageFileRef }: Props) {
 
       profileImageFileRef.current = file
 
+      if (profileImage) URL.revokeObjectURL(profileImage)
       const url = URL.createObjectURL(file);
-      setProfileImage(url);
-      
+      useUserStore.setState(state => ({
+        ...state,
+        "profileImage": url
+      }))
+
       if (!changedProfileImage) setChangedProfileImage(true)
     }
   }
+
+  const isHydrated = useOriginalUserStore(state => state._hasHydrated)
 
   return (
       <div className="div-for-lancr-dashboard-sects">
@@ -54,11 +61,11 @@ export default function AddBio ({ profileImageFileRef }: Props) {
               <p className="text-lg">Profile Image:</p>
               <div className="w-full mx-auto h-72 bg-gray-100 border-gray-400 border rounded-md flex items-center gap-3 justify-center flex-col">
                 <div className="w-32 h-32 rounded-full border overflow-hidden relative border-black">
-                  {<Image unoptimized priority fill sizes="128px" className="w-fit h-fit object-cover object-center" src={profileImage ? `${profileImage}` : "/profileImage.jpg"} alt="Profile Image"/>}
+                  {<Image key={profileImage} unoptimized priority fill sizes="128px" className="w-fit h-fit object-cover object-center" src={profileImage ? `${profileImage}` : "/profileImage.jpg"} alt="Profile Image"/>}
                 </div>
                 <div className="w-1/2 h-8 relative flex justify-center items-center bg-white rounded-md hov-standrd hover:bg-gray-50">
                   <p>Upload a file</p>
-                  <input className="w-full inset-0 hov-standrd h-full absolute opacity-0" type="file" name="profileImgUrl" id="profile-image" accept="image/*" onChange={handleFileChange}/>
+                  <input className="w-full inset-0 hov-standrd h-full absolute opacity-0" type="file" name="profileImgUrl" id="profile-image-in-bio" accept="image/*" onChange={handleFileChange}/>
                 </div>
               </div>
             </div>
