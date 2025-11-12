@@ -3,14 +3,14 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Globe, ChevronDown, CircleSmall, Trash2, LogOut, Lock } from "lucide-react"
-import { useOriginalUserStore, useUserHydrated } from "@/lib/store/useOriginalUser"
+import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { supabase } from "@/lib/supabaseClient"
 import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react"
-import Skeleton from "react-loading-skeleton"
 import 'react-loading-skeleton/dist/skeleton.css'
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
+import Skeleton from "react-loading-skeleton"
 
 type Props = {
   setShowDeleteModal: Dispatch<SetStateAction<boolean>>
@@ -61,7 +61,7 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
     }
   }
 
-  const isHydrated = useUserHydrated()
+  const isHydrated = useOriginalUserStore(state => state._hasHydrated)
 
   return (
     <header className="lancr-main-header">

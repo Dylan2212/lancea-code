@@ -1,4 +1,4 @@
-import { SocialLinks } from "@/lib/store/useOriginalUser"
+import { SocialLinks } from "@/lib/store/socialLinksType"
 import Image from "next/image"
 import "./linkspage.css"
 import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"

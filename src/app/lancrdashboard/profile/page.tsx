@@ -5,21 +5,20 @@ import SaveLancrSection from "../components/saveLancrSection"
 import LancrSocialLinks from "../components/socialLinks"
 import { useUserStore } from "@/lib/store/useUserStore"
 import { useEffect, useRef, useState } from "react"
-import { useOriginalUserStore, useUserHydrated } from "@/lib/store/useOriginalUser"
-import { SocialLinks } from "@/lib/store/useOriginalUser"
+import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
+import { SocialLinks } from "@/lib/store/socialLinksType"
 import { useOriginalAdditionalLinksStore } from "@/lib/store/useOriginalAdditionalLinks"
 import { useAdditionalLinksStore } from "@/lib/store/useAdditionalLinksStore"
 import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
 import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
-import useHandleCheck from "../../hooks/useValidHandle"
 import { Copy } from "lucide-react"
-import Skeleton from "react-loading-skeleton"
 import 'react-loading-skeleton/dist/skeleton.css'
 import Link from "next/link"
 import { Globe, CircleSmall } from "lucide-react"
 import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
 import { normalizeUrl } from "@/utils/normalizeUrl"
+import Skeleton from "react-loading-skeleton"
 import OnboardingFlow from "../components/onboarding/onboardingFlow"
 
 export default function LancrHome () {
@@ -63,7 +62,6 @@ export default function LancrHome () {
   }, [handle])
 
 
-  const { isValid, isAvailable } = useHandleCheck(handle)
   const { isLive, changeInLiveStatus } = useChangeLiveStatus(userId)
 
   function resetUserStoreFromOriginal() {
@@ -278,12 +276,6 @@ export default function LancrHome () {
     e.preventDefault()
     setSaving(true)
 
-    if (!isValid || !isAvailable) {
-      toast.error("Please enter a valid and available handle.")
-      setSaving(false)
-      return
-    }
-
     const { bio, username, title, changedProfileImage, handle, socialLinks, userId } = useUserStore.getState()
     const bioData = { bio, username, title, handle }
     const changedBio = checkBioSectChanges(bioData)
@@ -361,7 +353,7 @@ export default function LancrHome () {
     }
   }
 
-  const isHydrated = useUserHydrated()
+  const isHydrated = useOriginalUserStore((s) => s._hasHydrated)
 
   return(
     <section className="w-full h-[calc(100dvh-4rem)] mt-[4rem] overflow-y-scroll relative" onSubmit={handleSubmit}>

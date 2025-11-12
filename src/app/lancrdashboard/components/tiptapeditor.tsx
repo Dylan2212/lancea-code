@@ -71,7 +71,7 @@ export default function RichTextEditor() {
 
   return (
     <>
-      <div className="relative border border-gray-300 rounded-lg mt-1 pt-4 shadow-sm bg-white">
+      <div className="relative border border-gray-300 rounded-lg mt-1 pt-4 pb-4 shadow-sm bg-white">
         <div className="relative">
           <EditorContent
             editor={editor}

@@ -5,8 +5,8 @@ import { normalizeUrl } from "@/utils/normalizeUrl"
 import toast from "react-hot-toast"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { useUserStore } from "@/lib/store/useUserStore"
-import { SocialLinks } from "@/lib/store/useOriginalUser"
 import { supabase } from "@/lib/supabaseClient"
+import { SocialLinks } from "@/lib/store/socialLinksType"
 import { findSocialPlatform } from "@/utils/findSocialPlatform"
 
 type MyProps = {

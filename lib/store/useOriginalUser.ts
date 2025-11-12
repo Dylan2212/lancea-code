@@ -1,122 +1,111 @@
-import { create } from "zustand"
+import { create, type StoreApi, type UseBoundStore } from "zustand"
 import { persist } from "zustand/middleware"
-
-export type SocialLinks = {
-  x: string,
-  medium: string,
-  threads: string,
-  facebook: string,
-  instagram: string,
-  tiktok: string,
-  whatsapp: string,
-  youtube: string,
-  linkedin: string,
-  reddit: string,
-  discord: string,
-  github: string,
-  pinterest: string
-}
+import type { SocialLinks } from "./socialLinksType"
 
 type OriginalUserState = {
-  userId: string,
-  email: string,
-  username: string,
-  title: string,
-  profileImage: string,
-  profileImageFile: File | null,
-  has_seen_onboarding: boolean,
-  onboardingIndex: number,
-  setOnboardingIndex: (onboardingIndex: number) => void,
-  setProfileImageFile: (file: File | null) => void,
-  bio: string,
-  handle: string,
-  socialLinks: SocialLinks,
-  isLive: boolean,
-  setIsLive: (isLive: boolean) => void,
-  reset: () => void,
-  setHasSeenOnboarding: (seenOnboarding: boolean) => void,
+  userId: string
+  email: string
+  username: string
+  title: string
+  profileImage: string
+  profileImageFile: File | null
+  has_seen_onboarding: boolean
+  onboardingIndex: number
+  setOnboardingIndex: (onboardingIndex: number) => void
+  setProfileImageFile: (file: File | null) => void
+  bio: string
+  handle: string
+  socialLinks: SocialLinks
+  isLive: boolean
+  setIsLive: (isLive: boolean) => void
+  reset: () => void
+  setHasSeenOnboarding: (seenOnboarding: boolean) => void
   setProfileImage: (url: string) => void
+  /** hydration flag to avoid SSR mismatch */
+  _hasHydrated: boolean
+  setHasHydrated: (state: boolean) => void
 }
 
-export const useOriginalUserStore = create<OriginalUserState>()(
-  persist(
-    (set) => ({
-      userId: "",
-      email: "",
-      username: "",
-      title: "",
-      handle: "",
-      isLive: false,
-      has_seen_onboarding: false,
-      profileImageFile: null,
-      profileImage: "",
-      bio: "",
-      onboardingIndex: 0,
-      setOnboardingIndex: (onboardingIndex: number) => set({ onboardingIndex }),
-      socialLinks: {
-        instagram: "",
-        facebook: "",
-        x: "",
-        medium: "",
-        threads: "",
-        tiktok: "",
-        whatsapp: "",
-        youtube: "",
-        linkedin: "",
-        reddit: "",
-        discord: "",
-        github: "",
-        pinterest: "",
-      },
-      setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
-      setIsLive: (isLive: boolean) => set({ isLive }),
-      setHasSeenOnboarding: (has_seen_onboarding: boolean) => set({has_seen_onboarding}),
-      setProfileImage: (profileImage: string) => set({ profileImage }),
-      reset: () =>
-        set({
-          userId: "",
-          email: "",
-          username: "",
-          title: "",
-          handle: "",
-          isLive: false,
-          has_seen_onboarding: false,
-          profileImageFile: null,
-          profileImage: "",
-          bio: "",
-          onboardingIndex: 0,
-          socialLinks: {
-            instagram: "",
-            facebook: "",
-            x: "",
-            medium: "",
-            threads: "",
-            tiktok: "",
-            whatsapp: "",
-            youtube: "",
-            linkedin:"",
-            reddit: "",
-            discord: "",
-            github: "",
-            pinterest: "",
-          }
-        })
-    }),
-    {
-      name: "original-user-store"
-    }
-  )
-)
+// ✅ singleton reference
+let store: UseBoundStore<StoreApi<OriginalUserState>> | undefined
 
-export function useUserHydrated() {
-  return useOriginalUserStore(state =>
-    !!state.userId ||
-    !!state.email ||
-    !!state.username ||
-    !!state.title ||
-    !!state.profileImage ||
-    !!state.bio ||
-    !!state.handle ||
-    Object.values(state.socialLinks).some(val => val.trim() !== "")
-  )
-}
+export const useOriginalUserStore =
+  store ??
+  (store = create<OriginalUserState>()(
+    persist(
+      (set) => ({
+        userId: "",
+        email: "",
+        username: "",
+        title: "",
+        handle: "",
+        isLive: false,
+        has_seen_onboarding: false,
+        profileImageFile: null,
+        profileImage: "",
+        bio: "",
+        onboardingIndex: 0,
+        _hasHydrated: false,
+        socialLinks: {
+          instagram: "",
+          facebook: "",
+          x: "",
+          medium: "",
+          threads: "",
+          tiktok: "",
+          whatsapp: "",
+          youtube: "",
+          linkedin: "",
+          reddit: "",
+          discord: "",
+          github: "",
+          pinterest: "",
+        },
+
+        // setters
+        setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
+        setIsLive: (isLive: boolean) => set({ isLive }),
+        setHasSeenOnboarding: (has_seen_onboarding: boolean) => set({ has_seen_onboarding }),
+        setProfileImage: (profileImage: string) => set({ profileImage }),
+        setOnboardingIndex: (onboardingIndex: number) => set({ onboardingIndex }),
+        setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
+
+        reset: () =>
+          set({
+            userId: "",
+            email: "",
+            username: "",
+            title: "",
+            handle: "",
+            isLive: false,
+            has_seen_onboarding: false,
+            profileImageFile: null,
+            profileImage: "",
+            bio: "",
+            onboardingIndex: 0,
+            socialLinks: {
+              instagram: "",
+              facebook: "",
+              x: "",
+              medium: "",
+              threads: "",
+              tiktok: "",
+              whatsapp: "",
+              youtube: "",
+              linkedin: "",
+              reddit: "",
+              discord: "",
+              github: "",
+              pinterest: "",
+            },
+          }),
+      }),
+      {
+        name: "original-user-store",
+        onRehydrateStorage: () => (state) => {
+          // 👇 fires after persisted store is loaded
+          state?.setHasHydrated(true)
+        },
+      }
+    )
+  ))
