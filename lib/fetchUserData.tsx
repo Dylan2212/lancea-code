@@ -4,7 +4,7 @@ import { useAdditionalLinksStore } from "./store/useAdditionalLinksStore";
 import { useOriginalUserStore } from "./store/useOriginalUser";
 import { useOriginalAdditionalLinksStore } from "./store/useOriginalAdditionalLinks";
 import { AdditionalLink } from "./store/useAdditionalLinksStore";
-import { SocialLinks } from "./store/useOriginalUser";
+import { SocialLinks } from "./store/socialLinksType";
 import { useProjectsStore } from "./store/useProjectsStore";
 import { ProjectData } from "@/src/app/lancrdashboard/projects/add+editproject/page";
 
