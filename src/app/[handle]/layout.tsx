@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
-import { UserData } from "./page";
+import type { UserData } from "./page";
 import "./components/linkspage.css"
 import UserLayoutClient from "./components/layoutClient";
 
