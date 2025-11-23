@@ -18,6 +18,10 @@ body {
   overflow-y: auto;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .hov-standrd {
   @apply transition duration-200 ease-in-out hover:cursor-pointer
 }

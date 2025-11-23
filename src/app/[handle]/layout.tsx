@@ -5,6 +5,8 @@ import type { UserData } from "./page";
 import "./components/linkspage.css"
 import UserLayoutClient from "./components/layoutClient";
 
+//ADD VARIABLE COLORS, EX: PRIMARY, HOVER, ACCENT, BG
+
 export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
   const supabase = await createClient()
@@ -72,11 +74,6 @@ export default async function Layout ({ children, params }: { children: React.Re
 
   return (
     <main>
-      <header className="h-14 fixed w-dvw z-50 pr-8 flex justify-end items-center">
-        <nav className="flex items-center h-full">
-          <a className="text-white text-lg" href="#hero">Home</a>
-        </nav>
-      </header>
       <UserLayoutClient userData={userData}>
         {children}
       </UserLayoutClient>
