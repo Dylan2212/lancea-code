@@ -6,7 +6,7 @@ import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
 import { ProjectData } from "../lancrdashboard/projects/components/addProjectComponent"
 import { UserContext } from "./components/layoutClient"
 import { useContext, useRef } from "react"
-//import ProjectSection from "./components/projectsSection"
+import ProjectSection from "./components/projectsSection"
 import AboutSection from "./components/aboutSection"
 import Header from "./components/header"
 import Footer from "./components/footer"
@@ -29,14 +29,17 @@ export default function LancrLinksPage () {
 
   const aboutRef = useRef<HTMLElement>(null)
   const heroRef = useRef<HTMLElement>(null)
+  const projectRef = useRef<HTMLElement>(null)
+
+  const handle = userData.handle ? userData.handle : "User not found"
 
   return (
     <>
-      <Header refs={{aboutRef, heroRef}} userData={userData}/>
+      <Header refs={{aboutRef, heroRef, projectRef}} userData={userData}/>
       <Hero ref={heroRef} userData={userData}/>
-      {/* {userData.projects && <ProjectSection/>} */}
+      {userData.projects && <ProjectSection ref={projectRef} projects={userData.projects}/>}
       {userData.bio && userData.bio?.trim().length > 0  && <AboutSection ref={aboutRef} bio={userData.bio}/>}
-      <Footer handle="nicksimon"/>
+      <Footer handle={handle}/>
     </>
   )
 }
