@@ -7,7 +7,7 @@ const AboutSection = React.forwardRef<HTMLElement, { bio: string }>(
       <section
         id="about"
         ref={ref}
-        className="w-full py-20 bg-white flex justify-center px-6"
+        className="w-full py-10 bg-white flex justify-center px-6"
       >
         <div className="max-w-3xl w-full text-center flex flex-col gap-8">
           <h2 className="text-4xl font-bold tracking-tight">About Me</h2>

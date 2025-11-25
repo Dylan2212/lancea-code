@@ -9,6 +9,7 @@ import { useContext, useRef } from "react"
 //import ProjectSection from "./components/projectsSection"
 import AboutSection from "./components/aboutSection"
 import Header from "./components/header"
+import Footer from "./components/footer"
 
 export type UserData = {
   id: string,
@@ -35,6 +36,7 @@ export default function LancrLinksPage () {
       <Hero ref={heroRef} userData={userData}/>
       {/* {userData.projects && <ProjectSection/>} */}
       {userData.bio && userData.bio?.trim().length > 0  && <AboutSection ref={aboutRef} bio={userData.bio}/>}
+      <Footer handle="nicksimon"/>
     </>
   )
 }
