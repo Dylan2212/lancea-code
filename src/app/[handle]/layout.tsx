@@ -73,7 +73,7 @@ export default async function Layout ({ children, params }: { children: React.Re
   const userData: UserData = await fetchByURLUsername(handle)
 
   return (
-    <main>
+    <main id="freelancermain">
       <UserLayoutClient userData={userData}>
         {children}
       </UserLayoutClient>

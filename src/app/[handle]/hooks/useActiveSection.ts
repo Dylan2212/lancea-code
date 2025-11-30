@@ -5,7 +5,7 @@ export default function useActiveSection(sections: Record<string, React.RefObjec
 
   useEffect(() => {
     const onScroll = () => {
-      const scroll = window.scrollY + window.innerHeight * 0.70;
+      const scroll = window.scrollY + window.innerHeight * 0.60;
 
       for (const id in sections) {
         const el = sections[id]?.current;

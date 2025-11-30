@@ -48,10 +48,11 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
         <p className="text-xl text-gray-600 mt-2">
           {userData.title}
         </p>
-        <button
-          className="rounded-xl px-3 min-w-20 w-32 mt-4 md:mt-8 mb-0 md:mb-5 text-center py-3 bg-[#7E22CE] tracking-wide font-semibold text-lg text-white hover:bg-[#6B21A8] shadow-md hover:shadow-xl transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1">
-          Hire Me
-        </button>
+        <a
+          href={`mailto:${userData.email}`}
+          className="rounded-xl block px-3 min-w-20 w-32 mt-4 md:mt-8 mb-0 md:mb-5 text-center py-3 bg-[#7E22CE] tracking-wide font-semibold text-lg text-white hover:bg-[#6B21A8] shadow-md hover:shadow-xl transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1">
+          Email Me
+        </a>
         <SocialLinksBar userData={userData}/>
       </div>
 
