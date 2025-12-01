@@ -17,16 +17,22 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
       className="relative md:bg-gradient-to-l md:from-[#E9D5FF] md:to-[white] lg:bg-none flex flex-col md:flex-row items-center justify-center h-svh md:h-screen overflow-hidden bg-white"
     >
       {/* Left content */}
-      <div className="relative z-10 text-center pt-10 md:text-left md:w-1/2 px-8 md:px-16 md:pt-16">
-        <h1 className="text-3xl text-center md:text-start md:text-4xl font-semibold text-gray-700">
+      <div className="
+      relative z-10 text-center pt-24 px-4 w-full
+      md:text-left md:w-1/2 md:px-16 md:pt-16
+      ">
+        <h1 className="text-3xl mb-1 text-center md:text-start md:text-4xl font-semibold text-gray-700 md:mb-0">
           Hello I&apos;m
         </h1>
-        <h2 className="text-5xl mx-auto md:mx-0 md:text-6xl font-extrabold text-[#7E22CE] mt-2 relative w-fit">
+        <h2 className="
+        text-5xl w-full mb-2 font-extrabold text-[#7E22CE] mt-2 relative
+        md:mx-0 md:text-6xl md:w-fit md:mb-0
+        ">
           {userData.username}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 200 20"
-            className="absolute left-0 w-full h-[14px] bottom-[-6px] opacity-80 pointer-events-none"
+            className="hidden md:block absolute left-0 w-full h-[14px] bottom-[-6px] opacity-80 pointer-events-none"
             preserveAspectRatio="none"
           >
             <path
@@ -45,23 +51,29 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
             </defs>
           </svg>
         </h2>
-        <p className="text-xl text-gray-600 mt-2">
+        <p className="
+        text-xl text-gray-600 mt-1 mb-3
+        md:mt-2 md:mb-0
+        ">
           {userData.title}
         </p>
         <a
           href={`mailto:${userData.email}`}
-          className="rounded-xl block px-3 min-w-20 w-32 mt-4 md:mt-8 mb-0 md:mb-5 text-center py-3 bg-[#7E22CE] tracking-wide font-semibold text-lg text-white hover:bg-[#6B21A8] shadow-md hover:shadow-xl transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1">
+          className="
+          rounded-xl w-3/4 block px-3 min-w-20 mx-auto mt-4 mb-0 text-center py-2 bg-[#7E22CE] tracking-wide font-semibold text-lg text-white hover:bg-[#6B21A8] shadow-md hover:shadow-xl transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1
+          md:mb-5 md:mt-8 md:w-32 md:mx-0 md:py-3
+          ">
           Email Me
         </a>
         <SocialLinksBar userData={userData}/>
       </div>
 
-      <div className="relative w-full md:w-1/2 lg:w-2/3 h-full flex justify-center items-center mt-10 md:mt-0">
+      <div className="relative w-full md:w-1/2 lg:w-2/3 h-full flex justify-center items-center md:mt-0">
+      <div>
         <div
-          className="absolute inset-0 bg-gradient-to-b from-white to-[#E9D5FF] md:bg-none lg:bg-gradient-to-b lg:from-[#E9D5FF] lg:to-[#F3E8FF] lg:clip-path-none transition-all duration-300"
+          className="absolute inset-0 md:bg-none lg:bg-gradient-to-b lg:from-[#E9D5FF] lg:to-[#F3E8FF] lg:clip-path-none transition-all duration-300"
           style={{
-            clipPath:
-              "polygon(0% 0, 100% 0, 100% 100%, 20% 100%)",
+            clipPath: "polygon(0% 0, 100% 0, 100% 100%, 20% 100%)",
           }}
         ></div>
 
@@ -72,8 +84,12 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
             }
           }
         `}</style>
+      </div>
 
-        <div className="relative z-10 w-[260px] h-[260px] lg:w-[420px] lg:h-[420px]">
+        <div className="
+        relative z-10 w-[240px] h-[240px]
+        lg:w-[420px] lg:h-[420px]
+        ">
           <Image
             fill
             unoptimized

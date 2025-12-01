@@ -1,3 +1,4 @@
+"use client"
 import { RefObject, useEffect, useState } from "react"
 import { UserData } from "../page"
 import useActiveSection from "../hooks/useActiveSection"
@@ -30,13 +31,14 @@ export default function Header ({ userData, refs }: MyProps) {
 
     const onScroll = () => {
       const currentY = window.scrollY
+      const diff = currentY - startingY
 
-      if (currentY > startingY && currentY - startingY > 8) {
+      if (diff > 8) {
         setHidden(true)
         startingY = currentY
       }
 
-      if (startingY > currentY && startingY - currentY > 8) {
+      if (diff < -8) {
         setHidden(false)
         startingY = currentY
       }

@@ -5,7 +5,6 @@ import type { UserData } from "./page";
 import "./components/linkspage.css"
 import UserLayoutClient from "./components/layoutClient";
 
-//ADD VARIABLE COLORS, EX: PRIMARY, HOVER, ACCENT, BG
 
 export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
@@ -33,9 +32,8 @@ export async function generateMetadata ({ params }: { params: Promise<{ handle: 
 async function isAuthenticatedUser (id: string) {
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: sessionData } = await supabase.auth.getSession()
+  const user = sessionData.session?.user
 
   return user?.id === id
 }
