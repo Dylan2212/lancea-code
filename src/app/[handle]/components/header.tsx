@@ -1,4 +1,4 @@
-import { RefObject } from "react"
+import { RefObject, useEffect, useState } from "react"
 import { UserData } from "../page"
 import useActiveSection from "../hooks/useActiveSection"
 
@@ -8,6 +8,7 @@ type MyProps = {
 }
 
 export default function Header ({ userData, refs }: MyProps) {  
+  const [hidden, setHidden] = useState(false)
   const headerSections = {
     about: userData.bio ? true : false,
     projects: userData.projects && userData.projects.length > 0 ? true : false,
@@ -24,16 +25,45 @@ export default function Header ({ userData, refs }: MyProps) {
     links: linksRef
   })
 
+  useEffect(() => {
+    let startingY = window.scrollY
+
+    const onScroll = () => {
+      const currentY = window.scrollY
+
+      if (currentY > startingY && currentY - startingY > 8) {
+        setHidden(true)
+        startingY = currentY
+      }
+
+      if (startingY > currentY && startingY - currentY > 8) {
+        setHidden(false)
+        startingY = currentY
+      }
+    }
+
+    window.addEventListener("scroll", onScroll)
+
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
   const headerClass = "text-[#7E22CE] text-sm md:text-lg tracking-wide font-medium border-b-2 transition-colors duration-300 hover:text-[#6B21A8]"
   return (
     <>
-      {<header className="h-16 flex fixed w-dvw z-50 pr:4 md:pr-8 justify-end items-center backdrop-blur-md bg-white/60">
-        <nav className="flex items-center h-full gap-6 md:gap-12">
+      {<header className={`
+      ${hidden ? "-translate-y-[150%]" : "translate-y-0"}
+      h-12 flex fixed w-11/12 z-50 items-center bg-white top-5 rounded-full shadow-md left-1/2 -translate-x-1/2 border transition-all duration-300 ease-in-out
+      md:w-dvw md:pr-8 md:h-16 md:backdrop-blur-md md:bg-white/60 md:justify-end md:top-0 md:rounded-none md:shadow-none md:left-0 md:-translate-x-0 md:border-none
+      `}>
+        <nav className="
+        flex items-center h-full w-full justify-around
+        md:gap-12 md:w-auto
+        ">
           {(headerSections.about || headerSections.projects) && <a className={`${headerClass} ${active === "hero" ? "border-[#6B21A8]" : "border-transparent"}`} href="#hero">Home</a>}
           {headerSections.projects && <a className={`${headerClass} ${active === "projects" ? "border-[#6B21A8]" : "border-transparent"}`} href="#projects">Projects</a>}
           {headerSections.links && <a className={`${headerClass} ${active === "links" ? "border-[#6B21A8]" : "border-transparent"}`} href="#links">Links</a>}
           {headerSections.about && <a className={`${headerClass} ${active === "about" ? "border-[#6B21A8]" : "border-transparent"}`} href="#about">About</a>}
-          {headerSections.cta && <a href={`mailto:${userData.email}`} className={`tracking-wide font-medium bg-[#7E22CE] rounded-xl text-white py-2 px-3 border-transparent transition-all duration-300 ease-in-out hover:bg-[#6B21A8]`}>Email Me</a>}
+          {headerSections.cta && <a href={`mailto:${userData.email}`} className={`tracking-wide text-xs md:text-base font-medium bg-[#7E22CE] rounded-xl text-white py-2 px-3 border-transparent transition-all duration-300 ease-in-out hover:bg-[#6B21A8]`}>Email Me</a>}
         </nav>
       </header>}
     </>
