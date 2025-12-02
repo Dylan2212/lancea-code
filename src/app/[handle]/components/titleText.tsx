@@ -5,17 +5,28 @@ type MyProps = {
 
 export default function TitleText ({ bgTitle, mainTitle }: MyProps) {
   return (
-    <div className="relative w-full text-center py-10">
-      <span className="absolute left-1/2 -translate-x-1/2 -top-2 
-                        text-8xl md:text-9xl font-extrabold 
-                        text-gray-200 opacity-30 whitespace-nowrap 
-                        pointer-events-none select-none">
+    <div className="relative w-full py-12 md:py-16 flex flex-col items-center justify-center">
+
+      {/* Background Title */}
+      <span
+        className="absolute top-1/2 -translate-y-1/2
+                   text-7xl md:text-8xl lg:text-9xl
+                   font-extrabold text-gray-200 opacity-30
+                   whitespace-nowrap select-none pointer-events-none
+                   leading-none"
+      >
         {bgTitle}
       </span>
-      <h2 className="relative text-4xl md:text-5xl font-bold 
-                     text-[#7E22CE] tracking-tight">
+
+      {/* Foreground Title */}
+      <h2
+        className="relative z-10
+                   text-4xl md:text-5xl lg:text-6xl
+                   font-bold text-[#7E22CE] tracking-tight leading-tight"
+      >
         {mainTitle}
       </h2>
+
     </div>
   )
 }
