@@ -14,7 +14,7 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
     <section
       id="hero"
       ref={ref}
-      className="relative md:bg-gradient-to-l md:from-[#E9D5FF] md:to-[white] lg:bg-none flex flex-col md:flex-row items-center justify-center h-svh md:h-screen overflow-hidden bg-white"
+      className={`relative md:bg-gradient-to-l md:from-[var(--accentColor)] md:to-white lg:bg-none flex flex-col md:flex-row items-center justify-center h-svh md:h-screen overflow-hidden bg-white`}
     >
       {/* Left content */}
       <div className="
@@ -24,10 +24,10 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
         <h1 className="text-3xl mb-1 text-center md:text-start md:text-4xl font-semibold text-gray-700 md:mb-0">
           Hello I&apos;m
         </h1>
-        <h2 className="
-        text-5xl w-full mb-2 font-extrabold text-[#7E22CE] mt-2 relative
+        <h2 className={`
+        text-5xl w-full mb-2 font-extrabold text-[var(--mainColor)] mt-2 relative
         md:mx-0 md:text-6xl md:w-fit md:mb-0
-        ">
+        `}>
           {userData.username}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -45,8 +45,8 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
             />
             <defs>
               <linearGradient id="markerGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#7E22CE" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#7E22CE" stopOpacity="0.3" />
+                <stop offset="0%" stopColor={`var(--mainColor)`} stopOpacity="0.9" />
+                <stop offset="100%" stopColor={`var(--mainColor)`} stopOpacity="0.3" />
               </linearGradient>
             </defs>
           </svg>
@@ -59,10 +59,10 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
         </p>
         <a
           href={`mailto:${userData.email}`}
-          className="
-          rounded-xl w-3/4 block px-3 min-w-20 mx-auto mt-4 mb-0 text-center py-2 bg-[#7E22CE] tracking-wide font-semibold text-lg text-white hover:bg-[#6B21A8] shadow-md hover:shadow-xl transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1
+          className={`
+          rounded-xl w-3/4 block px-3 min-w-20 mx-auto mt-4 mb-0 text-center py-2 bg-[var(--mainColor)] tracking-wide font-semibold text-lg text-white hover:bg-[#6B21A8] shadow-md hover:shadow-xl transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1
           md:mb-5 md:mt-8 md:w-32 md:mx-0 md:py-3
-          ">
+          `}>
           Email Me
         </a>
         <SocialLinksBar userData={userData}/>
@@ -71,7 +71,7 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
       <div className="relative w-full md:w-1/2 lg:w-2/3 h-full flex justify-center items-center md:mt-0">
       <div>
         <div
-          className="absolute inset-0 md:bg-none lg:bg-gradient-to-b lg:from-[#E9D5FF] lg:to-[#F3E8FF] lg:clip-path-none transition-all duration-300"
+          className="absolute inset-0 md:bg-none lg:bg-[var(--mainColor)] lg:clip-path-none transition-all duration-300"
           style={{
             clipPath: "polygon(0% 0, 100% 0, 100% 100%, 20% 100%)",
           }}

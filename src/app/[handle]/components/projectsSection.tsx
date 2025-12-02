@@ -30,7 +30,8 @@ const ProjectSection = React.forwardRef<HTMLElement, { projects: ProjectData[] }
     >
       <div className="w-full flex flex-col gap-8">
         <TitleText mainTitle="My Projects" bgTitle="Projects"/>
-        <div className="flex items-center justify-center gap-20">
+        <div className="flex flex-wrap items-center justify-center gap-8
+         md:gap-20">
           {projects.map((project, index) => {
             return (
               <Project project={project} index={index} key={project.id} setFullProject={setFullProject}/>

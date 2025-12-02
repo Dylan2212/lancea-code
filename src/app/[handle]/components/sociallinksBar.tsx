@@ -98,12 +98,12 @@ export default function SocialLinksBar ({ userData }: MyProps) {
           return (
             <a key={platform} href={`${link}`} target="_blank" rel="noopener noreferrer"className="flex items-center justify-center
           rounded-full p-3
-          ring-1 ring-[#E9D5FF]/70
+          ring-1 ring-[var(--accentColor)]
           shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_10px_rgba(0,0,0,0.2)]
           bg-gradient-to-b from-gray-100/60 to-gray-50/30 backdrop-blur-sm
           transition-all duration-300 ease-in-out
           hover:-translate-y-1 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_20px_rgba(0,0,0,0.3)]
-          hover:ring-[#7E22CE]">
+          hover:ring-[var(--hoverColor)]">
               {config.icon}
             </a>
           )

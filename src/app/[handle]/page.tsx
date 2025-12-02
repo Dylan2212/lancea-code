@@ -25,6 +25,14 @@ export type UserData = {
   handle: string
 }
 
+export function bioHasContent(bio?: string) {
+  if (!bio) return true
+
+  const text = bio.replace(/<[^>]*>/g, "").trim()
+
+  return text.length !== 0
+}
+
 export default function LancrLinksPage () {
   const userData = useContext(UserContext)
 
@@ -41,7 +49,7 @@ export default function LancrLinksPage () {
       <Hero ref={heroRef} userData={userData}/>
       {userData.projects && userData.projects.length > 0 && <ProjectSection ref={projectRef} projects={userData.projects}/>}
       {userData.additional_links &&  userData.additional_links.length > 0 && <LinksSection ref={linksRef} links={userData.additional_links}/>}
-      {userData.bio && userData.bio?.trim().length > 0  && <AboutSection ref={aboutRef} bio={userData.bio}/>}
+      {userData.bio && bioHasContent(userData.bio) && <AboutSection ref={aboutRef} bio={userData.bio}/>}
       <Footer handle={handle}/>
     </>
   )

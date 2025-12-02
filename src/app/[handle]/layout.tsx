@@ -5,6 +5,13 @@ import type { UserData } from "./page";
 import "./components/linkspage.css"
 import UserLayoutClient from "./components/layoutClient";
 
+const colors = {
+  main: "#7E22CE",
+  hover: "#6B21A8",
+  accent: "#E9D5FF",
+  text: "",
+  bg: ""
+}
 
 export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
@@ -71,7 +78,11 @@ export default async function Layout ({ children, params }: { children: React.Re
   const userData: UserData = await fetchByURLUsername(handle)
 
   return (
-    <main id="freelancermain">
+    <main style={{
+      "--mainColor": colors.main,
+      "--hoverColor": colors.hover,
+      "--accentColor": colors.accent
+    } as React.CSSProperties}>
       <UserLayoutClient userData={userData}>
         {children}
       </UserLayoutClient>

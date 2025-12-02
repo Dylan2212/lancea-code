@@ -28,15 +28,15 @@ export default function Project({ project, setFullProject, index }: MyProps) {
       whileHover={{
         y: -8,
         boxShadow: `
-          0px 12px 40px rgba(126, 34, 206, 0.22),
-          0px 3px 6px rgba(255, 255, 255, 0.9)
+          0px 14px 40px rgba(0, 0, 0, 0.28),
+          0px 4px 10px rgba(0, 0, 0, 0.16)
         `,
         transition: { duration: 0.05, ease: "easeOut" }
       }}
       className="
-        group relative rounded-xl overflow-hidden w-[325px] aspect-square
-        border-2 border-[#E9D5FF] shadow-md bg-white
-        cursor-pointer hover:border-[#7E22CE]
+        group relative rounded-xl overflow-hidden min-w-[325px] max-w-[325px] h-[350px] md:h-auto md:aspect-square
+        border-2 shadow-md bg-white
+        cursor-pointer hover:border-[var(--hoverColor)]
         transition-all duration-300
       "
     >
@@ -77,6 +77,16 @@ export default function Project({ project, setFullProject, index }: MyProps) {
       <p className="p-3 text-lg text-gray-800 font-semibold line-clamp-2">
         {project.title}
       </p>
+      <div
+        className="
+          md:hidden
+          absolute bottom-3 right-3
+          text-[var(--mainColor)] text-sm font-medium
+        "
+      >
+        Tap to view →
+      </div>
+
     </motion.div>
   )
 }
