@@ -11,6 +11,7 @@ import AboutSection from "./components/aboutSection"
 import LinksSection from "./components/linksSection"
 import Header from "./components/header"
 import Footer from "./components/footer"
+import { bioHasContent } from "./utils/bioHasContent"
 
 export type UserData = {
   id: string,
@@ -23,14 +24,6 @@ export type UserData = {
   projects: ProjectData[],
   bio: string,
   handle: string
-}
-
-export function bioHasContent(bio?: string) {
-  if (!bio) return true
-
-  const text = bio.replace(/<[^>]*>/g, "").trim()
-
-  return text.length !== 0
 }
 
 export default function LancrLinksPage () {

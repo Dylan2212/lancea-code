@@ -2,7 +2,7 @@
 import { RefObject, useEffect, useState } from "react"
 import { UserData } from "../page"
 import useActiveSection from "../hooks/useActiveSection"
-import { bioHasContent } from "../page"
+import { bioHasContent } from "../utils/bioHasContent"
 
 type MyProps = {
   userData: Partial<UserData>,
