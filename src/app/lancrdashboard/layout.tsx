@@ -96,7 +96,7 @@ useEffect(() => {
       <div className="flex flex-col">
         <LancrMainHeader setShowDeleteModal={setShowDeleteModal} />
         <main className="flex flex-1 justify-end">
-          <div className="lg:w-[80%] xl:w-[85%]">
+          <div className="md:w-[78%] xl:w-[80%]">
             {children}
           </div>
         </main>

@@ -100,7 +100,7 @@ export default function ProjectGallery ({ files, setFiles, cover, setCover, setR
           <p className="text-center">Drag & drop some files here, or click to select files</p>
         </div>
 
-        <Masonry breakpointCols={seenOnboarding ? {default: 2, 768: 1} : {default: 1}} className="my-masonry-grid py-10 px-6" columnClassName="my-masonry-grid_column">
+        <Masonry breakpointCols={seenOnboarding ? {default: 3, 1024: 2, 768: 1} : {default: 1}} className="my-masonry-grid py-10 px-6" columnClassName="my-masonry-grid_column">
           {files.map((file, idx) => (
             <div key={file.id} className={`${cover === idx ? "ring ring-offset-4 ring-purple-600 rounded-lg" : "hover:ring-offset-4 hover:ring hover:ring-purple-300 hover:rounded-lg"} mb-6 transition-all ease-in-out duration-200`}>
               <div onClick={() => {

@@ -20,6 +20,7 @@ import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
 import { normalizeUrl } from "@/utils/normalizeUrl"
 import Skeleton from "react-loading-skeleton"
 import OnboardingFlow from "../components/onboarding/onboardingFlow"
+import { isSafeLink } from "@/utils/validateLink"
 
 export default function LancrHome () {
   type BioData = {
@@ -121,6 +122,9 @@ export default function LancrHome () {
       const normalizedLink = { ...link }
     
       normalizedLink.url = normalizeUrl(link?.url)
+      const linkIsSafe = isSafeLink(link?.url)
+
+      if (!linkIsSafe.safe) continue
     
       const original = originalMap.get(link.id)
       if (!original) {

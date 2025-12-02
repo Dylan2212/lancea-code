@@ -8,7 +8,7 @@ export default function Sidebar () {
   
   return (
     <nav className="hidden
-    lg:block lg:fixed lg:left-0 lg:top-16 lg:h-[calc(100dvh-4rem)] lg:w-[20%] lg:border-r-2 lg:bg-gray-50
+    md:block md:fixed md:left-0 md:top-16 md:h-[calc(100dvh-4rem)] md:w-[20%] md:border-r-2 md:bg-gray-50
     xl:w-[15%]
     ">
       <SidebarButton href="/lancrdashboard/profile" content="Profile" icon={<CircleUserRound/>}/>

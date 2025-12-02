@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from "uuid"
 import { normalizeUrl } from "@/utils/normalizeUrl"
 import { SquarePlus, Trash2 } from "lucide-react"
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
+import { isSafeLink } from "@/utils/validateLink"
 
 type CoverObj = { coverUrl: string; position: number }
 
@@ -204,6 +205,12 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
       }
 
       const finalLink = normalizeUrl(projectData.link)
+      const LinkIsSafe = isSafeLink(finalLink)
+      if (!LinkIsSafe.safe) {
+        toast.error("Link flagged as potential spam.")
+        setAdding(false)
+        return
+      }
       const uploadedUrls = await saveToStorage()
       const finalProjectData: ProjectData = {
         ...projectData,
@@ -250,9 +257,9 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
   }
 
   return (
-    <section className="w-full lg:pb-0 lg:w-full">
+    <section className="w-full lg:pb-0 pt-5 pr-5">
       <h1 className="text-2xl font-semibold mb-0">{projectAction} Project</h1>
-      <form className="lancr-add-edit-sect" onSubmit={saveProject}>
+      <form className="lancr-add-edit-sect w-full" onSubmit={saveProject}>
         <TitleInput
           handleChange={e => onUpdate("title", e.target.value)}
           inputName="title"
