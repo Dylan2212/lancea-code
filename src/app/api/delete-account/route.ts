@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 export async function POST(req: Request) {
   // Create supabase client with service role key (server-side only!)
@@ -31,12 +34,31 @@ export async function POST(req: Request) {
   // Step 1: Fetch profile info from your DB
   const { data: profile, error: profileError } = await supabase
     .from("users")
-    .select("id, profileImage")
+    .select("id, profileImage, stripe_customer_id")
     .eq("id", uid)
     .single();
 
   if (profileError || !profile) {
     return NextResponse.json({ error: "User profile not found" }, { status: 404 });
+  }
+
+  if (profile.stripe_customer_id) {
+    try {
+      const subscriptions = await stripe.subscriptions.list({
+        customer: profile.stripe_customer_id,
+        status: 'all', // or 'active' if you only care about active
+      });
+    
+      for (const sub of subscriptions.data) {
+        await stripe.subscriptions.update(sub.id, {
+          cancel_at_period_end: false, // immediate cancellation; set true if you want to end at period end
+        });
+      }
+    
+      await stripe.customers.del(profile.stripe_customer_id);
+    } catch (err: unknown) {
+      console.error("Failed to delete Stripe customer or cancel subscriptions:", err);
+    }
   }
 
   // Step 2: Delete additional_links rows
