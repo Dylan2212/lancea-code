@@ -5,14 +5,14 @@ import { supabase } from '@/lib/supabaseClient'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import { useUserStore } from '@/lib/store/useUserStore'
 import Link from 'next/link'
+import { useOriginalUserStore } from '@/lib/store/useOriginalUser'
 
 export default function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const handle = useUserStore(state => state.handle)
+  const handle = useOriginalUserStore(state => state.handle)
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {

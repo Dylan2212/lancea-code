@@ -18,14 +18,23 @@ export type User = {
   profileImage: string,
   handle: string,
   is_live: boolean,
-  has_seen_onboarding?: boolean
+  has_seen_onboarding?: boolean,
+  premium: boolean,
+  subscription_status: "active" | "inactive",
+  stripe_customer_id: string
 }
 
 async function createUserInDB (uid: string, email: string | undefined) {
+  const res = await fetch("/api/createStripeUser", {
+    method: "POST",
+    body: JSON.stringify({ uid, email })
+  })
+
+  const { stripeId } = await res.json()
 
   const { error } = await supabase
     .from("users")
-    .upsert([{ id: uid, email }])
+    .upsert([{ id: uid, email, stripe_customer_id: stripeId }])
 
   if (error) {
     console.log("Could not create user: " + JSON.stringify(error))
