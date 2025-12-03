@@ -104,6 +104,7 @@ function setStoreData (user: User, links: AdditionalLink[] | null, projects: Pro
     bio: user.bio || "",
     title: user.title || "",
     profileImage: user.profileImage || "",
+    premium: user.premium,
     has_seen_onboarding: user.has_seen_onboarding || false,
     handle: user.handle || handle || "",
     isLive: user.is_live || false,

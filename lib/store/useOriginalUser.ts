@@ -8,6 +8,7 @@ type OriginalUserState = {
   username: string
   title: string
   profileImage: string
+  premium: boolean
   profileImageFile: File | null
   has_seen_onboarding: boolean
   onboardingIndex: number
@@ -40,6 +41,7 @@ export const useOriginalUserStore =
         title: "",
         handle: "",
         isLive: false,
+        premium: false,
         has_seen_onboarding: false,
         profileImageFile: null,
         profileImage: "",
@@ -78,6 +80,7 @@ export const useOriginalUserStore =
             title: "",
             handle: "",
             isLive: false,
+            premium: false,
             has_seen_onboarding: false,
             profileImageFile: null,
             profileImage: "",
