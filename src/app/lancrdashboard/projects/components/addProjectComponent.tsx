@@ -9,9 +9,9 @@ import { supabase } from "@/lib/supabaseClient"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { v4 as uuidv4 } from "uuid"
 import { normalizeUrl } from "@/utils/normalizeUrl"
-import { SquarePlus, Trash2 } from "lucide-react"
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { isSafeLink } from "@/utils/validateLink"
+import Results from "./results"
 
 type CoverObj = { coverUrl: string; position: number }
 
@@ -37,7 +37,6 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
   const userId = useOriginalUserStore(state => state.userId)
   const { projects, setProjects } = useProjectsStore.getState()
 
-  const [maxResults, setMaxResults] = useState(false)
   const [adding, setAdding] = useState(false)
   const [removedFiles, setRemovedFiles] = useState<string[]>([])
   const [addedFile, setAddedFile] = useState(false)
@@ -56,40 +55,6 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
     setProjectData(projects[globalIndex])
     setCover(projects[globalIndex]?.cover?.position ?? 0)
   }, [globalIndex, projects])
-
-  // --- Helpers for Results, Project Data, Storage --- //
-
-  const filledResult = () => {
-    if (!projectData.results || projectData.results.length === 0) return true
-    const last = projectData.results[projectData.results.length - 1]
-    if (last === "") {
-      toast.error("Fill in the previous result before you add more results.")
-      return false
-    }
-    return true
-  }
-
-  const addResult = () => {
-    if (!filledResult()) return
-    if (maxResults) return
-    if (projectData.results?.length === 4) setMaxResults(true)
-    setProjectData(prev => ({ ...prev, results: [...(prev.results ?? []), ""] }))
-  }
-
-  const resultChange = (value: string, index: number) => {
-    setProjectData(prev => {
-      const updatedResults = [...(prev.results ?? [])]
-      updatedResults[index] = value
-      return { ...prev, results: updatedResults }
-    })
-  }
-
-  const deleteResult = (index: number) => {
-    setProjectData(prev => {
-      const updatedResults = prev.results?.filter((_, i) => i !== index)
-      return { ...prev, results: updatedResults }
-    })
-  }
 
   const onUpdate = <K extends keyof ProjectData>(name: K, value: ProjectData[K]) => {
     setProjectData(prev => ({ ...prev, [name]: value }))
@@ -290,32 +255,7 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
             Max: {projectData.description?.length}/{1000} characters
           </p>
         </div>
-        <div className="mt-6 mb-3 ml-2">
-          <p className="text-lg">Results:</p>
-          {
-            projectData.results?.map((result, index) => (
-              <div key={index} className="flex items-center gap-5 justify-between px-6 py-4 border rounded-md border-gray-400 shadow-sm mb-4 last:mb-0
-              w-full
-              ">
-                <div className="flex flex-col gap-1 w-11/12 
-                lg:w-full lg:flex-row lg:items-center lg:gap-3">
-                  <p>Result:</p>
-                  <div className="w-full">
-                    <input required maxLength={80} onChange={(e) => resultChange(e.target.value, index)} value={result ?? ""} className="rounded-lg border py-1 px-3 focus:outline-purple-600 w-full" placeholder="Achieved..." type="text" name="" id="" />
-                    <p className={`max-characters ${result.length === 80 && "text-red-600"}`}>
-                      Max: {result.length}/{80} characters
-                    </p>
-                  </div>
-                </div>
-                <Trash2 className="w-12 h-6 lg:mt-6 lg:mb-3 cursor-pointer hov-standrd hover:text-red-600" onClick={() => deleteResult(index)}/>
-              </div>
-            ))
-          }
-          <button onClick={addResult} type="button" className="px-6 py-4 border border-black rounded-md shadow-lg flex justify-around gap-3 mb-4 hov-standrd hover:bg-gray-100 mt-2">
-            <SquarePlus />
-            Add Result
-          </button>
-        </div>
+        <Results projectData={projectData} setProjectData={setProjectData}/>
         <TitleInput handleChange={(e) => onUpdate("link", e.target.value)} inputName="link" value={projectData.link} required={false} labelTitle="Live Demo Link" type="text" previewText="https://example.com" maxChar={2000} displayMaxChar={false} />
         <div className="flex justify-end gap-5 w-full mt-10">
           <button type="button" className="rounded-md bg-gray-300 hover:bg-gray-400 hov-standrd w-fit text-lg px-6 py-2 mr-6

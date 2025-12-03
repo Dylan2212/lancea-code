@@ -23,7 +23,8 @@ export type UserData = {
   additional_links: AdditionalLink[],
   projects: ProjectData[],
   bio: string,
-  handle: string
+  handle: string,
+  premium: boolean
 }
 
 export default function LancrLinksPage () {
