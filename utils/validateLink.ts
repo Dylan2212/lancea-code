@@ -45,7 +45,7 @@ const BLOCKED_REDIRECT_HOSTS = [
 ].map(d => d.toLowerCase())
 
 export function isSafeLink(url: string | undefined): { safe: boolean; reason?: string } {
-  if (!url) return {safe: false, reason: "No link present"}
+  if (!url) return {safe: true, reason: "No link present"}
   try {
     const parsed = new URL(url)
     const host = parsed.hostname.toLowerCase()

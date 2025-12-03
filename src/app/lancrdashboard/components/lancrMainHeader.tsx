@@ -65,7 +65,7 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
 
   return (
     <header className="lancr-main-header">
-      <Link href={"/lancrdashboard/overview"} className="
+      <Link href={"/lancrdashboard/profile"} className="
       text-2xl ml-2 font-inter font-bold text-purple-600
       lg:ml-12 lg:text-4xl
       ">Lancrly</Link>
