@@ -12,6 +12,8 @@ import { normalizeUrl } from "@/utils/normalizeUrl"
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { isSafeLink } from "@/utils/validateLink"
 import Results from "./results"
+import ProjectLinks from "./projectLinks"
+import AddSkills from "./addSkills"
 
 type CoverObj = { coverUrl: string; position: number }
 
@@ -255,8 +257,9 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
             Max: {projectData.description?.length}/{1000} characters
           </p>
         </div>
+        <AddSkills/>
         <Results projectData={projectData} setProjectData={setProjectData}/>
-        <TitleInput handleChange={(e) => onUpdate("link", e.target.value)} inputName="link" value={projectData.link} required={false} labelTitle="Live Demo Link" type="text" previewText="https://example.com" maxChar={2000} displayMaxChar={false} />
+        <ProjectLinks onUpdate={onUpdate} projectData={projectData}/>
         <div className="flex justify-end gap-5 w-full mt-10">
           <button type="button" className="rounded-md bg-gray-300 hover:bg-gray-400 hov-standrd w-fit text-lg px-6 py-2 mr-6
             lg:mr-0" onClick={setProjectPage !== "NULL" ? () => setProjectPage({showing: false, index: -1, action: "Add"}) : () => router.back()}>Cancel</button>

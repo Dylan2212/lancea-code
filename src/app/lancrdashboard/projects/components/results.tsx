@@ -47,7 +47,12 @@ export default function Results ({ projectData, setProjectData }: MyProps) {
   }
 
   return (
-    <div className="mt-6 mb-3 ml-2 relative p-3 rounded-2xl border shadow-sm">
+    <div   className={`
+    mt-16 mb-3 ml-2 relative p-3 rounded-2xl
+    border
+    ${!premium ? "shadow-sm border bg-black/10" : "shadow-[0_0_20px_-5px_rgba(126,34,206,0.15)] border-[#E9D5FF] bg-white/80"}
+     backdrop-blur-[3px]
+  `}>
     {!premium && (
       <>
         <div className="absolute inset-0 bg-white/60 backdrop-blur-xs z-10 pointer-events-none rounded-2xl" />
