@@ -32,7 +32,7 @@ export default function StepThree ({ nextStep, previous }: MyProps) {
 
   async function saveProfileImage () {
     if (!file) {
-      if (storeFile) {
+      if (storeFile?.name) {
         nextStep()
         return
       }

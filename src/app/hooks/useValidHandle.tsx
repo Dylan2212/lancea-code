@@ -31,7 +31,7 @@ export default function useValidHandle (handle: string) {
         const res = await fetch("/api/check-handle", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ handle }),
+          body: JSON.stringify({ handle, userId }),
         })
 
         const data = await res.json()
