@@ -26,4 +26,32 @@ export class Trie {
     }
     node.isEnd = true
   }
+
+  insertMany (words: string[]): void {
+    for (const word of words) {
+      this.insert(word)
+    }
+  }
+
+  search (prefix: string): string[] {
+    let node = this.root
+    const results: string[] = []
+
+    for (const char of prefix) {
+      if (!node.children[char]) return []
+      node = node.children[char]
+    }
+
+    this.collectWords(prefix.toLowerCase(), node, results)
+    return results
+  }
+
+  private collectWords (prefix: string, node: TrieNode, results: string[]) {
+    const queue: Array<{ prefix: string, node: TrieNode }> = [
+      { prefix, node }
+    ]
+
+    const current = queue.shift()
+    if (current?.node.isEnd) results.push(current.prefix)
+  }
 }

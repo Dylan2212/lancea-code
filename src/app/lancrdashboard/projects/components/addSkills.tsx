@@ -3,11 +3,11 @@ import React from "react"
 
 export default function AddSkills () {
   const [inputValue, setInputValue] = useState("")
-  const [predefinedSkills, setPredefinedSkills] = useState<string[]>([])
-  const [customSkills, setCustomSkills] = useState<string[]>([])
+  //const [predefinedSkills, setPredefinedSkills] = useState<string[]>([])
+  //const [customSkills, setCustomSkills] = useState<string[]>([])
 
   function addSkill () {
-    
+
   }
 
   function pressedEnter (e: React.KeyboardEvent<HTMLInputElement>) {
