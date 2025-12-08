@@ -51,7 +51,17 @@ export class Trie {
       { prefix, node }
     ]
 
-    const current = queue.shift()
-    if (current?.node.isEnd) results.push(current.prefix)
+    while (queue.length > 0 && results.length < 6) {
+      const current = queue.shift()
+      if (current?.node.isEnd) {
+        results.push(current.prefix)
+        if (results.length === 6) return
+      }
+
+      const kids = current?.node.children
+      if (!kids) continue
+      
+      Object.keys(kids).forEach((kid) => queue.push({ prefix: current.prefix + kid, node: kids[kid] }))
+    }
   }
 }
