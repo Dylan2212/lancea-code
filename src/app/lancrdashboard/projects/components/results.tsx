@@ -49,20 +49,18 @@ export default function Results ({ projectData, setProjectData }: MyProps) {
   return (
     <div   className={`
     mt-16 mb-3 ml-2 relative p-3 rounded-2xl
-    border
-    ${!premium ? "shadow-sm border bg-black/10" : "shadow-[0_0_20px_-5px_rgba(126,34,206,0.15)] border-[#E9D5FF] bg-white/80"}
-     backdrop-blur-[3px]
+    ${!premium ? "shadow-sm bg-black/10 overflow-hidden" : "shadow-[0_0_20px_-5px_rgba(126,34,206,0.15)] border-[#E9D5FF] bg-white/80"}
   `}>
     {!premium && (
       <>
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-xs z-10 pointer-events-none rounded-2xl" />
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm z-10 pointer-events-none rounded-2xl" />
 
         <Link href={"/lancrdashboard/pricing"} className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-4
-                        bg-black/0 hover:bg-black/20 transition-all duration-300 cursor-pointer rounded-2xl">
+                        hover:bg-black/10 transition-all duration-300 cursor-pointer rounded-2xl">
           <div className="flex flex-col items-center gap-3">
             <Lock className="w-10 h-10 text-purple-600 drop-shadow" />
             <button className="bg-[#7E22CE] hover:bg-[#6B21A8] text-white text-sm px-4 py-2 rounded-full shadow-md transition">
-              Unlock With Premium
+              Unlock Project Results
             </button>
           </div>
         </Link>

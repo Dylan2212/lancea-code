@@ -37,7 +37,7 @@ export class Trie {
     let node = this.root
     const results: string[] = []
 
-    for (const char of prefix) {
+    for (const char of prefix.toLowerCase()) {
       if (!node.children[char]) return []
       node = node.children[char]
     }

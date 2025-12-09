@@ -1,4 +1,4 @@
-import { create, type StoreApi, type UseBoundStore } from "zustand"
+import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import type { SocialLinks } from "./socialLinksType"
 
@@ -21,18 +21,15 @@ type OriginalUserState = {
   setIsLive: (isLive: boolean) => void
   reset: () => void
   setHasSeenOnboarding: (seenOnboarding: boolean) => void
-  setProfileImage: (url: string) => void
+  setOriginalProfileImage: (url: string) => void
   /** hydration flag to avoid SSR mismatch */
   _hasHydrated: boolean
   setHasHydrated: (state: boolean) => void
 }
 
 // ✅ singleton reference
-let store: UseBoundStore<StoreApi<OriginalUserState>> | undefined
-
 export const useOriginalUserStore =
-  store ??
-  (store = create<OriginalUserState>()(
+  create<OriginalUserState>()(
     persist(
       (set) => ({
         userId: "",
@@ -68,7 +65,7 @@ export const useOriginalUserStore =
         setProfileImageFile: (file: File | null) => set({ profileImageFile: file }),
         setIsLive: (isLive: boolean) => set({ isLive }),
         setHasSeenOnboarding: (has_seen_onboarding: boolean) => set({ has_seen_onboarding }),
-        setProfileImage: (profileImage: string) => set({ profileImage }),
+        setOriginalProfileImage: (profileImage: string) => set({ profileImage }),
         setOnboardingIndex: (onboardingIndex: number) => set({ onboardingIndex }),
         setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
 
@@ -111,4 +108,4 @@ export const useOriginalUserStore =
         },
       }
     )
-  ))
+  )

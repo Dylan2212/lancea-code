@@ -23,14 +23,14 @@ export default function ProjectLinks ({ onUpdate, projectData }: MyProps) {
       {isLink && <div className="w-full relative h-28 rounded-2xl pt-4 bg-black/10">
         {!premium && (
           <>
-            <div className="absolute inset-0 bg-white/60 backdrop-blur-xs z-10 pointer-events-none rounded-2xl" />
+            <div className="absolute inset-0 bg-white/60 backdrop-blur-sm z-10 pointer-events-none rounded-2xl" />
 
             <Link href={"/lancrdashboard/pricing"} className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-4
-                            bg-black/0 hover:bg-black/20 transition-all duration-300 cursor-pointer rounded-2xl">
+                            hover:bg-black/10 transition-all duration-300 cursor-pointer rounded-2xl">
               <div className="flex flex-col items-center gap-3">
                 <Lock className="w-10 h-10 text-purple-600 drop-shadow" />
                 <button className="bg-[#7E22CE] hover:bg-[#6B21A8] text-white text-sm px-4 py-2 rounded-full shadow-md transition">
-                  Unlock With Premium
+                  Unlock Unlimited Links
                 </button>
               </div>
             </Link>

@@ -19,6 +19,7 @@ export default function AddBio ({ profileImageFileRef }: Props) {
   const setUsername = useUserStore(state => state.setUsername)
   const profileImage = useUserStore(state => state.profileImage)
   const changedProfileImage = useUserStore(state => state.changedProfileImage)
+  const setProfileImage = useUserStore(state => state.setProfileImage)
   const setChangedProfileImage = useUserStore(state => state.setChangedProfileImage)
 
   useEffect(() => {
@@ -39,10 +40,11 @@ export default function AddBio ({ profileImageFileRef }: Props) {
 
       if (profileImage) URL.revokeObjectURL(profileImage)
       const url = URL.createObjectURL(file);
-      useUserStore.setState(state => ({
-        ...state,
-        "profileImage": url
-      }))
+      setProfileImage(url)
+      //useUserStore.setState(state => ({
+      //  ...state,
+      //  "profileImage": url
+      //}))
 
       if (!changedProfileImage) setChangedProfileImage(true)
     }

@@ -1,5 +1,5 @@
-import { create, type StoreApi, type UseBoundStore } from "zustand";
-import type { SocialLinks } from "./socialLinksType";
+import { create } from "zustand";
+import type { SocialLinks } from "../store/socialLinksType";
 
 type UserState = {
   userId: string;
@@ -34,11 +34,8 @@ type UserState = {
 };
 
 // ✅ Define the store variable explicitly as possibly undefined
-let store: UseBoundStore<StoreApi<UserState>> | undefined;
-
 export const useUserStore =
-  store ??
-  (store = create<UserState>((set) => ({
+  create<UserState>((set) => ({
     userId: "",
     email: "",
     username: "",
@@ -74,4 +71,4 @@ export const useUserStore =
     setHandle: (handle) => set({ handle }),
     setChangedProfileImage: (changedProfileImage) =>
       set({ changedProfileImage }),
-  })));
+  }));

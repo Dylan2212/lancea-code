@@ -14,7 +14,7 @@ type MyProps = {
 export default function StepThree ({ nextStep, previous }: MyProps) {
   const profileImgUrl = useOriginalUserStore(state => state.profileImage)
   const storeFile = useOriginalUserStore(state => state.profileImageFile)
-  const setProfileImgUrl = useOriginalUserStore(state => state.setProfileImage)
+  const setOriginalProfileImgUrl = useOriginalUserStore(state => state.setOriginalProfileImage)
   const [file, setFile] = useState<File>()
   const [saving, setSaving] = useState(false)
   const userId = useOriginalUserStore(state => state.userId)
@@ -25,7 +25,7 @@ export default function StepThree ({ nextStep, previous }: MyProps) {
       const file = files[0]
 
       const url = URL.createObjectURL(file)
-      setProfileImgUrl(url)
+      setOriginalProfileImgUrl(url)
       setFile(file)
     }
   }
