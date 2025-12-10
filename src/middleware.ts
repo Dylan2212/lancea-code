@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Public routes
-  const publicPaths = [
+  const publicPaths = new Set([
     '/',
     '/login',
     '/signup',
@@ -36,12 +36,13 @@ export async function middleware(request: NextRequest) {
     '/privacy',
     '/terms',
     '/confirm-email'
-  ]
+  ])
 
   const pathname = request.nextUrl.pathname
-  const isPublic = publicPaths.some((p) => pathname.startsWith(p))
+  const isPublic = publicPaths.has(pathname)
 
-  // Protect ALL non-public pages
+  console.log(user)
+  console.log(isPublic)
   if (!user && !isPublic) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
