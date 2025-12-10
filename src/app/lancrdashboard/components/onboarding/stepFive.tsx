@@ -24,7 +24,6 @@ export default function StepFive ({ nextStep, previous }: MyProps) {
   useEffect(() => {
     const tempLinks = Object.keys(socialLinks).filter(key => socialLinks[key as keyof SocialLinks] !== "").map(platformName => socialConfig[platformName])
     setAddedLinks(tempLinks)
-    
   }, [])
 
   function addSocialLink (e: React.FormEvent<HTMLFormElement>) {

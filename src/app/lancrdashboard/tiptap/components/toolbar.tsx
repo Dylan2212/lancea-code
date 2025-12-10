@@ -19,6 +19,7 @@ export default function ToolBar ({ editor, color, setColor }: ToolBarProps) {
             const level = Number(e.target.value) as |1|2|3|6
             editor.commands.toggleHeading({ level })
             document.getElementById("editor-heading-selector")?.blur()
+            editor.chain().focus().run()
           }}
           onMouseDown={(e) => {
             const select = e.currentTarget;

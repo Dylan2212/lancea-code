@@ -22,7 +22,7 @@ export default function Loading () {
       const uid = session.user.id
       const email = session.user.email
 
-      if (!uid) {
+      if (!uid || !email) {
         console.error("No user ID found in session.")
         return
       }

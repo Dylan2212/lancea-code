@@ -47,7 +47,7 @@ export default function useValidHandle (handle: string) {
         setIsAvailable(null)
         setLoading(false)
       }
-    }, 500)
+    }, 350)
 
     return () => clearTimeout(debounce)
 

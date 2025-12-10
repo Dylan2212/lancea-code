@@ -9,7 +9,7 @@ export async function updateUserSubscription(
   stripeCustomerId: string,
   status: string
 ) {
-  // Stripe sends customer → that's your user's stripe_customer_id
+
   const { error } = await supabase
     .from('users')
     .update({

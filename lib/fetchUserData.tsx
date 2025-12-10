@@ -24,7 +24,7 @@ export type User = {
   stripe_customer_id: string
 }
 
-async function createUserInDB (uid: string, email: string | undefined) {
+async function createUserInDB (uid: string, email: string | undefined): Promise<void> {
   const res = await fetch("/api/createStripeUser", {
     method: "POST",
     body: JSON.stringify({ uid, email })
@@ -42,7 +42,7 @@ async function createUserInDB (uid: string, email: string | undefined) {
   }
 }
 
-export async function fetchUserData (uid: string, email: string | undefined) {
+export async function fetchUserData (uid: string, email: string) {
   const { data, error } = await supabase
     .from("users")
     .select("*, additional_links(*), projects(*)")
@@ -50,7 +50,7 @@ export async function fetchUserData (uid: string, email: string | undefined) {
     .maybeSingle()
 
   if (error) {
-    console.log("Something went wrong fetching data")
+    console.error("Something went wrong fetching data")
   }
 
   if (!data) {

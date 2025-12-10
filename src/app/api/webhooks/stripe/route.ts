@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { updateUserSubscription } from '@/lib/db';
 
-export const runtime = 'nodejs'; // optional but recommended
+export const runtime = 'nodejs';
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY!;
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -42,7 +42,6 @@ export const POST = async (req: NextRequest) => {
               simpleStatus = 'active';
               break;
             default:
-              // includes past_due, canceled, unpaid, incomplete, etc.
               simpleStatus = 'inactive';
               break;
           }
