@@ -14,6 +14,7 @@ import { isSafeLink } from "@/utils/validateLink"
 import Results from "./results"
 import ProjectLinks from "./projectLinks"
 import AddSkills from "./addSkills"
+import ProjectDescription from "./projectDescription"
 
 type CoverObj = { coverUrl: string; position: number }
 
@@ -250,13 +251,8 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
           fromAPC={projectAction === "Edit" ? 10 : 0}
           setAspectRatio={() => {}}
         />
-        <div className="mt-6 mb-3 ml-2">
-          <label className="block text-lg" htmlFor="project-description">Description:<span className="text-red-500">*</span></label>
-          <textarea maxLength={1000} value={projectData.description} required className="lancr-add-edit-text-input h-40 resize-none" onChange={(e) => onUpdate("description", e.target.value)} name="project-description" id="project-description"></textarea>
-          <p className={`max-characters ${projectData.description?.length === 1000 && "text-red-600"}`}>
-            Max: {projectData.description?.length}/{1000} characters
-          </p>
-        </div>
+        <ProjectDescription />
+        {/* projectData={projectData} onUpdate={onUpdate} */}
         <AddSkills/>
         <Results projectData={projectData} setProjectData={setProjectData}/>
         <ProjectLinks onUpdate={onUpdate} projectData={projectData}/>

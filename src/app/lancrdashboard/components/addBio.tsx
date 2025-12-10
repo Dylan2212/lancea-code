@@ -3,7 +3,7 @@ import Image from "next/image"
 import TitleInput from "./titleInput"
 import { useState, useEffect } from "react"
 import { useUserStore } from "@/lib/store/useUserStore"
-import TiptapEditor from "./tiptapeditor"
+import TiptapEditor from "../tiptap/tiptapeditor"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 
 

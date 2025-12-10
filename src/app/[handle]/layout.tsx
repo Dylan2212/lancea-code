@@ -13,6 +13,7 @@ const colors = {
   bg: ""
 }
 
+
 export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
   const supabase = await createClient()
@@ -38,7 +39,6 @@ export async function generateMetadata ({ params }: { params: Promise<{ handle: 
 
 async function isAuthenticatedUser (id: string) {
   const supabase = await createClient()
-
   const { data: sessionData } = await supabase.auth.getSession()
   const user = sessionData.session?.user
 
@@ -47,7 +47,6 @@ async function isAuthenticatedUser (id: string) {
 
 async function fetchByURLUsername (handle: string) {
   const supabase = await createClient()
-
   const { data, error } = await supabase
     .from("users")
     .select("*, additional_links(*), projects(*)")

@@ -1,4 +1,4 @@
-import TipTapEditor from "../tiptapeditor"
+import TipTapEditor from "../../tiptap/tiptapeditor"
 import { useUserStore } from "@/lib/store/useUserStore"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { supabase } from "@/lib/supabaseClient"

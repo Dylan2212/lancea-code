@@ -15,7 +15,7 @@ export default function Loading () {
 
       if (!session) {
         router.push("/")
-        console.log("Not session")
+        console.error("Not session")
         return
       }
 

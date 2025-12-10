@@ -1,33 +1,15 @@
 // middleware.ts (ONLY middleware in your project)
-import { createServerClient } from '@supabase/ssr'
+import { createClient } from '@/utils/supabase/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next()
 
-  // Create SSR Supabase client using request + response cookies
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, options)
-          })
-        },
-      },
-    }
-  )
-
+  const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Public routes
   const publicPaths = [
     '/',
     '/login',
@@ -41,7 +23,6 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
   const isPublic = publicPaths.some((p) => pathname.startsWith(p))
 
-  // Protect ALL non-public pages
   if (!user && !isPublic) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
