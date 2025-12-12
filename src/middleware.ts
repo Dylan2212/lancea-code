@@ -17,7 +17,8 @@ export async function middleware(request: NextRequest) {
     '/auth',
     '/privacy',
     '/terms',
-    '/confirm-email'
+    '/confirm-email',
+    '/loading'
   ]
 
   const pathname = request.nextUrl.pathname
