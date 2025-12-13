@@ -1,11 +1,9 @@
-// middleware.ts (ONLY middleware in your project)
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const response = NextResponse.next()
 
-  // Create SSR Supabase client using request + response cookies
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -27,24 +25,18 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Public routes
-  const publicPaths = new Set([
-    '/',
-    '/login',
-    '/signup',
-    '/auth',
-    '/privacy',
-    '/terms',
-    '/confirm-email',
-    '/loading'
-  ])
+  const privatePrefixes = [
+    "/lancrdashboard"
+  ]
 
   const pathname = request.nextUrl.pathname
-  const isPublic = publicPaths.has(pathname)
+    console.log(pathname)
 
-  console.log(user)
-  console.log(isPublic)
-  if (!user && !isPublic) {
+  const isPrivate = privatePrefixes.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  )
+
+  if (!user && isPrivate) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
