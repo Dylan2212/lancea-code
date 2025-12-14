@@ -96,7 +96,7 @@ export default function Home() {
         <section className="mt-32 lg:mt-20 relative z-10 pb-12">
           <div className="border-2 border-purple-600 rounded-xl shadow-2xl h-72 lg:h-60 p-6 w-11/12 md:w-2/3 lg:w-1/2 mx-auto flex flex-col justify-around items-center">
             <p className="text-3xl text-center">Look Professional. Get Discovered.</p>
-            <button className="mx-auto w-5/6 xl:w-1/2 font-semibold bg-purple-600 text-white shadow-md rounded-full py-4 text-xl hov-standrd hover:bg-purple-500" onClick={() => router.push("/login")}>Create Your Free Page</button>
+            <button className="mx-auto w-5/6 xl:w-1/2 font-semibold bg-purple-600 text-white shadow-md rounded-full py-4 text-xl hov-standrd hover:bg-purple-500" onClick={() => router.push("/signup")}>Create Your Free Page</button>
             <p className="text-center">Sign up, set up, and share — all in under 5 minutes.</p>
           </div>
         </section>
