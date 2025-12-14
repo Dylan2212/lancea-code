@@ -65,10 +65,15 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
 
   return (
     <header className="lancr-main-header">
-      <Link href={"/lancrdashboard/profile"} className="
-      text-2xl ml-2 font-inter font-bold text-purple-600
-      lg:ml-12 lg:text-4xl
-      ">Lancrly</Link>
+      <Link href={"/lancrdashboard/profile"} className="flex items-center h-20 ml-4">
+        <Image
+          width={120}
+          height={30}
+          alt="Lancrly logo"
+          src="/lancrly.png"
+          className="object-contain"
+        />
+      </Link>
       <div className="flex md:mr-3 items-center w-fit md:gap-5 lg:gap-8 justify-between">
         <Link className="hidden bg-gray-100 md:py-2 md:rounded-full md:px-4 md:flex md:gap-2 md:hov-standrd" onClick={() => !handle && toast.error("Add required fields to preview your site.")} href={handle ? `/${handle}` : "#"} target={handle ? "_blank" : undefined} rel={handle ? "noopener noreferrer" : undefined}><Globe />Preview Site</Link>
         <div className="hidden md:flex md:flex-row md:gap-2 md:bg-gray-100 md:rounded-full md:py-2 md:px-4 md:items-center">

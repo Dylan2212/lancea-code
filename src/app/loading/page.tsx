@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { supabase } from "@/lib/supabaseClient"
 import { useRouter } from "next/navigation"
 import { ClipLoader } from "react-spinners"
+import Image from "next/image"
 
 export default function Loading () {
   const router = useRouter()
@@ -43,9 +44,15 @@ export default function Loading () {
     <div className="flex items-center justify-center h-dvh w-screen bg-white">
       <div className="relative flex items-center justify-center" style={{ width: 140, height: 140 }}>
         <ClipLoader color="#d8b4fe" size={150} />
-        <span className="absolute text-3xl font-semibold text-purple-500">
-          Lancrly
-        </span>
+        <div className="absolute flex items-center h-20 ml-4">
+          <Image
+            width={150}
+            height={60}
+            alt="Lancrly logo"
+            src="/lancrly.png"
+            className="object-contain"
+          />
+        </div>
       </div>
     </div>
   )
