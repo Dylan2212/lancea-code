@@ -1,21 +1,13 @@
 import { useUserStore } from "@/lib/store/useUserStore"
 import { useState, useEffect } from "react"
+import reservedHandle from "@/lib/reservedHandle"
 
 export default function useValidHandle (handle: string) {
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const userId = useUserStore.getState().userId
 
-  const isValid =  (() => {
-    if (!handle) return false
-    const reserved = ["admin", "api", "login", "signup", "logout", "settings"]
-    
-    if (reserved.includes(handle.toLowerCase())) {
-      return false
-    }
-    
-    return handle.length > 0 && handle.length <= 30 && !handle.includes(" ")
-  })()
+  const isValid = reservedHandle(handle)
 
   useEffect(() => {
     if (!isValid) {
@@ -43,7 +35,7 @@ export default function useValidHandle (handle: string) {
         setLoading(false)
 
       } catch (error) {
-        console.log("Error checking handle: ", error)
+        console.error("Error checking handle: ", error)
         setIsAvailable(null)
         setLoading(false)
       }

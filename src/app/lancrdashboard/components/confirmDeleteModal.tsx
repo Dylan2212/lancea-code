@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Modal from "react-modal"
 import { useEffect } from "react"
 import { ClipLoader } from "react-spinners"
