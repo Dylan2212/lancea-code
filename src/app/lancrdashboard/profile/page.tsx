@@ -122,7 +122,7 @@ export default function LancrHome () {
       const normalizedLink = { ...link }
     
       normalizedLink.url = normalizeUrl(link?.url)
-      const linkIsSafe = isSafeLink(link?.url)
+      const linkIsSafe = isSafeLink(normalizedLink.url)
 
       if (!linkIsSafe.safe) continue
     
