@@ -10,19 +10,20 @@ export function useChangeLiveStatus(userId: string) {
     const is_live = e.target.value === "Online"
 
     if (is_live) {
-      toast.success("Your site is now live!")
       await supabase
         .from("users")
         .update({is_live: true})
         .eq("id", userId)
-      
+
+      toast.success("Your site is now live!")
       setLiveInStore(true)
     } else {
-      toast("Site is now hidden.")
       await supabase
         .from("users")
         .update({is_live: false})
         .eq("id", userId)
+        
+      toast("Site is now hidden.")
       setLiveInStore(false)
     }
   }
