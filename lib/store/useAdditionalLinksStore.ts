@@ -7,11 +7,9 @@ export type AdditionalLink = {
   user_id?: string
 }
 
-type PartialAdditionalLinkWithId = Partial<AdditionalLink> & { id: string }
-
 type Store = {
-  links: PartialAdditionalLinkWithId[],
-  setLinks: (links: PartialAdditionalLinkWithId[]) => void
+  links: AdditionalLink[],
+  setLinks: (links: AdditionalLink[]) => void
   updateLink: (id: string, updatedField: Partial<AdditionalLink>) => void
 }
 

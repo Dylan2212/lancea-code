@@ -7,11 +7,9 @@ type AdditionalLink = {
   url: string
 }
 
-type PartialAdditionalLinkWithId = Partial<AdditionalLink> & { id: string }
-
 type OriginalStore = {
-  originalLinks: PartialAdditionalLinkWithId[],
-  setOriginalLinks: (links: PartialAdditionalLinkWithId[]) => void,
+  originalLinks: AdditionalLink[],
+  setOriginalLinks: (links: AdditionalLink[]) => void,
   reset: () => void
 }
 

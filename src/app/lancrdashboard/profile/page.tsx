@@ -17,10 +17,10 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import Link from "next/link"
 import { Globe, CircleSmall } from "lucide-react"
 import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
-import { normalizeUrl } from "@/utils/normalizeUrl"
 import Skeleton from "react-loading-skeleton"
 import OnboardingFlow from "../components/onboarding/onboardingFlow"
-import { isSafeLink } from "@/utils/validateLink"
+import { checkObjChanges } from "@/src/app/lancrdashboard/profile/utils/checkObjChanges"
+import { checkAdditionalLinksChanges } from "./utils/checkAdditionalLinkChanges"
 
 export default function LancrHome () {
   type BioData = {
@@ -38,8 +38,6 @@ export default function LancrHome () {
     profileImage?: string
   }
 
-  type PartialAdditionalLinkWithId = Partial<AdditionalLink> & { id: string }
-
   const profileImageFileRef = useRef<File | null>(null)
   const [saving, setSaving] = useState(false)
 
@@ -49,10 +47,13 @@ export default function LancrHome () {
   }, [])
 
   const handle = useOriginalUserStore(state => state.handle)
-  const username = useUserStore(state => state.username)
   const userId = useOriginalUserStore(state => state.userId)
   const seenOnboarding = useOriginalUserStore(state => state.has_seen_onboarding)
   const [userUrl, setUserUrl] = useState("")
+  const { bio, title, username, socialLinks } = useOriginalUserStore.getState()
+  const originalUserData = { bio, title, handle, username }
+  const originalSocialLinks = socialLinks
+  const originalAdditionalLinks = useOriginalAdditionalLinksStore(state => state.originalLinks)
 
   useEffect(() => {
     if (typeof window !== "undefined" && handle) {
@@ -74,77 +75,6 @@ export default function LancrHome () {
     const original = useOriginalAdditionalLinksStore.getState().originalLinks
     const setLinks = useAdditionalLinksStore.getState().setLinks
     setLinks(original)
-  }
-
-  function checkBioSectChanges (userData: BioData) {
-    const { bio, title, username } = useOriginalUserStore.getState()
-    const originalUserData = { bio, title, handle, username }
-    const changed: ChangedBioFields = {}
-
-    for (const key in originalUserData) {
-      const originalValue = originalUserData[key as keyof BioData]
-      const newValue = userData[key as keyof BioData]
-
-      if (originalValue !== newValue) {
-        changed[key as keyof BioData] = newValue
-      }
-    }
-
-    if (Object.keys(changed).length === 0) return null
-    return changed
-  }
-
-  function checkSocialLinksChanges(newSocialLinks: SocialLinks) {
-    const originalSocialLinks = useOriginalUserStore.getState().socialLinks
-    const changed: ChangedSocialLinks = {}
-
-    for (const key in newSocialLinks) {
-      const rawValue = newSocialLinks[key as keyof SocialLinks]
-      const normalizedValue = normalizeUrl(rawValue)
-      const originalValue = originalSocialLinks[key as keyof SocialLinks]
-
-      if (originalValue !== normalizedValue) {
-        changed[key as keyof SocialLinks] = normalizedValue
-      }
-    }
-
-    if (Object.keys(changed).length === 0) return null
-    return changed
-  }
-
-  function checkAdditionalLinksChanges (newLinks: PartialAdditionalLinkWithId[]) {
-    const originalLinks = useOriginalAdditionalLinksStore.getState().originalLinks
-    const changed: {[id: string]: Partial<AdditionalLink>} = {}
-
-    const originalMap = new Map(originalLinks.map(link => [link.id, link]))
-
-    for (const link of newLinks) {
-      const normalizedLink = { ...link }
-    
-      normalizedLink.url = normalizeUrl(link?.url)
-      const linkIsSafe = isSafeLink(normalizedLink.url)
-
-      if (!linkIsSafe.safe) continue
-    
-      const original = originalMap.get(link.id)
-      if (!original) {
-        changed[link.id] = normalizedLink
-        continue
-      }
-    
-      const diff: Partial<AdditionalLink> = {}
-    
-      if (original.link_title !== normalizedLink.link_title) diff.link_title = normalizedLink.link_title
-      if (original.url !== normalizedLink.url) diff.url = normalizedLink.url
-      if (Object.keys(diff).length > 0) diff.id = normalizedLink.id
-    
-      if (Object.keys(diff).length > 0) {
-        changed[link.id] = diff
-      }
-    }
-
-    if (Object.keys(changed).length === 0) return null
-    return changed
   }
 
   async function saveToDb (data: Data, id: string) {
@@ -219,7 +149,7 @@ export default function LancrHome () {
     return publicUrl
   }
 
-  function saveLinksToStore(links: PartialAdditionalLinkWithId[]) {
+  function saveLinksToStore(links: AdditionalLink[]) {
     useAdditionalLinksStore.setState((state) => {
       const updatedLinks = state.links.map(existing => {
         const updated = links.find(link => link.id === existing.id)
@@ -243,7 +173,7 @@ export default function LancrHome () {
     })
   }
 
-  async function saveAdditionalLinks (links: PartialAdditionalLinkWithId[]) {
+  async function saveAdditionalLinks (links: AdditionalLink[]) {
     const { error } = await supabase
       .from("additional_links")
       .upsert(links)
@@ -258,51 +188,28 @@ export default function LancrHome () {
     return true
   }
 
-  function changeToAcceptableLinksType (links: Partial<AdditionalLink>, userId: string): PartialAdditionalLinkWithId[] {
-    const acceptableArray: PartialAdditionalLinkWithId[] = []
-
-    for (const [key, value] of Object.entries(links) as [string, Partial<AdditionalLink>][]) {
-      const link: PartialAdditionalLinkWithId = {
-        id: value.id ?? key,
-        user_id: userId,
-      }
-
-      if (value.link_title !== undefined) link.link_title = value.link_title
-      if (value.url !== undefined) link.url = value.url
-
-      acceptableArray.push(link)
-    }
-
-    return acceptableArray
-  }
-
   async function handleSubmit (e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
 
+    //const hasChanged = checkForChanges()
+
     const { bio, username, title, changedProfileImage, handle, socialLinks, userId } = useUserStore.getState()
-    const bioData = { bio, username, title, handle }
-    const changedBio = checkBioSectChanges(bioData)
-    const changedSocialLinks = checkSocialLinksChanges(socialLinks)
+    const additionalLinks = useAdditionalLinksStore.getState().links
 
-    const additionalLinksData = useAdditionalLinksStore.getState().links
-    const changedAdditionalLinks = checkAdditionalLinksChanges(additionalLinksData)
+    const changedBio = checkObjChanges({ bio, username, title, handle }, originalUserData)
+    const changedSocialLinks = checkObjChanges(socialLinks, originalSocialLinks)
+    const changedAdditionalLinks = checkAdditionalLinksChanges(additionalLinks, originalAdditionalLinks, userId)
 
-    if (!changedSocialLinks && !changedBio && !changedProfileImage && !changedAdditionalLinks) {
+    if (Object.keys(changedSocialLinks).length === 0 && Object.keys(changedBio).length === 0 && !changedProfileImage && changedAdditionalLinks.length === 0) {
       toast.error("Nothing to update.")
       setSaving(false)
       return
     }
 
     const updatedUserData: Data = {}
-
-    if (changedBio) {
-      Object.assign(updatedUserData, changedBio)
-    }
-
-    if (changedSocialLinks) {
-      updatedUserData.socialLinks = {...socialLinks, ...changedSocialLinks}
-    }
+    Object.assign(updatedUserData, changedBio)
+    updatedUserData.socialLinks = {...socialLinks, ...changedSocialLinks}
 
     if (changedProfileImage) {
       const file = profileImageFileRef.current
@@ -313,8 +220,7 @@ export default function LancrHome () {
     }
 
     if (changedAdditionalLinks) {
-      const savableLinks = changeToAcceptableLinksType(changedAdditionalLinks, userId)
-      const success = await saveAdditionalLinks(savableLinks)
+      const success = await saveAdditionalLinks(changedAdditionalLinks)
       if (!changedBio && !changedProfileImage && !changedSocialLinks && success) {
         toast.success("Data Saved!")
       }
