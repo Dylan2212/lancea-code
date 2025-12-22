@@ -7,7 +7,6 @@ import { X, Check } from "lucide-react"
 import { ClipLoader } from "react-spinners"
 import { useRouter } from "next/navigation"
 import HeroImage from "./heroImage"
-import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 
 export default function Hero () {
   const prefix = "lancrly.com/"
@@ -17,11 +16,7 @@ export default function Hero () {
   const router = useRouter()
 
   function submitUrl () {
-    useOriginalUserStore.setState(state => ({
-      ...state,
-      handle: handle
-    }))
-    router.push("/signup")
+    router.push(`/signup?handle=${handle}`)
   }
 
   return (

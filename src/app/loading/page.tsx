@@ -1,6 +1,7 @@
 "use client"
 import { fetchUserData } from "@/lib/fetchUserData"
 import { useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { supabase } from "@/lib/supabaseClient"
 import { useRouter } from "next/navigation"
 import { ClipLoader } from "react-spinners"
@@ -8,6 +9,8 @@ import Image from "next/image"
 
 export default function Loading () {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const handle = searchParams.get("handle")
 
   useEffect(() => {
 
@@ -29,7 +32,7 @@ export default function Loading () {
       }
 
       try {
-        await fetchUserData(uid, email)
+        await fetchUserData(uid, email, handle)
         router.push(`/lancrdashboard/profile`)
       } catch (err) {
         console.error("Failed to fetch data: " + err)
@@ -38,7 +41,7 @@ export default function Loading () {
 
     init()
 
-  }, [router])
+  }, [router, handle])
 
   return (
     <div className="flex items-center justify-center h-dvh w-screen bg-white">

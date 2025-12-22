@@ -2,21 +2,17 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 export async function POST(req: Request) {
-  // Create supabase client with service role key (server-side only!)
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  // Extract the access token from the request headers (or cookies) if needed
-  // Alternatively, you can expect the client to send the user's access token in the request header or body
   const authHeader = req.headers.get("authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const accessToken = authHeader.split(" ")[1];
 
-  // Get the user session from access token
   const {
     data: { user },
     error: userError,
@@ -28,7 +24,6 @@ export async function POST(req: Request) {
 
   const uid = user.id;
 
-  // Step 1: Fetch profile info from your DB
   const { data: profile, error: profileError } = await supabase
     .from("users")
     .select("id, profileImage")
@@ -49,11 +44,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: linksError.message }, { status: 500 });
   }
 
-  // Step 3: Delete profile image from storage (if exists)
   if (profile.profileImage) {
-    // Assuming profileImage contains the public URL, extract the path relative to bucket
-    // For example, if URL is https://xyz.supabase.co/storage/v1/object/public/profile-images/abc.jpg
-    // You want to extract 'abc.jpg'
     const imagePathMatch = profile.profileImage.match(/profile-images\/(.+)(\?.*)?$/);
     const imagePath = imagePathMatch ? imagePathMatch[1] : null;
 
@@ -68,7 +59,6 @@ export async function POST(req: Request) {
     }
   }
 
-  // Step 4: Delete the user row from users table
   const { error: userDeleteError } = await supabase
     .from("users")
     .delete()
