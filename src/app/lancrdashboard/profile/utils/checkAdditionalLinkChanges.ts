@@ -25,6 +25,11 @@ export function checkAdditionalLinksChanges (newLinks: AdditionalLink[], origina
       continue
     }
 
+    const titleChanged = original.link_title !== normalizedLink.link_title
+    const urlChanged = original.url !== normalizedLink.url
+
+    if (!titleChanged && !urlChanged) continue
+
     finalLinks.push({
       id: original.id,
       link_title: original.link_title !== normalizedLink.link_title ? normalizedLink.link_title : original.link_title,

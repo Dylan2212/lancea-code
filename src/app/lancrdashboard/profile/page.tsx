@@ -14,6 +14,7 @@ import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
 import { Copy } from "lucide-react"
 import 'react-loading-skeleton/dist/skeleton.css'
+import { copyLink } from "./utils/copyLink"
 import Link from "next/link"
 import { Globe, CircleSmall } from "lucide-react"
 import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
@@ -54,6 +55,7 @@ export default function LancrHome () {
   const originalUserData = { bio, title, handle, username }
   const originalSocialLinks = socialLinks
   const originalAdditionalLinks = useOriginalAdditionalLinksStore(state => state.originalLinks)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     if (typeof window !== "undefined" && handle) {
@@ -179,7 +181,7 @@ export default function LancrHome () {
       .upsert(links)
 
     if (error) {
-      console.log(error)
+      console.error(error)
       toast.error("Failed to save additional links")
       return false
     }
@@ -191,8 +193,6 @@ export default function LancrHome () {
   async function handleSubmit (e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
-
-    //const hasChanged = checkForChanges()
 
     const { bio, username, title, changedProfileImage, handle, socialLinks, userId } = useUserStore.getState()
     const additionalLinks = useAdditionalLinksStore.getState().links
@@ -208,59 +208,19 @@ export default function LancrHome () {
     }
 
     const updatedUserData: Data = {}
+
     Object.assign(updatedUserData, changedBio)
     updatedUserData.socialLinks = {...socialLinks, ...changedSocialLinks}
+    const newUrl = await updateProfileImage(profileImageFileRef.current, userId)
+    if (newUrl) updatedUserData.profileImage = newUrl
 
-    if (changedProfileImage) {
-      const file = profileImageFileRef.current
-      const newUrl = await updateProfileImage(file, userId)
-      if (newUrl) {
-        updatedUserData.profileImage = newUrl
-      }
-    }
+    const additionalLinkSuccess = await saveAdditionalLinks(changedAdditionalLinks)
+    const userDataSuccess = await saveToDb(updatedUserData, userId)
 
-    if (changedAdditionalLinks) {
-      const success = await saveAdditionalLinks(changedAdditionalLinks)
-      if (!changedBio && !changedProfileImage && !changedSocialLinks && success) {
-        toast.success("Data Saved!")
-      }
-    }
-
-    if (changedBio || changedSocialLinks || changedProfileImage) {
-      const success = await saveToDb(updatedUserData, userId)
-      if (success) toast.success("Data saved!")
-    }
+    if (additionalLinkSuccess && userDataSuccess) toast.success("Data Saved!")
 
     setSaving(false)
     return
-  }
-
-  const [copied, setCopied] = useState(false)
-
-  async function copyLink() {
-    try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(userUrl);
-      } else {
-        // Fallback for mobile browsers
-        const textArea = document.createElement("textarea");
-        textArea.value = userUrl;
-        textArea.style.position = "fixed"; // Prevent scrolling to bottom
-        textArea.style.opacity = "0";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        const successful = document.execCommand("copy");
-        document.body.removeChild(textArea);
-
-        if (!successful) throw new Error("Fallback copy failed");
-      }
-
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
-    }
   }
 
   const isHydrated = useOriginalUserStore((s) => s._hasHydrated)
@@ -288,7 +248,7 @@ export default function LancrHome () {
       lg:w-3/4 md:items-center lg:gap-5 mx-auto lg:mt-10 box-support py-2">
         <p className="font-semibold">Sharable Link:</p>
         <span className="text-gray-600">{userUrl}</span>
-        <button onClick={copyLink} className="px-3 w-24 text-sm border border-gray-500 items-center py-1 bg-white text-gray-500 rounded hover:bg-gray-100 hov-standrd">
+        <button onClick={() => copyLink({ userUrl, setCopied })} className="px-3 w-24 text-sm border border-gray-500 items-center py-1 bg-white text-gray-500 rounded hover:bg-gray-100 hov-standrd">
           {copied ? <p className="flex gap-2"><Copy className="w-4 h-4"/> Copied</p> : <p className="flex gap-2"><Copy className="w-4 h-4"/> Copy</p>}
         </button>
       </div>}
