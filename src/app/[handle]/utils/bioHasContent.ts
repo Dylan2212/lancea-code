@@ -1,5 +1,5 @@
 export function bioHasContent(bio?: string) {
-  if (!bio) return true
+  if (!bio) return false
 
   const text = bio.replace(/<[^>]*>/g, "").trim()
 

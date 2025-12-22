@@ -51,6 +51,8 @@ export default function Header ({ userData, refs }: MyProps) {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  console.log(bioHasContent(userData.bio))
+
   const headerClass = `text-[var(--mainColor)] text-sm md:text-lg tracking-wide font-medium border-b-2 transition-colors duration-300 hover:text-[var(--hoverColor)]`
   return (
     <>
