@@ -10,7 +10,6 @@ export default function HeroImage() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    // Detect once client-side
     const handleResize = () => setIsMobile(window.innerWidth < 1024)
     handleResize()
     window.addEventListener("resize", handleResize)
@@ -76,7 +75,7 @@ export default function HeroImage() {
         className="relative"
       >
         <Image
-          src="/mobileScreenshot.png"
+          src="/mock.png"
           alt="Lancrly mobile mockup"
           width={280}
           height={700}

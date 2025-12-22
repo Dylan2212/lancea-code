@@ -33,7 +33,7 @@ async function createUserInDB (uid: string, email: string | undefined) {
   }
 }
 
-export async function fetchUserData (uid: string, email: string | undefined) {
+export async function fetchUserData (uid: string, email: string | undefined, handle: string | null) {
   const { data, error } = await supabase
     .from("users")
     .select("*, additional_links(*), projects(*)")
@@ -55,20 +55,19 @@ export async function fetchUserData (uid: string, email: string | undefined) {
       .eq("id", uid)
       .single()
       
-    setStoreData(data, null, null)
+    setStoreData(data, null, null, handle)
     return data as User
   }
 
-  setStoreData(data, data.additional_links, data.projects)
+  setStoreData(data, data.additional_links, data.projects, handle)
   return data as User
 }
 
-function setStoreData (user: User, links: AdditionalLink[] | null, projects: ProjectData[] | null) {
+function setStoreData (user: User, links: AdditionalLink[] | null, projects: ProjectData[] | null, handle: string | null) {
   const { setUserId, setSocialLinks, setEmail, setUsername, setBio, setTitle, setProfileImage, setHandle } = useUserStore.getState()
   const { setLinks } = useAdditionalLinksStore.getState()
   const { setProjects } = useProjectsStore.getState()
   const { setOriginalLinks } = useOriginalAdditionalLinksStore.getState()
-  const { handle } = useOriginalUserStore.getState()
 
   if (user.id) setUserId(user.id)
   if (user.socialLinks) setSocialLinks(user.socialLinks)
@@ -77,6 +76,7 @@ function setStoreData (user: User, links: AdditionalLink[] | null, projects: Pro
   if (user.bio) setBio(user.bio)
   if (user.title) setTitle(user.title)
   if (user.profileImage) setProfileImage(user.profileImage)
+  if (handle) setHandle(handle)
   if (user.handle) setHandle(user.handle)
 
   if (links) {

@@ -7,7 +7,6 @@ import { X, Check } from "lucide-react"
 import { ClipLoader } from "react-spinners"
 import { useRouter } from "next/navigation"
 import HeroImage from "./heroImage"
-import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 
 export default function Hero () {
   const prefix = "lancrly.com/"
@@ -17,11 +16,7 @@ export default function Hero () {
   const router = useRouter()
 
   function submitUrl () {
-    useOriginalUserStore.setState(state => ({
-      ...state,
-      handle: handle
-    }))
-    router.push("/signup")
+    router.push(`/signup?handle=${handle}`)
   }
 
   return (
@@ -35,18 +30,18 @@ export default function Hero () {
         lg:pb-0 lg:flex-row lg:pl-8 lg:block lg:mr-0 lg:pt-14
         xl:pl-16 xl:pt-28 xl:w-7/12
         ">
-          <h1 className="text-4xl text-center font-sans font-extrabold mt-8 mb-4
-          md:text-5xl
-          lg:text-start lg:text-6xl lg:my-0
-          xl:text-7xl
+          <h1 className="text-3xl text-center font-sans font-extrabold mt-8 mb-4
+          md:text-4xl
+          lg:text-start lg:text-5xl lg:my-0
+          xl:text-6xl
           ">
-            Build your freelance portfolio in minutes
+            Create a dedicated freelance portfolio designed to win clients
           </h1>
           <div>
             <h2 className="text-lg font-sans text-gray-600 w-5/6 text-center mx-auto mb-3
             lg:mt-5 lg:w-2/3 lg:mx-0 lg:text-start lg:mb-0
             ">
-              Create a professional link-in-bio portfolio to share your work, connect your socials, and impress potential clients.
+              No design skills. No code. Just add your bio, projects, and socials and start sharing — built specifically for freelancers.
             </h2>
             <div className="flex flex-col w-11/12 justify-center py-8 mx-auto
             lg:mx-0

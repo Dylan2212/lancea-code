@@ -5,20 +5,21 @@ import { supabase } from '@/lib/supabaseClient'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import { useUserStore } from '@/lib/store/useUserStore'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 export default function SignUp() {
   const [email, setEmail] = useState('')
+  const searchParams = useSearchParams()
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const handle = useUserStore(state => state.handle)
   const router = useRouter()
+  const handle = searchParams.get("handle")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    const res = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/loading` } })
+    const res = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/loading?handle=${handle}` } })
     
     if (res.data.user?.identities?.length === 0) {
         toast.error("Email already registered.")
@@ -136,7 +137,7 @@ export default function SignUp() {
             supabase.auth.signInWithOAuth({
               provider: "google",
               options: {
-                redirectTo: `${window.location.origin}/loading`,
+                redirectTo: `${window.location.origin}/loading?handle=${handle}`,
               },
             })
           }
