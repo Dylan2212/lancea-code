@@ -12,6 +12,7 @@ import { normalizeUrl } from "@/utils/normalizeUrl"
 import { SquarePlus, Trash2 } from "lucide-react"
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { isSafeLink } from "@/utils/validateLink"
+import AddSkills from "./addSkills"
 
 type CoverObj = { coverUrl: string; position: number }
 
@@ -290,6 +291,7 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
             Max: {projectData.description?.length}/{1000} characters
           </p>
         </div>
+        <AddSkills/>
         <div className="mt-6 mb-3 ml-2">
           <p className="text-lg">Results:</p>
           {
