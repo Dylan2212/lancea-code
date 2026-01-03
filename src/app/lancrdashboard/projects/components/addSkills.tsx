@@ -5,6 +5,13 @@ import SkillsInput from "./skillsInput";
 import SkillsResults from "./skillsResults";
 import AddedSkills from "./addedSkills";
 
+//NEED TO ADD SKILLS TO SUPABASE
+//DO WE WANT ID TO EITHER CUSTOM OR PREDEFINED?
+//SHALL WE ORGANIZE HERE?
+//API
+//DAL
+//NEED PROJECT ID TO ADD SKILL
+
 export default function AddSkills () {
   const { addedSkills, removeSkill, addSkill } = useAddedSkills()
   const { input, onKeyDown, results, resultClicked, newInput, suggestedIndex, isFocused, onFocus, onBlur } = useSkillsInput(addSkill)

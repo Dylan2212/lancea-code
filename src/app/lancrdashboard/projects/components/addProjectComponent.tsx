@@ -247,12 +247,12 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
         }
 
       } else {
-        toast.error("Could not add project.2/")
+        toast.error("Could not add project.")
         setAdding(false)
       }
     } catch (error) {
-      console.log(error)
-      toast.error("Could not add project.1/")
+      console.error(error)
+      toast.error("Could not add project.")
       setAdding(false)
     }
   }
