@@ -1,4 +1,4 @@
-export default function splitSkills (skills: string[], predefinedSkills: Set<string>): {
+export default function splitSkills (skills: string[], predefinedSkills: Map<string, string>): {
   predefined: string[],
   custom: string[]
 } {

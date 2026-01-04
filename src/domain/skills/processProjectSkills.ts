@@ -1,15 +1,12 @@
 import splitSkills from "./splitSkills"
-
-type predefinedSkill = {
-  id: string,
-  normalized_name: string,
-  usage: number
-}
+import type { predefinedSkill } from "./types"
+import predefinedSkillsToIds from "./predefinedSkillsToIds"
 
 export default async function processProjectSkills (projectId: string, skills: string[], predefinedSkills: predefinedSkill[]) {
-  const { predefined, custom } = splitSkills(skills, new Set(predefinedSkills.map(skill => skill.normalized_name)))
+  const predefinedSkillsMap = new Map(predefinedSkills.map(skill => [skill.normalized_name, skill.id]))
+  const { predefined, custom } = splitSkills(skills, predefinedSkillsMap)
 
-  const predefinedIds = predefinedSkillsToIds(predefined)
+  const predefinedIds = predefinedSkillsToIds(predefined, predefinedSkillsMap)
   const customIds = customSkillsToIds(custom)
 
   updateProjectCustomSkills(customIds)
