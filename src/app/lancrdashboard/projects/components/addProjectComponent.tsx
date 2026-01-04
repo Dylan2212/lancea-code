@@ -107,6 +107,12 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
       toast.error("Failed to add project.")
       return false
     }
+    try {
+      fetch("/api/project-skills", {
+        skills: ,
+        projectId: 
+      })
+    }
     return true
   }
 

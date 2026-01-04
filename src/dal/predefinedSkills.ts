@@ -1,7 +1,7 @@
 "use server"
 import { createClient } from "@/utils/supabase/server";
 
-export default async function getPredefinedSkills (): Promise<{id: string, normalized_name: string, usage: number}[]> {
+export async function getPredefinedSkills (): Promise<{id: string, normalized_name: string, usage: number}[]> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -11,4 +11,16 @@ export default async function getPredefinedSkills (): Promise<{id: string, norma
   if (error || !data) throw new Error("Could not load skills:", error)
 
   return data
+}
+
+export async function addPredefinedProjectSkills (project_id: string, predefinedIds: string[]) {
+  if (predefinedIds.length === 0) return
+
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from("project_skills")
+    .upsert(predefinedIds.map(skill_id => ({ project_id, skill_id })), { onConflict: "skill_id" })
+
+  if (error) throw new Error("Could not add project skills:", error)
 }

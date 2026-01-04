@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import processProjectSkills from "@/src/domain/skills/processProjectSkills";
-import getPredefinedSkills from "@/src/dal/predefinedSkills";
 
 export async function POST (req: Request) {
   const supabase = await createClient()
@@ -36,10 +35,8 @@ export async function POST (req: Request) {
     )
   }
 
-  const predefinedSkills = await getPredefinedSkills()
-  //NORMALIZE SKILLS LIST FROM UI
   try {
-    await processProjectSkills(projectId, skills, predefinedSkills)
+    await processProjectSkills(projectId, skills)
     return NextResponse.json({ ok: true })
   } catch {
     return NextResponse.json(
