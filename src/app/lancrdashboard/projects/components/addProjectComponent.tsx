@@ -13,6 +13,8 @@ import { SquarePlus, Trash2 } from "lucide-react"
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { isSafeLink } from "@/utils/validateLink"
 import AddSkills from "./addSkills"
+import useAddedSkills from "@/src/app/hooks/useAddedSkills"
+import { saveProjectSkills } from "@/lib/api/projectSkills"
 
 type CoverObj = { coverUrl: string; position: number }
 
@@ -44,6 +46,7 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
   const [addedFile, setAddedFile] = useState(false)
   const [files, setFiles] = useState<MyFile[]>([])
   const [cover, setCover] = useState(0)
+  const { addedSkills, removeSkill, addSkill } = useAddedSkills()
   const [projectData, setProjectData] = useState<ProjectData>({
     title: "",
     description: "",
@@ -107,12 +110,12 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
       toast.error("Failed to add project.")
       return false
     }
-    try {
-      fetch("/api/project-skills", {
-        skills: ,
-        projectId: 
-      })
+
+    //PUT THIS FETCH IN LIB/API
+    if (addedSkills.length > 0) {
+      await saveProjectSkills(finalProjectData.id!, addedSkills)
     }
+
     return true
   }
 
@@ -237,12 +240,18 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
 
         if (projectAction === "Edit") {
           const updatedProjectsArry = projects.map((project, i) =>
-            i === globalIndex ? finalProjectData : project
+            i === globalIndex ? {
+              ...finalProjectData,
+              addedSkills
+             } : project
           )
           setProjects(updatedProjectsArry)
           toast.success("Project updated!")
         } else {
-          setProjects([...projects, finalProjectData])
+          setProjects([...projects, {
+            ...finalProjectData,
+            addedSkills
+          }])
           toast.success("Project added")
         }
 
@@ -297,7 +306,7 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
             Max: {projectData.description?.length}/{1000} characters
           </p>
         </div>
-        <AddSkills/>
+        <AddSkills addSkill={addSkill} removeSkill={removeSkill} addedSkills={addedSkills}/>
         <div className="mt-6 mb-3 ml-2">
           <p className="text-lg">Results:</p>
           {

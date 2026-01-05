@@ -6,10 +6,12 @@ type InputProps = {
   isFocused: boolean,
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void,
   results: string[],
-  suggestedIndex: number
+  suggestedIndex: number,
+  addSkill: (skill: string) => void,
+  ghostSuggestion: string | null
 }
 
-export default function SkillsInput ({ onFocus, onBlur, onKeyDown, newInput, isFocused, suggestedIndex, results, input }: InputProps) {
+export default function SkillsInput ({ addSkill, onFocus, onBlur, onKeyDown, newInput, isFocused, results, input, ghostSuggestion }: InputProps) {
   return (
     <div className={`flex items-center gap-3 relative`}>
       <div className="relative w-[85%]">
@@ -28,12 +30,13 @@ export default function SkillsInput ({ onFocus, onBlur, onKeyDown, newInput, isF
         />
         {input && isFocused && results[0] && (
           <span className="absolute left-4 top-[12px] text-gray-300 pointer-events-none">
-            {suggestedIndex > -1 ? results[suggestedIndex] : results[0]}
+            {ghostSuggestion}
           </span>
         )}
       </div>
       
         <button
+        onClick={() => addSkill(input)}
         type="button"
         className={`
           relative rounded-lg py-3 px-4 text-[#7E22CE] border-2 border-[#7E22CE] 

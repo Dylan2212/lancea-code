@@ -7,6 +7,7 @@ export type ProjectData = Partial<{
   results: string[],
   uploaded_urls: Record<string, string>[],
   cover: CoverObj | null,
+  addedSkills: string[],
   id: string
 }>
 

@@ -18,9 +18,13 @@ export async function addPredefinedProjectSkills (project_id: string, predefined
 
   const supabase = await createClient()
 
+  const { data: { user } } = await supabase.auth.getUser()
+  console.log('USER IN addPredefinedProjectSkills:', user?.id)
+
   const { error } = await supabase
     .from("project_skills")
-    .upsert(predefinedIds.map(skill_id => ({ project_id, skill_id })), { onConflict: "skill_id" })
+    .upsert(predefinedIds.map(skill_id => ({ project_id, skill_id })), { ignoreDuplicates: true })
 
+  if (error) console.log(error)
   if (error) throw new Error("Could not add project skills:", error)
 }

@@ -1,20 +1,17 @@
 "use client"
 import useSkillsInput from "@/src/app/hooks/useSkillsInput";
-import useAddedSkills from "@/src/app/hooks/useAddedSkills";
 import SkillsInput from "./skillsInput";
 import SkillsResults from "./skillsResults";
 import AddedSkills from "./addedSkills";
 
-//NEED TO ADD SKILLS TO SUPABASE
-//DO WE WANT ID TO EITHER CUSTOM OR PREDEFINED?
-//SHALL WE ORGANIZE HERE?
-//API
-//DAL
-//NEED PROJECT ID TO ADD SKILL
+type AddSkillsProps = {
+  addSkill: (skill: string) => void,
+  removeSkill: (index: number) => void,
+  addedSkills: string[]
+}
 
-export default function AddSkills () {
-  const { addedSkills, removeSkill, addSkill } = useAddedSkills()
-  const { input, onKeyDown, results, resultClicked, newInput, suggestedIndex, isFocused, onFocus, onBlur } = useSkillsInput(addSkill)
+export default function AddSkills ({ addSkill, removeSkill, addedSkills}: AddSkillsProps) {
+  const { input, onKeyDown, results, resultClicked, newInput, suggestedIndex, isFocused, onFocus, onBlur, ghostSuggestion } = useSkillsInput(addSkill)
 
   return (
     <div className="
@@ -26,7 +23,7 @@ export default function AddSkills () {
       <p className="text-lg font-bold">Add Your Skills:</p>
       <p className={`text-xs text-gray-500`}>Add up to 5 skills</p>
       <div className="mt-6">
-        <SkillsInput results={results} isFocused={isFocused} suggestedIndex={suggestedIndex} input={input} newInput={newInput} onBlur={onBlur} onFocus={onFocus} onKeyDown={onKeyDown}/>
+        <SkillsInput ghostSuggestion={ghostSuggestion} addSkill={resultClicked} results={results} isFocused={isFocused} suggestedIndex={suggestedIndex} input={input} newInput={newInput} onBlur={onBlur} onFocus={onFocus} onKeyDown={onKeyDown}/>
         {results.length > 0 && isFocused ? (
           <SkillsResults resultClicked={resultClicked} results={results} suggestedIndex={suggestedIndex} isFocused={isFocused}/>
         ) : (

@@ -15,6 +15,6 @@ export default async function processProjectSkills (projectId: string, skills: s
   const predefinedIds = predefinedSkillsToIds(predefined, predefinedSkillsMap)
   const customIds = await resolveOrCreateCustomSkills(custom)
 
-  await addProjectCustomSkills(projectId, customIds)
-  await addPredefinedProjectSkills(projectId, predefinedIds)
+  if (customIds.length > 0) await addProjectCustomSkills(projectId, customIds)
+  if (predefinedIds.length > 0) await addPredefinedProjectSkills(projectId, predefinedIds)
 }

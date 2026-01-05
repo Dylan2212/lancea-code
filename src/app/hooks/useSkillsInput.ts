@@ -10,7 +10,8 @@ export default function useSkillsInput (addSkill: (skill: string) => void): {
   onFocus: () => void,
   onBlur: () => void,
   suggestedIndex: number,
-  resultClicked: (skill: string) => void
+  resultClicked: (skill: string) => void,
+  ghostSuggestion: string | null
 } {
   const [input, setInput]= useState<string>("")
   const [results, setResults] = useState<string[]>([])
@@ -21,6 +22,14 @@ export default function useSkillsInput (addSkill: (skill: string) => void): {
   useEffect(() => {
     setSuggestedIndex(-1)
   }, [results])
+
+  const ghostSuggestion = (() => {
+    if (!isFocused || !input || results.length === 0) return null
+
+    const suggestion = suggestedIndex > -1 ? results[suggestedIndex] : results[0]
+
+    return input + suggestion.slice(input.length)
+  })()
 
   function searchTrie (prefix: string): string[] {
     if (prefix === "" || !skillsTrie) return []
@@ -60,7 +69,11 @@ export default function useSkillsInput (addSkill: (skill: string) => void): {
       case "Enter":
         e.preventDefault()
         if (input === "") return
-        addSkill(input)
+        if (suggestedIndex > -1) {
+          addSkill(results[suggestedIndex])
+        } else {
+          addSkill(input)
+        }
         resetInput()
         break
       case "Tab":
@@ -83,5 +96,5 @@ export default function useSkillsInput (addSkill: (skill: string) => void): {
     return
   }
 
-  return { onKeyDown, input, newInput, results, isFocused, onFocus, onBlur, suggestedIndex, resultClicked }
+  return { ghostSuggestion, onKeyDown, input, newInput, results, isFocused, onFocus, onBlur, suggestedIndex, resultClicked }
 }
