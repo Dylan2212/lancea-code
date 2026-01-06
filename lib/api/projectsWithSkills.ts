@@ -1,4 +1,4 @@
-export async function getProjectsWithSkills () {
+export async function projectsWithSkillsCaller () {
   const res = await fetch("/api/projects", {
     method: "POST"
   })

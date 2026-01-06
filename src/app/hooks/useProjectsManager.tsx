@@ -1,13 +1,41 @@
 import { supabase } from "@/lib/supabaseClient";
 import toast from "react-hot-toast";
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { projectsWithSkillsCaller } from "@/lib/api/projectsWithSkills";
 
 export default function useProjectsManager () {
   const projects = useProjectsStore((state) => state.projects)
   const [showDeleteModal, setShowDeleteModal] = useState({show: false, id: "", index: 0})
   const [deleting, setDeleting] = useState(false)
+  const [loading, setLoading] = useState(true)
   const setProjects = useProjectsStore(state => state.setProjects)
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      setLoading(false)
+      return
+    }
+
+    let mounted = true
+
+    const fetchData = async () => {
+      try {
+        const data = await projectsWithSkillsCaller()
+        if (mounted) {
+          setProjects(data)
+        }
+      } catch (err) {
+        toast.error("Could not load projects")
+        console.error(err)
+      } finally {
+          setLoading(false)
+      }
+    }
+
+    fetchData()
+    return () => { mounted = false }
+  }, [projects.length, setProjects])
 
   function removeFromStore () {
     const updated = projects.filter(project => project.id !== showDeleteModal.id)
@@ -58,5 +86,5 @@ export default function useProjectsManager () {
     return
   }
 
-  return { projects, setShowDeleteModal, deleting, showDeleteModal, deleteProject}
+  return { loading, projects, setShowDeleteModal, deleting, showDeleteModal, deleteProject}
 }

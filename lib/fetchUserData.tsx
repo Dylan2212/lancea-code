@@ -5,8 +5,6 @@ import { useOriginalUserStore } from "./store/useOriginalUser";
 import { useOriginalAdditionalLinksStore } from "./store/useOriginalAdditionalLinks";
 import { AdditionalLink } from "./store/useAdditionalLinksStore";
 import { SocialLinks } from "./store/socialLinksType";
-import { useProjectsStore } from "./store/useProjectsStore";
-import { ProjectData } from "@/src/app/lancrdashboard/projects/add+editproject/page";
 
 export type User = {
   id: string,
@@ -36,7 +34,7 @@ async function createUserInDB (uid: string, email: string | undefined) {
 export async function fetchUserData (uid: string, email: string | undefined, handle: string | null) {
   const { data, error } = await supabase
     .from("users")
-    .select("*, additional_links(*), projects(*)")
+    .select("*, additional_links(*)")
     .eq("id", uid)
     .maybeSingle()
 
@@ -55,18 +53,17 @@ export async function fetchUserData (uid: string, email: string | undefined, han
       .eq("id", uid)
       .single()
       
-    setStoreData(data, null, null, handle)
+    setStoreData(data, null, handle)
     return data as User
   }
 
-  setStoreData(data, data.additional_links, data.projects, handle)
+  setStoreData(data, data.additional_links, handle)
   return data as User
 }
 
-function setStoreData (user: User, links: AdditionalLink[] | null, projects: ProjectData[] | null, handle: string | null) {
+function setStoreData (user: User, links: AdditionalLink[] | null, handle: string | null) {
   const { setUserId, setSocialLinks, setEmail, setUsername, setBio, setTitle, setProfileImage, setHandle } = useUserStore.getState()
   const { setLinks } = useAdditionalLinksStore.getState()
-  const { setProjects } = useProjectsStore.getState()
   const { setOriginalLinks } = useOriginalAdditionalLinksStore.getState()
 
   if (user.id) setUserId(user.id)
@@ -82,10 +79,6 @@ function setStoreData (user: User, links: AdditionalLink[] | null, projects: Pro
   if (links) {
     setLinks(links)
     setOriginalLinks(links)
-  }
-
-  if (projects) {
-    setProjects(projects)
   }
 
   useOriginalUserStore.setState({
