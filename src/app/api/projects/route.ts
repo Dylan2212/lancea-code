@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { getProjectsWithSkills } from "@/src/dal/projects";
+import { mergeSkills } from "@/src/domain/skills/mergeSkills";
 
 export async function POST () {
   const supabase = await createClient()
@@ -14,5 +15,12 @@ export async function POST () {
   }
 
   const projectWithSkills = await getProjectsWithSkills(user.id)
-  return NextResponse.json(projectWithSkills)
+  if (!projectWithSkills) {
+    return NextResponse.json(
+      { error: "Internal Error"},
+      { status: 501 }
+    )
+  }
+  const projects = mergeSkills(projectWithSkills)
+  return NextResponse.json(projects)
 }
