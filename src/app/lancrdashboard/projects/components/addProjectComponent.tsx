@@ -15,6 +15,7 @@ import { isSafeLink } from "@/utils/validateLink"
 import AddSkills from "./addSkills"
 import useAddedSkills from "@/src/app/hooks/useAddedSkills"
 import { saveProjectSkills } from "@/lib/api/projectSkills"
+import { skillsChanged } from "./skillsChanged"
 
 type CoverObj = { coverUrl: string; position: number }
 
@@ -46,7 +47,8 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
   const [addedFile, setAddedFile] = useState(false)
   const [files, setFiles] = useState<MyFile[]>([])
   const [cover, setCover] = useState(0)
-  const { addedSkills, removeSkill, addSkill } = useAddedSkills()
+  const startingSkills = projects[globalIndex]?.addedSkills ?? []
+  const { addedSkills, removeSkill, addSkill } = useAddedSkills(startingSkills)
   const [projectData, setProjectData] = useState<ProjectData>({
     title: "",
     description: "",
@@ -105,13 +107,13 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
     const { error } = await supabase
       .from("projects")
       .upsert(finalProjectData, { onConflict: "id" })
+
     if (error) {
       console.error("Could not add project: " + JSON.stringify(error))
       toast.error("Failed to add project.")
       return false
     }
 
-    //PUT THIS FETCH IN LIB/API
     if (addedSkills.length > 0) {
       await saveProjectSkills(finalProjectData.id!, addedSkills)
     }
@@ -190,8 +192,21 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
         return false
       })
 
-      if (!hasChanged) {
+      if (!hasChanged && !skillsChanged(addedSkills, startingSkills)) {
         toast.error("No changes to update.")
+        setAdding(false)
+        return
+      }
+
+      if (addedSkills.length > 0) {
+        await saveProjectSkills(projects[globalIndex].id!, addedSkills)
+        setProjects(projects.map((project, i) => 
+          i === globalIndex ? {
+            ...project,
+            addedSkills
+          } : project
+        ))
+        toast.success("Project updated!")
         setAdding(false)
         return
       }
