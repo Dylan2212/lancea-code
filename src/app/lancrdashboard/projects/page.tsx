@@ -13,6 +13,7 @@ export type DeleteObj = {
 
 export default function Projects () {
   const { projects, setShowDeleteModal, showDeleteModal, deleteProject, deleting } = useProjectsManager()
+
   return (
     <section className="pt-16 w-screen lg:w-full">
       <h1 className="text-2xl font-semibold m-5 mb-0">My Projects</h1>

@@ -8,7 +8,7 @@ export async function getProjectsWithSkills (userId: string) {
     .select(`
       *,
       project_skills(skill_id, predefined_skills(normalized_name)),
-      project_custom_skills(skill_id, custom_skills(*))
+      project_custom_skills(custom_skill_id, custom_skills(*))
     `)
     .eq("user_id", userId)
 

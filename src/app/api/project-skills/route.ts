@@ -15,6 +15,7 @@ export async function POST (req: Request) {
 
   const { skills, projectId } = await req.json()
 
+  //can be moved to DAL as userOwnsProject
   const { data:  project, error: projectError } = await supabase
     .from("projects")
     .select("user_id")
