@@ -1,23 +1,22 @@
 import { getCustomSkills, insertCustomSkills } from "@/src/dal/customSkills";
-import { v4 as uuid } from "uuid";
+import { SkillMeta } from "./mergeSkills";
 
-export async function resolveOrCreateCustomSkills (custom: string[]): Promise<string[]> {
+export async function resolveOrCreateCustomSkills (custom: SkillMeta[]): Promise<string[]> {
   const data = await getCustomSkills()
-  const customSkillsMap = new Map(data.map(skill => [skill.normalized_name, skill.id]))
+  const customSkillsMap = new Set(data.map(skill => skill.id))
 
   const skillsToAdd: { id: string, normalized_name: string }[] = []
   const customIds: string[] = []
 
   for (const skill of custom) {
-    if (customSkillsMap.has(skill)) {
-      customIds.push(customSkillsMap.get(skill) as string)
+    if (customSkillsMap.has(skill.id)) {
+      customIds.push(skill.id)
     } else {
-      const id = uuid()
       skillsToAdd.push({
-        id,
-        normalized_name: skill
+        id: skill.id,
+        normalized_name: skill.name
       })
-      customIds.push(id)
+      customIds.push(skill.id)
     }
   }
 

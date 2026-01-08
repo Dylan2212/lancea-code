@@ -1,11 +1,12 @@
+import { SkillMeta } from "@/src/domain/skills/mergeSkills"
 import { toTitleCase } from "@/utils/titleCase"
 import { Plus } from "lucide-react"
 
 type ResultProps = {
-  results: string[],
+  results: SkillMeta[],
   isFocused: boolean,
   suggestedIndex: number,
-  resultClicked: (skill: string) => void
+  resultClicked: (skill: SkillMeta) => void
 }
 
 export default function SkillsResults ({ resultClicked, suggestedIndex, isFocused, results }: ResultProps) {
@@ -24,7 +25,7 @@ export default function SkillsResults ({ resultClicked, suggestedIndex, isFocuse
             transition-all duration-150
           `}
         >
-          <span>{toTitleCase(result)}</span>
+          <span>{toTitleCase(result.name)}</span>
           <Plus />
         </li>
       ))}

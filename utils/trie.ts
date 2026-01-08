@@ -1,10 +1,12 @@
+import { SkillMeta } from "@/src/domain/skills/mergeSkills"
+
 class TrieNode {
   children: Record<string, TrieNode>
-  isEnd: boolean
+  isEnd: string | null
 
   constructor () {
     this.children = {}
-    this.isEnd = false
+    this.isEnd = null
   }
 }
 
@@ -15,27 +17,27 @@ export class Trie {
     this.root = new TrieNode()
   }
 
-  insert (word: string): void {
+  insert (skill: {name: string, id: string}): void {
     let node = this.root
 
-    for (const char of word.toLowerCase()) {
+    for (const char of skill.name.toLowerCase()) {
       if (!node.children[char]) {
         node.children[char] = new TrieNode
       }
       node = node.children[char]
     }
-    node.isEnd = true
+    node.isEnd = skill.id
   }
 
-  insertMany (words: string[]): void {
-    for (const word of words) {
-      this.insert(word)
+  insertMany (skills: {id: string, normalized_name: string, usage: number}[]): void {
+    for (const skill of skills) {
+      this.insert({name: skill.normalized_name, id: skill.id})
     }
   }
 
-  search (prefix: string): string[] {
+  search (prefix: string): SkillMeta[] {
     let node = this.root
-    const results: string[] = []
+    const results: SkillMeta[] = []
 
     for (const char of prefix.toLowerCase()) {
       if (!node.children[char]) return []
@@ -46,7 +48,7 @@ export class Trie {
     return results
   }
 
-  private collectWords (prefix: string, node: TrieNode, results: string[]) {
+  private collectWords (prefix: string, node: TrieNode, results: SkillMeta[]) {
     const queue: Array<{ prefix: string, node: TrieNode }> = [
       { prefix, node }
     ]
@@ -54,7 +56,7 @@ export class Trie {
     while (queue.length > 0 && results.length < 6) {
       const current = queue.shift()
       if (current?.node.isEnd) {
-        results.push(current.prefix)
+        results.push({type: "predefined", id: current.node.isEnd, name:current.prefix})
         if (results.length === 6) return
       }
 

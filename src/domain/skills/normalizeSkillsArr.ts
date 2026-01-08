@@ -1,3 +1,5 @@
-export function normalizeSkillsArr (skills: string[]): string[] {
-  return skills.map(skill => skill.trim().toLowerCase().replace(/\s+/g, " "))
+import { SkillMeta } from "./mergeSkills";
+
+export function normalizeSkillsArr (skills: SkillMeta[]): SkillMeta[] {
+  return skills.map(skill => ({type: skill.type, id: skill.id, name:skill.name.trim().toLowerCase().replace(/\s+/g, " ")}))
 }

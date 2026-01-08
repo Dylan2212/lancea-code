@@ -1,12 +1,14 @@
-export default function splitSkills (skills: string[], predefinedSkills: Map<string, string>): {
-  predefined: string[],
-  custom: string[]
+import { SkillMeta } from "./mergeSkills"
+
+export default function splitSkills (skills: SkillMeta[]): {
+  predefined: SkillMeta[],
+  custom: SkillMeta[]
 } {
-  const custom: string[] = []
-  const predefined: string[] = []
+  const custom: SkillMeta[] = []
+  const predefined: SkillMeta[] = []
 
   skills.forEach(skill => {
-    if (predefinedSkills.has(skill)) {
+    if (skill.type === "predefined") {
       predefined.push(skill)
     } else {
       custom.push(skill)

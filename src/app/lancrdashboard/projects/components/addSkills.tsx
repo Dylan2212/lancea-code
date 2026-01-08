@@ -3,15 +3,18 @@ import useSkillsInput from "@/src/app/hooks/useSkillsInput";
 import SkillsInput from "./skillsInput";
 import SkillsResults from "./skillsResults";
 import AddedSkills from "./addedSkills";
+import { SkillMeta } from "@/src/domain/skills/mergeSkills";
 
 type AddSkillsProps = {
-  addSkill: (skill: string) => void,
+  addSkill: (skill: SkillMeta) => void,
   removeSkill: (index: number) => void,
-  addedSkills: string[]
+  addedSkills: SkillMeta[]
 }
 
+//ALERT WHEN ATTEMPT TO ADD MORE THAN 5 SKILLS
+
 export default function AddSkills ({ addSkill, removeSkill, addedSkills}: AddSkillsProps) {
-  const { input, onKeyDown, results, resultClicked, newInput, suggestedIndex, isFocused, onFocus, onBlur, ghostSuggestion } = useSkillsInput(addSkill)
+  const { enteredSkill, input, onKeyDown, results, resultClicked, newInput, suggestedIndex, isFocused, onFocus, onBlur, ghostSuggestion } = useSkillsInput(addSkill)
 
   return (
     <div className="
@@ -23,7 +26,7 @@ export default function AddSkills ({ addSkill, removeSkill, addedSkills}: AddSki
       <p className="text-lg font-bold">Add Your Skills:</p>
       <p className={`text-xs text-gray-500`}>Add up to 5 skills</p>
       <div className="mt-6">
-        <SkillsInput ghostSuggestion={ghostSuggestion} addSkill={resultClicked} results={results} isFocused={isFocused} suggestedIndex={suggestedIndex} input={input} newInput={newInput} onBlur={onBlur} onFocus={onFocus} onKeyDown={onKeyDown}/>
+        <SkillsInput ghostSuggestion={ghostSuggestion} enteredSkill={enteredSkill} results={results} isFocused={isFocused} suggestedIndex={suggestedIndex} input={input} newInput={newInput} onBlur={onBlur} onFocus={onFocus} onKeyDown={onKeyDown}/>
         {results.length > 0 && isFocused ? (
           <SkillsResults resultClicked={resultClicked} results={results} suggestedIndex={suggestedIndex} isFocused={isFocused}/>
         ) : (

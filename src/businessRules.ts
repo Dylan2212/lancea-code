@@ -1,7 +1,10 @@
+import { SkillMeta } from "./domain/skills/mergeSkills"
+
 export const MAX_SKILLS = 5
 
-export function canAddSkill (currSkills: string[], adding: string) {
-    if (currSkills.length === MAX_SKILLS) return false
-    if (currSkills.includes(adding)) return false
+export function canAddSkill (currSkills: SkillMeta[], adding: SkillMeta) {
+    const currSkillsArr = currSkills.map(skill => skill.name)
+    if (currSkillsArr.length === MAX_SKILLS) return false
+    if (currSkillsArr.includes(adding.name)) return false
     return true
 }

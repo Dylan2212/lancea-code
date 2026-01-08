@@ -15,12 +15,19 @@ export async function POST () {
   }
 
   const projectWithSkills = await getProjectsWithSkills(user.id)
+  
   if (!projectWithSkills) {
     return NextResponse.json(
       { error: "Internal Error"},
       { status: 501 }
     )
   }
+
+  //CREATE SOMETHING TO HANDLE CREATING SKILLSMETA
+  //THIS WILL BE {TYPE: STRING, ID: STRING, NAME: STRING}
+  //WILL BE FOR EACH PROJECT
+  //ADD TO PROJECT TYPE
+  //USED FOR DELETIONS
   const projects = mergeSkills(projectWithSkills)
   return NextResponse.json(projects)
 }

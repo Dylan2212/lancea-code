@@ -1,3 +1,5 @@
+import { SkillMeta } from "@/src/domain/skills/mergeSkills"
+
 type InputProps = {
   onFocus: () => void,
   onBlur: () => void,
@@ -5,13 +7,13 @@ type InputProps = {
   newInput: (e: React.ChangeEvent<HTMLInputElement>) => void,
   isFocused: boolean,
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void,
-  results: string[],
+  results: SkillMeta[],
   suggestedIndex: number,
-  addSkill: (skill: string) => void,
+  enteredSkill: () => void,
   ghostSuggestion: string | null
 }
 
-export default function SkillsInput ({ addSkill, onFocus, onBlur, onKeyDown, newInput, isFocused, results, input, ghostSuggestion }: InputProps) {
+export default function SkillsInput ({ enteredSkill, onFocus, onBlur, onKeyDown, newInput, isFocused, results, input, ghostSuggestion }: InputProps) {
   return (
     <div className={`flex items-center gap-3 relative`}>
       <div className="relative w-[85%]">
@@ -36,7 +38,7 @@ export default function SkillsInput ({ addSkill, onFocus, onBlur, onKeyDown, new
       </div>
       
         <button
-        onClick={() => addSkill(input)}
+        onClick={enteredSkill}
         type="button"
         className={`
           relative rounded-lg py-3 px-4 text-[#7E22CE] border-2 border-[#7E22CE] 

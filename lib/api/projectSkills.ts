@@ -1,4 +1,6 @@
-export async function saveProjectSkills (projectId: string, skills: string[]) {
+import { SkillMeta } from "@/src/domain/skills/mergeSkills"
+
+export async function saveProjectSkills (projectId: string, skills: SkillMeta[]) {
   const res = await fetch("/api/project-skills", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

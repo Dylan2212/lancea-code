@@ -7,10 +7,11 @@ export type ProjectData = Partial<{
   results: string[],
   uploaded_urls: Record<string, string>[],
   cover: CoverObj | null,
-  addedSkills: string[],
+  addedSkills: SkillMeta[],
   id: string
 }>
 
+import { SkillMeta } from "@/src/domain/skills/mergeSkills";
 import AddProjectClient from "../components/addProjectComponent"
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ action?: string; idx?: string }> }) {

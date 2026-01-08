@@ -15,7 +15,8 @@ import { isSafeLink } from "@/utils/validateLink"
 import AddSkills from "./addSkills"
 import useAddedSkills from "@/src/app/hooks/useAddedSkills"
 import { saveProjectSkills } from "@/lib/api/projectSkills"
-import { skillsChanged } from "./skillsChanged"
+import { skillsChanged } from "./skillsHelpers/skillsChanged"
+import { checkForDeletedSkills } from "./skillsHelpers/checkForDeletedSkills"
 
 type CoverObj = { coverUrl: string; position: number }
 
@@ -192,10 +193,16 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
         return false
       })
 
-      if (!hasChanged && !skillsChanged(addedSkills, startingSkills)) {
+      const hasChangedSkills = skillsChanged(addedSkills.map(skill => skill.name), startingSkills.map(skill => skill.name))
+
+      if (!hasChanged && !hasChangedSkills) {
         toast.error("No changes to update.")
         setAdding(false)
         return
+      }
+
+      const deletedSkills = checkForDeletedSkills(addedSkills.map(skill => skill.name), startingSkills.map(skill => skill.name))
+      if (deletedSkills.length > 0) {
       }
 
       if (addedSkills.length > 0) {

@@ -1,5 +1,6 @@
 "use server"
 import { createClient } from "@/utils/supabase/server"
+import type { SupabaseClient } from "@supabase/supabase-js"
 
 export async function getCustomSkills (): Promise<{id: string, normalized_name: string, usage: number}[]> {
   const supabase = await createClient()
@@ -24,13 +25,10 @@ export async function insertCustomSkills (newSkills: { id: string, normalized_na
   if (error) throw new Error("Could not insert new skills:", error)
 }
 
-export async function addProjectCustomSkills (project_id: string, customIds: string[]) {
-  if (customIds.length === 0) return
-  const supabase = await createClient()
-
+export async function addProjectCustomSkills (supabase: SupabaseClient, project_id: string, customIds: string[]) {
   const { error } = await supabase
     .from("project_custom_skills")
     .upsert(customIds.map(custom_skill_id => ({ project_id, custom_skill_id })), { onConflict: "custom_skill_id" })
 
-  if (error) throw new Error("Could not insert project skills:", error)
+  if (error) throw error
 }

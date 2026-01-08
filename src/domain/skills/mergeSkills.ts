@@ -37,16 +37,22 @@ export type Project = {
   results?: string[]
 }
 
+export type SkillMeta = {
+  type: "custom" | "predefined",
+  id: string,
+  name: string
+}
+
 export type MergedProject = Omit<Project, "project_skills" | "project_custom_skills"> & {
-  addedSkills: string[]
+  addedSkills: SkillMeta[],
 }
 
 export function mergeSkills (projects: Project[]): MergedProject[] {
-  if (!projects) return []
+  if (!projects) return []  
   
   return projects.map(project => {
-    const customSkills = project.project_custom_skills.map(skill => skill.custom_skills.normalized_name)
-    const predefinedSkills = project.project_skills.map(skill => skill.predefined_skills.normalized_name)
+    const customSkills = project.project_custom_skills.map(skill => ({ type: "custom", id: skill.custom_skill_id, name: skill.custom_skills.normalized_name}))
+    const predefinedSkills = project.project_skills.map(skill => ({type: "predefined", id: skill.skill_id, name: skill.predefined_skills.normalized_name}))
 
     const addedSkills = [...customSkills, ...predefinedSkills]
 

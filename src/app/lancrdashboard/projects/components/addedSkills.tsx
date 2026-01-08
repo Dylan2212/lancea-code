@@ -1,5 +1,7 @@
+import { SkillMeta } from "@/src/domain/skills/mergeSkills"
+
 type AddedSkillsProps = {
-  addedSkills: string[],
+  addedSkills: SkillMeta[],
   removeSkill: (index: number) => void
 }
 
@@ -8,7 +10,7 @@ export default function AddedSkills ({ addedSkills, removeSkill }: AddedSkillsPr
     <ul className="w-full flex flex-wrap gap-2 mt-4">
       {addedSkills.map((skill, index) => (
         <li
-          key={skill}
+          key={skill.id}
           className="
             inline-flex items-center
             text-center
@@ -21,7 +23,7 @@ export default function AddedSkills ({ addedSkills, removeSkill }: AddedSkillsPr
             text-sm
           "
         >
-          <span className="mr-2">{skill}</span>
+          <span className="mr-2">{skill.name}</span>
           <button
           type="button"
             onClick={() => removeSkill(index)}

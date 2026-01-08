@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react"
 import useSkillsTrie from "./useSkillsTrie"
+import { SkillMeta } from "@/src/domain/skills/mergeSkills"
+import { v4 as uuid } from "uuid"
 
-export default function useSkillsInput (addSkill: (skill: string) => void): {
+export default function useSkillsInput (addSkill: (skill: SkillMeta) => void): {
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void,
   input: string,
-  results: string[],
+  results: SkillMeta[],
   newInput: (e: React.ChangeEvent<HTMLInputElement>) => void,
   isFocused: boolean,
   onFocus: () => void,
   onBlur: () => void,
   suggestedIndex: number,
-  resultClicked: (skill: string) => void,
-  ghostSuggestion: string | null
+  resultClicked: (skill: SkillMeta) => void,
+  ghostSuggestion: string | null,
+  enteredSkill: () => void
 } {
   const [input, setInput]= useState<string>("")
-  const [results, setResults] = useState<string[]>([])
+  const [results, setResults] = useState<SkillMeta[]>([])
   const [suggestedIndex, setSuggestedIndex] = useState<number>(-1)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const { skillsTrie } = useSkillsTrie()
@@ -28,10 +31,10 @@ export default function useSkillsInput (addSkill: (skill: string) => void): {
 
     const suggestion = suggestedIndex > -1 ? results[suggestedIndex] : results[0]
 
-    return input + suggestion.slice(input.length)
+    return input + suggestion.name.slice(input.length)
   })()
 
-  function searchTrie (prefix: string): string[] {
+  function searchTrie (prefix: string): SkillMeta[] {
     if (prefix === "" || !skillsTrie) return []
     return skillsTrie.search(prefix)
   }
@@ -58,10 +61,19 @@ export default function useSkillsInput (addSkill: (skill: string) => void): {
     return
   }
 
-  function resultClicked (skill: string): void {
+  function resultClicked (skill: SkillMeta): void {
     addSkill(skill)
     resetInput()
     return
+  }
+
+  function enteredSkill () {
+    if (!results[0] || results[0].name !== input) {
+      addSkill({type: "custom", id: uuid(), name: input})
+    } else {
+      addSkill(results[0])
+    }
+    resetInput()
   }
 
   function onKeyDown (e: React.KeyboardEvent<HTMLInputElement>): void {
@@ -72,7 +84,7 @@ export default function useSkillsInput (addSkill: (skill: string) => void): {
         if (suggestedIndex > -1) {
           addSkill(results[suggestedIndex])
         } else {
-          addSkill(input)
+          enteredSkill()
         }
         resetInput()
         break
@@ -80,8 +92,8 @@ export default function useSkillsInput (addSkill: (skill: string) => void): {
         e.preventDefault()
         if (results.length <= 0) return
         const selectedResult = suggestedIndex > -1 ? results[suggestedIndex] : results[0]
-        setInput(selectedResult)
-        setResults(searchTrie(selectedResult))
+        setInput(selectedResult.name)
+        setResults(searchTrie(selectedResult.name))
         break
       case "ArrowUp":
         e.preventDefault()
@@ -96,5 +108,5 @@ export default function useSkillsInput (addSkill: (skill: string) => void): {
     return
   }
 
-  return { ghostSuggestion, onKeyDown, input, newInput, results, isFocused, onFocus, onBlur, suggestedIndex, resultClicked }
+  return { enteredSkill, ghostSuggestion, onKeyDown, input, newInput, results, isFocused, onFocus, onBlur, suggestedIndex, resultClicked }
 }
