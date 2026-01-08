@@ -1,4 +1,5 @@
 import { SkillMeta } from "@/src/domain/skills/mergeSkills"
+import { toTitleCase } from "@/utils/titleCase"
 
 type AddedSkillsProps = {
   addedSkills: SkillMeta[],
@@ -23,7 +24,7 @@ export default function AddedSkills ({ addedSkills, removeSkill }: AddedSkillsPr
             text-sm
           "
         >
-          <span className="mr-2">{skill.name}</span>
+          <span className="mr-2">{toTitleCase(skill.name)}</span>
           <button
           type="button"
             onClick={() => removeSkill(index)}

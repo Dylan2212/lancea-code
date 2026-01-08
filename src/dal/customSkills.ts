@@ -14,14 +14,13 @@ export async function getCustomSkills (): Promise<{id: string, normalized_name: 
   return data
 }
 
-export async function insertCustomSkills (newSkills: { id: string, normalized_name: string }[]) {
-  if (newSkills.length === 0) return
-  const supabase = await createClient()
+export async function insertCustomSkills (supabase: SupabaseClient, newSkills: { id: string, normalized_name: string }[]) {
 
   const { error } = await supabase
     .from("custom_skills")
-    .upsert(newSkills, { onConflict: "normalize_name" })
+    .upsert(newSkills, { onConflict: "normalized_name" })
 
+  if (error) console.log(error)
   if (error) throw new Error("Could not insert new skills:", error)
 }
 

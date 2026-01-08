@@ -12,7 +12,7 @@ export default async function processProjectSkills (supabase: SupabaseClient, pr
   const { predefined, custom } = splitSkills(normalSkills)
 
   const predefinedIds = predefined.map(skill => skill.id)
-  const customIds = await resolveOrCreateCustomSkills(custom)
+  const customIds = await resolveOrCreateCustomSkills(supabase, custom)
 
   if (customIds.length > 0) await addProjectCustomSkills(supabase, projectId, customIds)
   if (predefinedIds.length > 0) await addPredefinedProjectSkills(supabase, projectId, predefinedIds)
