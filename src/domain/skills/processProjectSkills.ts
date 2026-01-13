@@ -1,8 +1,8 @@
 import splitSkills from "./splitSkills"
-import { addPredefinedProjectSkills } from "@/src/dal/predefinedSkills"
+import { addPredefinedProjectSkills } from "@/src/dal/projects/predefinedSkills"
 import { resolveOrCreateCustomSkills } from "./resolveOrCreateCustomSkills"
 import { normalizeSkillsArr } from "./normalizeSkillsArr"
-import { addProjectCustomSkills } from "@/src/dal/customSkills"
+import { addProjectCustomSkills } from "@/src/dal/projects/customSkills"
 import type { SupabaseClient } from "@supabase/supabase-js"
 import { SkillMeta } from "./mergeSkills"
 

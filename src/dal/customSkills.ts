@@ -23,11 +23,3 @@ export async function insertCustomSkills (supabase: SupabaseClient, newSkills: {
   if (error) console.log(error)
   if (error) throw new Error("Could not insert new skills:", error)
 }
-
-export async function addProjectCustomSkills (supabase: SupabaseClient, project_id: string, customIds: string[]) {
-  const { error } = await supabase
-    .from("project_custom_skills")
-    .upsert(customIds.map(custom_skill_id => ({ project_id, custom_skill_id })), { onConflict: "custom_skill_id" })
-
-  if (error) throw error
-}

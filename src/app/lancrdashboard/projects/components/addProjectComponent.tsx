@@ -14,9 +14,10 @@ import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { isSafeLink } from "@/utils/validateLink"
 import AddSkills from "./addSkills"
 import useAddedSkills from "@/src/app/hooks/useAddedSkills"
-import { saveProjectSkills } from "@/lib/api/projectSkills"
+import { deleteProjectSkills, saveProjectSkills } from "@/lib/api/project/projectSkills"
 import { skillsChanged } from "./skillsHelpers/skillsChanged"
 import { checkForDeletedSkills } from "./skillsHelpers/checkForDeletedSkills"
+import { SkillMeta } from "@/src/domain/skills/mergeSkills"
 
 type CoverObj = { coverUrl: string; position: number }
 
@@ -27,7 +28,8 @@ export type ProjectData = Partial<{
   results: string[]
   uploaded_urls: Record<string, string>[]
   cover: CoverObj | null
-  id: string
+  id: string,
+  addedSkills: SkillMeta[]
 }>
 
 type MyProps = {
@@ -105,9 +107,12 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
   // --- Save Project --- //
 
   async function saveToDb(finalProjectData: ProjectData) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { addedSkills: skills, ...dbSafeProject } = finalProjectData
+
     const { error } = await supabase
       .from("projects")
-      .upsert(finalProjectData, { onConflict: "id" })
+      .upsert(dbSafeProject, { onConflict: "id" })
 
     if (error) {
       console.error("Could not add project: " + JSON.stringify(error))
@@ -115,7 +120,7 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
       return false
     }
 
-    if (addedSkills.length > 0) {
+    if (addedSkills.length > 0 ) {
       await saveProjectSkills(finalProjectData.id!, addedSkills)
     }
 
@@ -201,8 +206,11 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
         return
       }
 
-      const deletedSkills = checkForDeletedSkills(addedSkills.map(skill => skill.name), startingSkills.map(skill => skill.name))
+      const deletedSkills = checkForDeletedSkills(addedSkills, startingSkills)
+
       if (deletedSkills.length > 0) {
+        const { ok } = await deleteProjectSkills(projects[globalIndex].id!, deletedSkills)
+        if (!ok) toast.error("Something went wrong.")
       }
 
       if (addedSkills.length > 0) {

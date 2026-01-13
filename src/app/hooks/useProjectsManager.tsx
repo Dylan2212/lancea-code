@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabaseClient";
 import toast from "react-hot-toast";
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { useEffect, useState } from "react";
-import { projectsWithSkillsCaller } from "@/lib/api/projectsWithSkills";
+import { projectsWithSkillsCaller } from "@/lib/api/project/projectsWithSkills";
 
 export default function useProjectsManager () {
   const projects = useProjectsStore((state) => state.projects)

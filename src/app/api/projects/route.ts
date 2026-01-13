@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import { getProjectsWithSkills } from "@/src/dal/projects";
+import { getProjectsWithSkills } from "@/src/dal/projects/projects";
 import { mergeSkills } from "@/src/domain/skills/mergeSkills";
 
 export async function POST () {
@@ -23,11 +23,6 @@ export async function POST () {
     )
   }
 
-  //CREATE SOMETHING TO HANDLE CREATING SKILLSMETA
-  //THIS WILL BE {TYPE: STRING, ID: STRING, NAME: STRING}
-  //WILL BE FOR EACH PROJECT
-  //ADD TO PROJECT TYPE
-  //USED FOR DELETIONS
   const projects = mergeSkills(projectWithSkills)
   return NextResponse.json(projects)
 }

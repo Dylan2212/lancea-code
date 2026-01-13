@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import processProjectSkills from "@/src/domain/skills/processProjectSkills";
 import { projectUserId } from "@/src/dal/projectUserId";
+import splitSkills from "@/src/domain/skills/splitSkills";
+import { deletePredefinedProjectSkills } from "@/src/dal/projects/predefinedSkills";
+import { deleteCustomProjectSkills } from "@/src/dal/projects/customSkills";
 
 export async function POST (req: Request) {
   const supabase = await createClient()
@@ -44,7 +47,7 @@ export async function POST (req: Request) {
 
 }
 
-export async function DELETE (req: Request) {
+export async function DELETE (req: Request, { params }: { params: Promise<{ projectId: string }>}) {
   const supabase = await createClient()
   const { data: { user }, error } = await supabase.auth.getUser()
 
@@ -55,7 +58,8 @@ export async function DELETE (req: Request) {
     )
   }
 
-  const { projectId } = await req.json()
+  const { deletedSkills } = await req.json()
+  const { projectId } = await params
 
   //User owns project
   const { data: project, error: projectError } = await projectUserId(supabase, projectId)
@@ -74,5 +78,12 @@ export async function DELETE (req: Request) {
     )
   }
 
-  await supabase.from("project_skills").delete()
+  const { predefined, custom } = splitSkills(deletedSkills)
+
+  await Promise.all([
+    deletePredefinedProjectSkills(supabase, projectId, predefined.map(skill => skill.id)),
+    deleteCustomProjectSkills(supabase, projectId, custom.map(skill => skill.id))
+  ])
+
+  return NextResponse.json({ ok: true })
 }
