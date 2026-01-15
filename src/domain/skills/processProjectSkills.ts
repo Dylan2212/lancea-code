@@ -7,7 +7,7 @@ import type { SupabaseClient } from "@supabase/supabase-js"
 import { SkillMeta } from "./mergeSkills"
 
 export default async function processProjectSkills (supabase: SupabaseClient, projectId: string, skills: SkillMeta[]) {
-
+  console.log("Project Id in process:", projectId)
   const normalSkills = normalizeSkillsArr(skills)
   const { predefined, custom } = splitSkills(normalSkills)
 

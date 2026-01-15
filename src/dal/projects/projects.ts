@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server"
+import type { SupabaseClient } from "@supabase/supabase-js"
 
 export async function getProjectsWithSkills (userId: string) {
   const supabase = await createClient()
@@ -13,4 +14,16 @@ export async function getProjectsWithSkills (userId: string) {
     .eq("user_id", userId)
 
   return data
+}
+
+export async function createEmptyProject (supabase: SupabaseClient, projectId: string, userId: string): Promise<string> {
+  const { data, error } = await supabase
+    .from("projects")
+    .insert({ "user_id": userId, "id": projectId })
+    .select("id")
+    .single()
+
+  if (error) throw error
+
+  return data.id
 }

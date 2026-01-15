@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
+import { createAdminClient, createClient } from "@/utils/supabase/server";
 import processProjectSkills from "@/src/domain/skills/processProjectSkills";
 import { projectUserId } from "@/src/dal/projectUserId";
 import splitSkills from "@/src/domain/skills/splitSkills";
@@ -23,8 +23,8 @@ export async function POST (req: Request) {
 
   if (projectError || !project) {
     return NextResponse.json(
-      { error: "Project not found" },
-      { status: 404 }
+      { error: "Error fetching project" },
+      { status: 500 }
     )
   }
 
@@ -36,7 +36,8 @@ export async function POST (req: Request) {
   }
 
   try {
-    await processProjectSkills(supabase, projectId, skills)
+    const admin = createAdminClient()
+    await processProjectSkills(admin, projectId, skills)
     return NextResponse.json({ ok: true })
   } catch {
     return NextResponse.json(

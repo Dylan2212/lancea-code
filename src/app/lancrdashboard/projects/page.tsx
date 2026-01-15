@@ -11,6 +11,9 @@ export type DeleteObj = {
   index: number
 }
 
+//ISSUE AFTER ADDING NEW PROJECTS AND LOGGING OFF
+//THEY DIDNT SHOW, ONLY FETCHED THE OLD?
+
 export default function Projects () {
   const { projects, setShowDeleteModal, showDeleteModal, deleteProject, deleting } = useProjectsManager()
 

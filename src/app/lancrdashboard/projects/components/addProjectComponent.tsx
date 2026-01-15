@@ -210,11 +210,19 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
 
       if (deletedSkills.length > 0) {
         const { ok } = await deleteProjectSkills(projects[globalIndex].id!, deletedSkills)
-        if (!ok) toast.error("Something went wrong.")
+        if (!ok) {
+          toast.error("Something went wrong.")
+          return
+        }
       }
 
       if (addedSkills.length > 0) {
-        await saveProjectSkills(projects[globalIndex].id!, addedSkills)
+        const { ok } = await saveProjectSkills(projects[globalIndex].id!, addedSkills)
+        if (!ok) {
+          toast.error("Something went wrong.")
+          setAdding(false)
+          return
+        }
         setProjects(projects.map((project, i) => 
           i === globalIndex ? {
             ...project,
