@@ -5,23 +5,31 @@ import type { SkillMeta } from "@/src/domain/skills/mergeSkills";
 export default function useAddedSkills (startingSkills: SkillMeta[] = []): {
   addedSkills: SkillMeta[],
   addSkill: (skill: SkillMeta) => void,
-  removeSkill: (index: number) => void
+  removeSkill: (index: number) => void,
+  maxSkills: boolean
 } {
   const [addedSkills, setAddedSkills] = useState<SkillMeta[]>([])
+  const [maxSkills, setMaxSkills] = useState<boolean>(false)
 
   useEffect(() => {
     setAddedSkills(startingSkills)
   }, [])
 
   function addSkill (skill: SkillMeta): void {
-    setAddedSkills(prev => !canAddSkill(prev, skill) ? prev : [...prev, skill])
+    const canAdd = canAddSkill(addedSkills, skill)
+    if (canAdd) {
+      setAddedSkills(prev => [...prev, skill])
+    } else {
+      setMaxSkills(true)
+    }
     return
   }
 
   function removeSkill (index: number): void {
     setAddedSkills(prev => prev.filter((_,i) => i !== index))
+    if (maxSkills) setMaxSkills(false)
     return
   }
 
-  return { addedSkills, addSkill, removeSkill }
+  return { addedSkills, addSkill, removeSkill, maxSkills }
 }

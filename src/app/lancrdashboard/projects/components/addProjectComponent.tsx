@@ -51,7 +51,7 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
   const [files, setFiles] = useState<MyFile[]>([])
   const [cover, setCover] = useState(0)
   const startingSkills = projects[globalIndex]?.addedSkills ?? []
-  const { addedSkills, removeSkill, addSkill } = useAddedSkills(startingSkills)
+  const { addedSkills, removeSkill, addSkill, maxSkills } = useAddedSkills(startingSkills)
   const [projectData, setProjectData] = useState<ProjectData>({
     title: "",
     description: "",
@@ -344,7 +344,7 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
             Max: {projectData.description?.length}/{1000} characters
           </p>
         </div>
-        <AddSkills addSkill={addSkill} removeSkill={removeSkill} addedSkills={addedSkills}/>
+        <AddSkills addSkill={addSkill} removeSkill={removeSkill} addedSkills={addedSkills} maxSkills={maxSkills} />
         <div className="mt-6 mb-3 ml-2">
           <p className="text-lg">Results:</p>
           {

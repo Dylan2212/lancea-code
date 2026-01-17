@@ -8,10 +8,11 @@ import { SkillMeta } from "@/src/domain/skills/mergeSkills";
 type AddSkillsProps = {
   addSkill: (skill: SkillMeta) => void,
   removeSkill: (index: number) => void,
-  addedSkills: SkillMeta[]
+  addedSkills: SkillMeta[],
+  maxSkills: boolean
 }
 
-export default function AddSkills ({ addSkill, removeSkill, addedSkills}: AddSkillsProps) {
+export default function AddSkills ({ addSkill, removeSkill, addedSkills, maxSkills}: AddSkillsProps) {
   const { enteredSkill, input, onKeyDown, results, resultClicked, newInput, suggestedIndex, isFocused, onFocus, onBlur, ghostSuggestion } = useSkillsInput(addSkill)
 
   return (
@@ -24,7 +25,7 @@ export default function AddSkills ({ addSkill, removeSkill, addedSkills}: AddSki
       <p className="text-lg font-bold">Add Your Skills:</p>
       <p className={`text-xs text-gray-500`}>Add up to 5 skills</p>
       <div className="mt-6">
-        <SkillsInput ghostSuggestion={ghostSuggestion} enteredSkill={enteredSkill} results={results} isFocused={isFocused} suggestedIndex={suggestedIndex} input={input} newInput={newInput} onBlur={onBlur} onFocus={onFocus} onKeyDown={onKeyDown}/>
+        <SkillsInput maxSkills={maxSkills} ghostSuggestion={ghostSuggestion} enteredSkill={enteredSkill} results={results} isFocused={isFocused} suggestedIndex={suggestedIndex} input={input} newInput={newInput} onBlur={onBlur} onFocus={onFocus} onKeyDown={onKeyDown}/>
         {results.length > 0 && isFocused ? (
           <SkillsResults resultClicked={resultClicked} results={results} suggestedIndex={suggestedIndex} isFocused={isFocused}/>
         ) : (
