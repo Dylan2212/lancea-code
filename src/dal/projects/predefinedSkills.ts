@@ -1,3 +1,4 @@
+import { createAdminClient } from "@/utils/supabase/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export async function addPredefinedProjectSkills (supabase: SupabaseClient, project_id: string, predefinedIds: string[]) {
@@ -11,10 +12,11 @@ export async function addPredefinedProjectSkills (supabase: SupabaseClient, proj
   if (error) throw error
 }
 
-export async function deletePredefinedProjectSkills (supabase: SupabaseClient, project_id: string, predefinedIds: string[]) {
+export async function deletePredefinedProjectSkillsAdmin (project_id: string, predefinedIds: string[]) {
   if (predefinedIds.length < 0) return
+  const admin = createAdminClient()
 
-  const { error } = await supabase
+  const { error } = await admin
     .from("project_skills")
     .delete()
     .eq("project_id", project_id)

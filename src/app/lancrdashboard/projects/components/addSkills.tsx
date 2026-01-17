@@ -11,9 +11,6 @@ type AddSkillsProps = {
   addedSkills: SkillMeta[]
 }
 
-//ALERT WHEN ATTEMPT TO ADD MORE THAN 5 SKILLS
-//CANT ADD ONE SKILL AND IMMEDIATELY DELETE IN ADD PROJECT
-
 export default function AddSkills ({ addSkill, removeSkill, addedSkills}: AddSkillsProps) {
   const { enteredSkill, input, onKeyDown, results, resultClicked, newInput, suggestedIndex, isFocused, onFocus, onBlur, ghostSuggestion } = useSkillsInput(addSkill)
 

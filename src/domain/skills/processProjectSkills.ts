@@ -3,17 +3,17 @@ import { addPredefinedProjectSkills } from "@/src/dal/projects/predefinedSkills"
 import { resolveOrCreateCustomSkills } from "./resolveOrCreateCustomSkills"
 import { normalizeSkillsArr } from "./normalizeSkillsArr"
 import { addProjectCustomSkills } from "@/src/dal/projects/customSkills"
-import type { SupabaseClient } from "@supabase/supabase-js"
 import { SkillMeta } from "./mergeSkills"
+import { createAdminClient } from "@/utils/supabase/server"
 
-export default async function processProjectSkills (supabase: SupabaseClient, projectId: string, skills: SkillMeta[]) {
-  console.log("Project Id in process:", projectId)
+export default async function processProjectSkills (projectId: string, skills: SkillMeta[]) {
+  const admin = createAdminClient()
   const normalSkills = normalizeSkillsArr(skills)
   const { predefined, custom } = splitSkills(normalSkills)
 
   const predefinedIds = predefined.map(skill => skill.id)
-  const customIds = await resolveOrCreateCustomSkills(supabase, custom)
+  const customIds = await resolveOrCreateCustomSkills(admin, custom)
 
-  if (customIds.length > 0) await addProjectCustomSkills(supabase, projectId, customIds)
-  if (predefinedIds.length > 0) await addPredefinedProjectSkills(supabase, projectId, predefinedIds)
+  if (customIds.length > 0) await addProjectCustomSkills(admin, projectId, customIds)
+  if (predefinedIds.length > 0) await addPredefinedProjectSkills(admin, projectId, predefinedIds)
 }
