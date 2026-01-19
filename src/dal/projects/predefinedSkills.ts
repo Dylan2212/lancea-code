@@ -8,7 +8,6 @@ export async function addPredefinedProjectSkills (project_id: string, predefined
     .from("project_skills")
     .upsert(predefinedIds.map(skill_id => ({ project_id, skill_id })), { ignoreDuplicates: true })
 
-  if (error) console.log(error)
   if (error) throw error
 }
 

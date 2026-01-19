@@ -1,28 +1,20 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
-import { getProjectsWithSkills } from "@/src/dal/projects/projects";
+import { getProjectsWithSkillsAdmin } from "@/src/dal/projects/projects";
 import { mergeSkills } from "@/src/domain/skills/mergeSkills";
+import { requireUser } from "@/src/domain/auth/requireUser";
 
 export async function POST () {
-  const supabase = await createClient()
-  const { data: { user }, error } = await supabase.auth.getUser()
+  try {
+    const { user } = await requireUser()
 
-  if (error || !user) {
-    return NextResponse.json(
-      { error: "Forbidden"},
-      { status: 403 }
-    )
-  }
+    const projectWithSkills = await getProjectsWithSkillsAdmin(user.id)
+    const projects = mergeSkills(projectWithSkills)
 
-  const projectWithSkills = await getProjectsWithSkills(user.id)
-  
-  if (!projectWithSkills) {
+    return NextResponse.json(projects)
+  } catch {
     return NextResponse.json(
       { error: "Internal Error"},
       { status: 501 }
     )
   }
-
-  const projects = mergeSkills(projectWithSkills)
-  return NextResponse.json(projects)
 }

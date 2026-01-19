@@ -1,10 +1,10 @@
-import { createClient } from "@/utils/supabase/server"
+import { createAdminClient } from "@/utils/supabase/server"
 import type { SupabaseClient } from "@supabase/supabase-js"
 
-export async function getProjectsWithSkills (userId: string) {
-  const supabase = await createClient()
+export async function getProjectsWithSkillsAdmin (userId: string) {
+  const supabase = createAdminClient()
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("projects")
     .select(`
       *,
@@ -13,6 +13,7 @@ export async function getProjectsWithSkills (userId: string) {
     `)
     .eq("user_id", userId)
 
+  if (error) throw error
   return data
 }
 
