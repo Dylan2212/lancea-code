@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Trie } from "@/utils/trie"
-import { getPredefinedSkills } from "@/src/dal/predefinedSkills"
+import { getPredefinedSkillsClient } from "@/src/dal/predefinedSkills"
 import { supabase } from "@/lib/supabaseClient"
 
 export default function useSkillsTrie (): { loading: boolean, skillsTrie: Trie | undefined } {
@@ -11,7 +11,7 @@ export default function useSkillsTrie (): { loading: boolean, skillsTrie: Trie |
     let mounted = true
 
     const fetchSkills = async () => {
-      const skills = await getPredefinedSkills(supabase)
+      const skills = await getPredefinedSkillsClient(supabase)
       const t = new Trie()
       t.insertMany(skills)
 

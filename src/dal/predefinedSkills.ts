@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js"
 
-export async function getPredefinedSkills (supabase: SupabaseClient): Promise<{id: string, normalized_name: string, usage: number}[]> {
+export async function getPredefinedSkillsClient (supabase: SupabaseClient): Promise<{id: string, normalized_name: string, usage: number}[]> {
 
   const { data, error } = await supabase
     .from("predefined_skills")

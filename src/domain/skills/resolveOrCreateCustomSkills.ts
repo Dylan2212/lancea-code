@@ -1,8 +1,7 @@
-import { getCustomSkills, insertCustomSkills } from "@/src/dal/customSkills";
-import type { SupabaseClient } from "@supabase/supabase-js";
+import { getCustomSkills, insertCustomSkillsAdmin } from "@/src/dal/skills/customSkills";
 import { SkillMeta } from "./mergeSkills";
 
-export async function resolveOrCreateCustomSkills (supabase: SupabaseClient, custom: SkillMeta[]): Promise<string[]> {
+export async function resolveOrCreateCustomSkills (custom: SkillMeta[]): Promise<string[]> {
   const data = await getCustomSkills()
   const customSkillsMap = new Set(data.map(skill => skill.id))
 
@@ -21,7 +20,7 @@ export async function resolveOrCreateCustomSkills (supabase: SupabaseClient, cus
     }
   }
 
-  if (skillsToAdd.length > 0) await insertCustomSkills(supabase, skillsToAdd)
+  if (skillsToAdd.length > 0) await insertCustomSkillsAdmin(skillsToAdd)
 
   return customIds
 }

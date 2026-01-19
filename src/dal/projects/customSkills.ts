@@ -1,10 +1,10 @@
 import { createAdminClient } from "@/utils/supabase/server"
-import type { SupabaseClient } from "@supabase/supabase-js"
 
-export async function addProjectCustomSkills (supabase: SupabaseClient, project_id: string, customIds: string[]) {
+export async function addProjectCustomSkills (project_id: string, customIds: string[]) {
   if (customIds.length === 0) return
+  const admin = createAdminClient()
 
-  const { error } = await supabase
+  const { error } = await admin
     .from("project_custom_skills")
     .upsert(customIds.map(custom_skill_id => ({ project_id, custom_skill_id })), { onConflict: "custom_skill_id" })
 

@@ -6,11 +6,12 @@ import { deleteCustomProjectSkillsAdmin } from "@/src/dal/projects/customSkills"
 import { requireUser } from "@/src/domain/auth/requireUser";
 import { userOwnsProject } from "@/src/domain/auth/userOwnsProject";
 
-export async function POST (req: Request) {
+export async function POST (req: Request, { params }: { params: Promise<{ projectId: string }>}) {
   try {
     const { user } = await requireUser()
 
-    const { skills, projectId } = await req.json()
+    const { skills } = await req.json()
+    const { projectId } = await params
 
     await userOwnsProject(user.id, projectId)
 

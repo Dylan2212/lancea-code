@@ -1,6 +1,5 @@
 "use server"
-import { createClient } from "@/utils/supabase/server"
-import type { SupabaseClient } from "@supabase/supabase-js"
+import { createAdminClient, createClient } from "@/utils/supabase/server"
 
 export async function getCustomSkills (): Promise<{id: string, normalized_name: string, usage: number}[]> {
   const supabase = await createClient()
@@ -14,9 +13,10 @@ export async function getCustomSkills (): Promise<{id: string, normalized_name: 
   return data
 }
 
-export async function insertCustomSkills (supabase: SupabaseClient, newSkills: { id: string, normalized_name: string }[]) {
+export async function insertCustomSkillsAdmin (newSkills: { id: string, normalized_name: string }[]) {
+  const admin = createAdminClient()
 
-  const { error } = await supabase
+  const { error } = await admin
     .from("custom_skills")
     .upsert(newSkills, { onConflict: "normalized_name" })
 

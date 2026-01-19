@@ -60,6 +60,8 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
     uploaded_urls: [],
   })
 
+  console.log(projects)
+
   useEffect(() => {
     if (!projects[globalIndex]) return
     setProjectData(projects[globalIndex])

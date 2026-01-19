@@ -1,10 +1,10 @@
 import { createAdminClient } from "@/utils/supabase/server";
-import type { SupabaseClient } from "@supabase/supabase-js";
 
-export async function addPredefinedProjectSkills (supabase: SupabaseClient, project_id: string, predefinedIds: string[]) {
+export async function addPredefinedProjectSkills (project_id: string, predefinedIds: string[]) {
   if (predefinedIds.length < 0) return
+  const admin = createAdminClient()
 
-  const { error } = await supabase
+  const { error } = await admin
     .from("project_skills")
     .upsert(predefinedIds.map(skill_id => ({ project_id, skill_id })), { ignoreDuplicates: true })
 

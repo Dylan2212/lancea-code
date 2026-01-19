@@ -8,7 +8,7 @@ export async function saveProjectSkills (projectId: string, skills: SkillMeta[])
   const res = await fetch(`/api/projects/${projectId}/skills`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ skills, projectId })
+    body: JSON.stringify({ skills })
   })
 
   if (!res.ok) {
