@@ -13,7 +13,7 @@ export default function useAddedSkills (startingSkills: SkillMeta[] = []): {
 
   useEffect(() => {
     setAddedSkills(startingSkills)
-  }, [])
+  }, [startingSkills])
 
   function addSkill (skill: SkillMeta): void {
     const canAdd = canAddSkill(addedSkills, skill)

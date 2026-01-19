@@ -42,7 +42,8 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
   const seenOnboarding = useOriginalUserStore(state => state.has_seen_onboarding)
   const router = useRouter()
   const userId = useOriginalUserStore(state => state.userId)
-  const { projects, setProjects } = useProjectsStore.getState()
+  const projects = useProjectsStore(state => state.projects)
+  const setProjects = useProjectsStore(state => state.setProjects)
 
   const [maxResults, setMaxResults] = useState(false)
   const [adding, setAdding] = useState(false)
