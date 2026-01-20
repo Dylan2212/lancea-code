@@ -16,10 +16,10 @@ export async function deleteCustomProjectSkillsAdmin (project_id: string, custom
   const admin = createAdminClient()
 
   const { error } = await admin
-    .from("project_skills")
+    .from("project_custom_skills")
     .delete()
     .eq("project_id", project_id)
-    .in("skill_id", customIds)
+    .in("custom_skill_id", customIds)
 
   if (error) throw error
 }

@@ -52,7 +52,7 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
   const [files, setFiles] = useState<MyFile[]>([])
   const [cover, setCover] = useState(0)
   const startingSkills = projects[globalIndex]?.addedSkills ?? []
-  const { addedSkills, removeSkill, addSkill, maxSkills } = useAddedSkills(startingSkills)
+  const { addedSkills, removeSkill, addSkill, maxSkills } = useAddedSkills(startingSkills, projects[globalIndex]?.id)
   const [projectData, setProjectData] = useState<ProjectData>({
     title: "",
     description: "",

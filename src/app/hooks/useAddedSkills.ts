@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { canAddSkill } from "@/src/businessRules";
 import type { SkillMeta } from "@/src/domain/skills/mergeSkills";
 
-export default function useAddedSkills (startingSkills: SkillMeta[] = []): {
+export default function useAddedSkills (startingSkills: SkillMeta[] = [], resetKey: string | undefined): {
   addedSkills: SkillMeta[],
   addSkill: (skill: SkillMeta) => void,
   removeSkill: (index: number) => void,
@@ -11,9 +11,10 @@ export default function useAddedSkills (startingSkills: SkillMeta[] = []): {
   const [addedSkills, setAddedSkills] = useState<SkillMeta[]>([])
   const [maxSkills, setMaxSkills] = useState<boolean>(false)
 
+  //INFINATE LOOP CREATED!!!!
   useEffect(() => {
     setAddedSkills(startingSkills)
-  }, [startingSkills])
+  }, [resetKey])
 
   function addSkill (skill: SkillMeta): void {
     const canAdd = canAddSkill(addedSkills, skill)
