@@ -4,6 +4,7 @@ import Link from "next/link"
 import Project from "./components/project";
 import ConfirmDeleteModal from "../components/confirmDeleteModal";
 import useProjectsManager from "../../hooks/useProjectsManager";
+import ProjectsLoadingSkeleton from "./components/projectsLoadingSkeleton";
 
 export type DeleteObj = {
   show: boolean,
@@ -12,7 +13,7 @@ export type DeleteObj = {
 }
 
 export default function Projects () {
-  const { projects, setShowDeleteModal, showDeleteModal, deleteProject, deleting } = useProjectsManager()
+  const { projects, setShowDeleteModal, showDeleteModal, deleteProject, deleting, loading } = useProjectsManager()
 
   return (
     <section className="pt-16 w-screen lg:w-full">
@@ -24,7 +25,8 @@ export default function Projects () {
         xl:grid-cols-3
         2xl:grid-cols-4
         ">
-          <Link href="/lancrdashboard/projects/add+editproject?action=add&idx=null" className="border border-gray-400 rounded-lg shadow-md flex flex-col justify-center items-center w-11/12 h-fit aspect-[4/3] hov-standrd mx-auto hover:bg-gray-100
+        {loading ? <ProjectsLoadingSkeleton/> :
+          <><Link href="/lancrdashboard/projects/add+editproject?action=add&idx=null" className="border border-gray-400 rounded-lg shadow-md flex flex-col justify-center items-center w-11/12 h-fit aspect-[4/3] hov-standrd mx-auto hover:bg-gray-100
           md:w-[300px] lg:mx-0
           ">
             <SquarePlus className="w-12 h-12" />
@@ -34,7 +36,8 @@ export default function Projects () {
             <div key={project.id} className="w-11/12 mx-auto sm:w-full sm:mx-0">
               <Project idx={index} key={project.id} project={project} setShowDeleteModal={setShowDeleteModal}/>
             </div>
-          ))}
+          ))}</>
+        }
         </div>
       </div>
       {showDeleteModal.show && <ConfirmDeleteModal deleting={deleting} property="project" onClose={() => setShowDeleteModal({show: false, id: "", index: 0})} onDelete={deleteProject}/>}

@@ -16,7 +16,15 @@ export default {
         inter: ['var(--font-inter)'], lazydog: ['Lazydog', 'sans-serif'], sans: ["var(--font-manrope)", "sans-serif"]
       },
       screens: {
-        'xs': '400px', // 👈 custom breakpoint
+        'xs': '400px',
+      },
+      keyframes: {
+        shimmer: {
+          "100%": { transform: "translateX(100%)" },
+        },
+      },
+      animation: {
+        shimmer: "shimmer 1.5s infinite",
       },
     },
   },

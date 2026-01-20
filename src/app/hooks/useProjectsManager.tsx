@@ -3,8 +3,19 @@ import toast from "react-hot-toast";
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { useEffect, useState } from "react";
 import { projectsWithSkillsCaller } from "@/lib/api/project/projectsWithSkills";
+import { ProjectData } from "../lancrdashboard/projects/components/addProjectComponent";
+import type { DeleteObj } from "../lancrdashboard/projects/page";
 
-export default function useProjectsManager () {
+type UseProjectsManagerReturn = {
+  loading: boolean,
+  projects: ProjectData[],
+  setShowDeleteModal: React.Dispatch<React.SetStateAction<DeleteObj>>,
+  deleting: boolean,
+  showDeleteModal: DeleteObj,
+  deleteProject: () => void
+}
+
+export default function useProjectsManager (): UseProjectsManagerReturn {
   const projects = useProjectsStore((state) => state.projects)
   const [showDeleteModal, setShowDeleteModal] = useState({show: false, id: "", index: 0})
   const [deleting, setDeleting] = useState(false)
