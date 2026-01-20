@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { projectsWithSkillsCaller } from "@/lib/api/project/projectsWithSkills";
 import { ProjectData } from "../lancrdashboard/projects/components/addProjectComponent";
 import type { DeleteObj } from "../lancrdashboard/projects/page";
+import { useOriginalUserStore } from "@/lib/store/useOriginalUser";
 
 type UseProjectsManagerReturn = {
   loading: boolean,
@@ -23,6 +24,7 @@ export default function useProjectsManager (): UseProjectsManagerReturn {
   const setProjects = useProjectsStore(state => state.setProjects)
 
   useEffect(() => {
+    if (!useOriginalUserStore.getState().userId) return
     if (projects.length > 0) {
       setLoading(false)
       return

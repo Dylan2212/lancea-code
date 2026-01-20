@@ -18,10 +18,10 @@ export const useOriginalAdditionalLinksStore = create<OriginalStore>()(
     (set) => ({
       originalLinks: [],
       setOriginalLinks: (links) => set({ originalLinks: links }),
-      reset: () => set({ originalLinks: [] }) // ✅ clear state + persist storage
+      reset: () => set({ originalLinks: [] })
     }),
     {
-      name: "original-additional-links-storage", // localStorage key name
+      name: "original-additional-links-storage",
     }
   )
 )

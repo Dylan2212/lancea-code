@@ -11,6 +11,7 @@ import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
 import Skeleton from "react-loading-skeleton"
+import { useProjectsStore } from "@/lib/store/useProjectsStore"
 
 type Props = {
   setShowDeleteModal: Dispatch<SetStateAction<boolean>>
@@ -50,9 +51,20 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
     setIsDown(newIsDown)
   }
 
+  function clearProjects () {
+    useProjectsStore.setState({
+      projects: [],
+      hasHydrated: false,
+    })
+
+    localStorage.removeItem("projects-storage")
+  }
   async function logOutUser () {
     const { error } = await supabase.auth.signOut()
     localStorage.clear()
+    useOriginalUserStore.getState().reset()
+
+    clearProjects()
 
     if (error) {
       console.error("Logout error: " + error.message)
