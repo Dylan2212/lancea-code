@@ -175,6 +175,12 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
     e.stopPropagation()
     setAdding(true)
 
+    if (files.length === 0) {
+      setAdding(false)
+      toast.error("Add at least one project image.")
+      return
+    }
+
     // Check for changes if editing
     if (projectAction === "Edit") {
       const storeProject = projects[globalIndex]
@@ -230,9 +236,6 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
             addedSkills
           } : project
         ))
-        toast.success("Project updated!")
-        setAdding(false)
-        return
       }
     }
 
@@ -245,12 +248,6 @@ export default function AddProjectClient ({ globalIndex, projectAction, setProje
           setAdding(false)
           return
         }
-      }
-
-      if (files.length === 0) {
-        setAdding(false)
-        toast.error("Add at least one project image.")
-        return
       }
 
       const finalLink = normalizeUrl(projectData.link)
