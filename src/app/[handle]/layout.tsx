@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import type { UserData } from "./page";
 import "./components/linkspage.css"
 import UserLayoutClient from "./components/layoutClient";
+import { getProjectsWithSkillsAdmin } from "@/src/dal/projects/projects";
+import { mergeSkills } from "@/src/domain/skills/mergeSkills";
 
 const colors = {
   main: "#7E22CE",
@@ -50,7 +52,7 @@ async function fetchByURLUsername (handle: string) {
 
   const { data, error } = await supabase
     .from("users")
-    .select("*, additional_links(*), projects(*)")
+    .select("*, additional_links(*)")
     .eq("handle", handle)
     .maybeSingle()
 
@@ -69,7 +71,13 @@ async function fetchByURLUsername (handle: string) {
     }
   }
 
-  return data
+  const projectWithSkills = await getProjectsWithSkillsAdmin(data.id)
+  const projects = mergeSkills(projectWithSkills)
+
+  return {
+    ...data,
+    projects
+  }
 }
 
 export default async function Layout ({ children, params }: { children: React.ReactNode, params: Promise<{ handle: string }>}) {

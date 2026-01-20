@@ -6,6 +6,7 @@ import "./linkspage.css"
 import { X, Trophy } from "lucide-react"
 import { ProjectData } from "../../lancrdashboard/projects/add+editproject/page"
 import UserProjectGallery from "./userProjectGallery"
+import InProjectSkills from "./inProjectSkills"
 
 type Props = {
   onClose: () => void
@@ -40,15 +41,15 @@ export default function ProjectModal({ onClose, project }: Props) {
         lg:mt-10 lg:mx-0 lg:w-1/2
         ">
           <div className="flex-1 overflow-y-auto pb-10 will-change-transform">
-            <p className="text-xl">{project.title}</p>
-
-            <p className="whitespace-pre-line w-11/12 mt-3 text-gray-700
+            <p className="text-xl font-bold">{project.title}</p>
+            <InProjectSkills skills={project.addedSkills}/>
+            <p className="whitespace-pre-line w-11/12 mt-3
             lg:text-sm
             ">
               {project.description}
             </p>
 
-            {project.results?.length !== 0 && <><p className="text-xl mt-8">Results Achieved</p>
+            {project.results?.length !== 0 && <><p className="text-xl mt-8 font-bold">Results Achieved</p>
             <div className="mb-5">
               {project.results?.map((result, index) => (
                 <div
@@ -63,7 +64,7 @@ export default function ProjectModal({ onClose, project }: Props) {
               ))}
             </div></>}
 
-            {project.link !== "" && <><p className="text-xl mt-8 mb-3">Link</p>
+            {project.link !== "" && <><p className="text-xl mt-8 mb-3 font-bold">Link</p>
             <a
               rel="noopener noreferrer"
               target="_blank"

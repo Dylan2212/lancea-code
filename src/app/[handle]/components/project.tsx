@@ -3,6 +3,7 @@ import Image from "next/image"
 import type { ProjectData } from "../../lancrdashboard/projects/components/addProjectComponent"
 import { motion } from "framer-motion"
 import { SetStateAction } from "react"
+import PreviewSkills from "./previewSkills"
 
 type MyProps = {
   project: ProjectData,
@@ -16,7 +17,6 @@ type MyProps = {
 export default function Project({ project, setFullProject, index }: MyProps) {
   if (!project.cover?.coverUrl) return null
   const isVideo = project.cover.coverUrl.split('.').pop()?.match(/mp4|mov|webm/i)
-
 
   return (
     <motion.div
@@ -34,7 +34,7 @@ export default function Project({ project, setFullProject, index }: MyProps) {
         transition: { duration: 0.05, ease: "easeOut" }
       }}
       className="
-        group relative rounded-xl overflow-hidden min-w-[325px] max-w-[325px] h-[350px] md:h-auto md:aspect-square
+        group relative rounded-xl overflow-hidden min-w-[325px] max-w-[325px] h-[350px] md:h-auto
         border-2 shadow-md bg-white
         cursor-pointer hover:border-[var(--hoverColor)]
         transition-all duration-300
@@ -77,6 +77,7 @@ export default function Project({ project, setFullProject, index }: MyProps) {
       <p className="p-3 text-lg text-gray-800 font-semibold line-clamp-2">
         {project.title}
       </p>
+      <PreviewSkills skills={project.addedSkills} />
       <div
         className="
           md:hidden
