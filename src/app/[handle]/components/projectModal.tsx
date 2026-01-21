@@ -43,7 +43,8 @@ export default function ProjectModal({ onClose, project }: Props) {
           <div className="flex-1 overflow-y-auto pb-10 will-change-transform">
             <p className="text-xl font-bold">{project.title}</p>
             <InProjectSkills skills={project.addedSkills}/>
-            <p className="whitespace-pre-line w-11/12 mt-3
+            <p className="text-sm font-bold mt-5">Description</p>
+            <p className="whitespace-pre-line w-11/12 mt-1
             lg:text-sm
             ">
               {project.description}

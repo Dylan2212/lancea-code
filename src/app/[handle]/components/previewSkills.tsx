@@ -1,4 +1,5 @@
 import { SkillMeta } from "@/src/domain/skills/mergeSkills";
+import { toTitleCase } from "@/utils/titleCase";
 
 type PreviewProps = {
   skills: SkillMeta[] | undefined
@@ -14,7 +15,7 @@ export default function PreviewSkills ({ skills }: PreviewProps) {
       key={skill.id}
       className="bg-gray-200 text-gray-800 text-xs font-medium px-2 py-1 rounded-full"
     >
-      {skill.name}
+      {toTitleCase(skill.name)}
     </span>))}
     </div>
   )

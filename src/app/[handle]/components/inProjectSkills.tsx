@@ -1,4 +1,5 @@
 import { SkillMeta } from "@/src/domain/skills/mergeSkills";
+import { toTitleCase } from "@/utils/titleCase";
 
 type InProjectSkillsProps = {
   skills: SkillMeta[] | undefined
@@ -16,7 +17,7 @@ export default function InProjectSkills ({ skills }: InProjectSkillsProps) {
         key={skill.id}
         className="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-3 rounded-xl"
       >
-        {skill.name}
+        {toTitleCase(skill.name)}
       </span>))}
     </div>
     </>
