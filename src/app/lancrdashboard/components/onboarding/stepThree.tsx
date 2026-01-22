@@ -100,7 +100,7 @@ export default function StepThree ({ nextStep, previous }: MyProps) {
     <>
       <div className="w-11/12 space-y-1">
         <p className="font-semibold text-2xl text-gray-900">
-          Profile Image
+          Profile Image (Required)
         </p>
         <p className="text-gray-600 text-sm leading-relaxed">
           Upload a clear photo of yourself so clients can put a face to your name and build instant trust.

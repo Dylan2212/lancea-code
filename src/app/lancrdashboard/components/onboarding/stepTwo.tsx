@@ -59,7 +59,7 @@ export default function StepTwo ({ previousStep, nextStep }: MyProps) {
     <>
       <div className="w-11/12 space-y-1">
         <p className="font-semibold text-2xl text-gray-900">
-          Basic Info
+          Basic Info (Required)
         </p>
         <p className="text-gray-600 text-sm leading-relaxed">
           Add your name and professional title so clients instantly know who you are and what you do.

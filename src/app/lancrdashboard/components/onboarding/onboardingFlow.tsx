@@ -10,10 +10,11 @@ import StepFive from "./stepFive"
 import StepSix from "./stepSix"
 import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
+import ProgressBar from "./progressBar"
 
 export default function OnboardingFlow () {
   const savedIndex = useOriginalUserStore(state => state.onboardingIndex)
-  const [currentStep, setCurrentStep] = useState(savedIndex)
+  const [currentStep, setCurrentStep] = useState<number>(savedIndex)
   const setHasSeenOnboarding = useOriginalUserStore(state => state.setHasSeenOnboarding)
   const setOnboardingIndex = useOriginalUserStore(state => state.setOnboardingIndex)
   const userId = useOriginalUserStore(state => state.userId)
@@ -57,7 +58,7 @@ export default function OnboardingFlow () {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black/50"></div>
-      <div id="scroll-container" className="relative bg-white rounded-xl shadow-xl p-5 w-11/12 max-w-[500px] max-h-[525px] overflow-y-auto z-10 [&::-webkit-scrollbar]:w-2
+      <div id="scroll-container" className="relative bg-white rounded-xl shadow-xl p-5 w-11/12 max-w-[500px] max-h-[535px] overflow-y-auto z-10 [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:bg-transparent
   [&::-webkit-scrollbar-thumb]:bg-gray-300
   [&::-webkit-scrollbar-thumb]:rounded-full
@@ -65,6 +66,7 @@ export default function OnboardingFlow () {
   [scrollbar-width:thin]
   [scrollbar-color:theme(colors.gray.300)_transparent]
   [&::-webkit-scrollbar-button]:hidden">
+        <ProgressBar currentStep={currentStep} maxSteps={steps.length} />
         {steps[currentStep]}
       </div>
     </div>
