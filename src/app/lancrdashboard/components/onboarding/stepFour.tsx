@@ -3,6 +3,7 @@ import { useUserStore } from "@/lib/store/useUserStore"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
+import Link from "next/link"
 
 type MyProps = {
   nextStep: () => void,
@@ -57,7 +58,11 @@ export default function StepFour ({ nextStep, previous }: MyProps) {
         </div>
       </div>
       <div className="w-full flex flex-row-reverse justify-between">
+        <div>
+        <Link className="bg-white rounded-xl py-2 px-1 text-sm shadow border border-purple-600 w-24 text-center" target="_blank" href="/lancrdashboard/portfolioPreview">Preview Site</Link>
+
         <button className="onboarding-btn" onClick={next}>Next</button>
+        </div>
         <button className="onboarding-btn" onClick={previousStep}>Previous</button>
       </div>
     </>
