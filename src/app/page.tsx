@@ -9,6 +9,11 @@ import StepsSection from "./components/stepsSection"
 export default function Home() {
   const router = useRouter()
 
+  async function startSequence () {
+    const res = fetch("/api/welcome-sequence", {method: "POST"})
+    console.log((await res).json())
+  }
+
   return (
     <div className="relative pb-32">
       <header className="h-20 fixed w-dvw z-50 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.65)_20%,rgba(255,255,255,0.1)_100%)] shadow-[0_10px_25px_rgba(255,255,255,0.2)] backdrop-blur-md overflow-hidden flex justify-between items-center">
@@ -43,6 +48,7 @@ export default function Home() {
                 <div className="flex items-center gap-4 mb-5 md:mb-0">
                   <Check className="hidden md:block min-w-16 max-w-16 md:min-w-16 md:max-w-16 lg:min-w-24 lg:max-w-24 h-24 text-purple-600"/> 
                   <div>
+                    <button onClick={startSequence}>Fetch</button>
                     <p className="font-semibold text-xl">Launch in minutes</p>
                     <p className="text-gray-600">Set up and share your portfolio the same day — not weeks later</p>
                   </div>
