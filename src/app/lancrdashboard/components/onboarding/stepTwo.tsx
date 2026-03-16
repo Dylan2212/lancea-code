@@ -45,9 +45,6 @@ export default function StepTwo ({ previousStep, nextStep }: MyProps) {
       username: tempUsername
     }))
 
-    setSyncTitle(tempTitle)
-    setSyncUsername(tempUsername)
-
     nextStep()
   }
 
@@ -72,7 +69,10 @@ export default function StepTwo ({ previousStep, nextStep }: MyProps) {
             type="text"
             value={tempUsername}
             maxLength={80}
-            onChange={(e) => setTempUsername(e.target.value)}
+            onChange={(e) => {
+              setTempUsername(e.target.value)
+              setSyncUsername(e.target.value)
+            }}
             placeholder="John Doe"
             className="w-full shadow rounded-xl ring-1 ring-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-[#E9D5FF] focus:ring-2 focus:outline-none transition"
           />
@@ -86,7 +86,10 @@ export default function StepTwo ({ previousStep, nextStep }: MyProps) {
             type="text"
             maxLength={80}
             value={tempTitle}
-            onChange={(e) => setTempTitle(e.target.value)}
+            onChange={(e) => {
+              setTempTitle(e.target.value)
+              setSyncTitle(e.target.value)
+            }}
             placeholder="Product Designer"
             className="w-full shadow rounded-xl ring-1 ring-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 focus:ring-[#E9D5FF] focus:ring-2 focus:outline-none transition"
           />

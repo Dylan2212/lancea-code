@@ -1,11 +1,12 @@
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { supabase } from "@/lib/supabaseClient"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { ClipLoader } from "react-spinners"
 import { Check, X } from "lucide-react"
 import useHandleCheck from "@/src/app/hooks/useValidHandle"
 import useCheckHandle from "@/src/app/hooks/useCheckHandleInput"
+import { useLiveSyncStore } from "@/lib/store/liveSyncStore"
 
 type MyProps = {
   nextStep: () => void
@@ -20,6 +21,11 @@ export default function StepOne ({ nextStep }: MyProps ) {
   const [input, setInput] = useState(storeHandle)
   const { handle, maxCharacters, showInvalidCharMessage } = useCheckHandle(input)
   const { isAvailable, isValid, loading } = useHandleCheck(handle)
+  const setSyncHandle = useLiveSyncStore(state => state.setSyncHandle)
+
+  useEffect(() => {
+    setSyncHandle(handle)
+  }, [handle, setSyncHandle])
 
   async function submitUrl () {
     if (!isAvailable || !isValid || !handle) {
@@ -64,7 +70,10 @@ export default function StepOne ({ nextStep }: MyProps ) {
             e.stopPropagation()
             submitUrl()
           }} className="relative w-full md:w-5/6">
-            <input maxLength={30 + prefix.length} value={prefix + handle} onChange={(e) => setInput(e.target.value)} className="w-full shadow rounded-xl ring-1 pr-14 ring-gray-200 bg-white mb-1 px-4 py-4 text-lg text-gray-900 placeholder-gray-400 focus:ring-[#E9D5FF] focus:ring-2 focus:outline-none transition" type="text" placeholder="lancrly.com/" />
+            <input maxLength={30 + prefix.length} value={prefix + handle} onChange={(e) => {
+                setInput(e.target.value)
+              }
+              } className="w-full shadow rounded-xl ring-1 pr-14 ring-gray-200 bg-white mb-1 px-4 py-4 text-lg text-gray-900 placeholder-gray-400 focus:ring-[#E9D5FF] focus:ring-2 focus:outline-none transition" type="text" placeholder="lancrly.com/" />
             <>
               {loading && <div className="absolute right-4 top-1/2 -translate-y-1/2"><ClipLoader size={30} color="#7E22CE"/></div>}
               {!loading && isValid && isAvailable && <Check className="absolute right-4 top-1/2 -translate-y-1/2 text-[#7E22CE] w-[30px] h-[30px]" />}

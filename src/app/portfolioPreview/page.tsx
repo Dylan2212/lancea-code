@@ -22,7 +22,7 @@ export default function Page () {
   const linksRef = useRef<HTMLElement>(null)
 
   const bio = useLiveSyncStore(state => state.syncBio)
-  const handle = useOriginalUserStore(state => state.handle)
+  const handle = useLiveSyncStore(state => state.syncHandle)
   const projects = useLiveSyncProjects(state => state.syncProjects)
   const email = useOriginalUserStore(state => state.email)
   const username = useLiveSyncStore(state => state.syncUsername)
@@ -43,6 +43,7 @@ export default function Page () {
 
     return () => channel.close()
   }, [router])
+
 
   const userData = {
     bio,
@@ -68,7 +69,7 @@ export default function Page () {
       {projects && projects.length > 0 && <ProjectSection ref={projectRef} projects={projects}/>}
       {additionalLinks &&  additionalLinks.length > 0 && <LinksSection ref={linksRef} links={additionalLinks}/>}
       {bio && bioHasContent(bio) && <AboutSection ref={aboutRef} bio={bio}/>}
-      <Footer handle={handle}/>
+      <Footer handle={userData.handle}/>
     </main>
   )
 }
