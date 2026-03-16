@@ -4,10 +4,10 @@ import { socialConfig } from "@/src/app/[handle]/components/sociallinksBar"
 import { normalizeUrl } from "@/utils/normalizeUrl"
 import toast from "react-hot-toast"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
-import { useUserStore } from "@/lib/store/useUserStore"
 import { supabase } from "@/lib/supabaseClient"
 import { SocialLinks } from "@/lib/store/socialLinksType"
 import { findSocialPlatform } from "@/utils/findSocialPlatform"
+import { useLiveSyncStore } from "@/lib/store/liveSyncStore"
 
 type MyProps = {
   nextStep: () => void,
@@ -17,8 +17,8 @@ type MyProps = {
 export default function StepFive ({ nextStep, previous }: MyProps) {
   const [inputValue, setInputValue] = useState("")
   const [addedLinks, setAddedLinks] = useState<{label: string, icon: React.ReactNode}[]>([])
-  const setSocialLinks = useUserStore(state => state.setSocialLinks)
-  const socialLinks = useUserStore(state => state.socialLinks)
+  const setSocialLinks = useLiveSyncStore(state => state.setSyncSocialLinks)
+  const socialLinks = useLiveSyncStore(state => state.syncSocialLinks)
   const userId = useOriginalUserStore(state => state.userId)
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function StepFive ({ nextStep, previous }: MyProps) {
       socialLinks: socialLinks
     }))
 
-    useUserStore.setState(state => ({
+    useLiveSyncStore.setState(state => ({
       ...state,
       socialLinks: socialLinks
     }))

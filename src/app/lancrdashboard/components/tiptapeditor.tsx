@@ -12,11 +12,17 @@ import { CharacterCountLimit } from '../tiptap/characterLimit'
 import { useUserStore } from '@/lib/store/useUserStore'
 import { useOriginalUserStore } from '@/lib/store/useOriginalUser'
 import "../tiptap/tiptap.css"
+import { useLiveSyncStore } from '@/lib/store/liveSyncStore'
 
-export default function RichTextEditor() {
+type EditorProps = {
+  onboarding?: boolean
+}
+
+export default function RichTextEditor({ onboarding }: EditorProps) {
   const [color, setColor] = useState('#000000')
   const [editorStateUpdate, setEditorStateUpdate] = useState(0)
   const setBio = useUserStore(state => state.setBio)
+  const setSyncBio = useLiveSyncStore(state => state.setSyncBio)
   const bio = useOriginalUserStore(state => state.bio)
 
   const editor = useEditor({
@@ -37,7 +43,11 @@ export default function RichTextEditor() {
     ],
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
-      setBio(editor.getHTML())
+      if (onboarding) {
+        setSyncBio(editor.getHTML())
+      } else {
+        setBio(editor.getHTML())
+      }
     },
     content: bio
   })

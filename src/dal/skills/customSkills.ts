@@ -20,6 +20,5 @@ export async function insertCustomSkillsAdmin (newSkills: { id: string, normaliz
     .from("custom_skills")
     .upsert(newSkills, { onConflict: "normalized_name" })
 
-  if (error) console.log(error)
   if (error) throw new Error("Could not insert new skills:", error)
 }

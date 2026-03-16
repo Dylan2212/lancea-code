@@ -1,6 +1,6 @@
 import StepOne from "./stepOne"
 import "./onboarding.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import StepTwo from "./stepTwo"
 import StepThree from "./stepThree"
@@ -8,17 +8,17 @@ import StepFour from "./stepFour"
 import FinalOnboarding from "./finalOnboarding"
 import StepFive from "./stepFive"
 import StepSix from "./stepSix"
-import { supabase } from "@/lib/supabaseClient"
-import toast from "react-hot-toast"
 import ProgressBar from "./progressBar"
+import { finishOnboarding } from "@/src/application/onboarding/finishOnboarding"
+import { useLiveSyncStore } from "@/lib/store/liveSyncStore"
+import useProjectsManager from "@/src/app/hooks/useProjectsManager"
+import { useLiveSyncProjects } from "@/lib/store/liveSyncProjects"
 
 export default function OnboardingFlow () {
   const savedIndex = useOriginalUserStore(state => state.onboardingIndex)
   const [currentStep, setCurrentStep] = useState<number>(savedIndex)
-  const setHasSeenOnboarding = useOriginalUserStore(state => state.setHasSeenOnboarding)
   const setOnboardingIndex = useOriginalUserStore(state => state.setOnboardingIndex)
-  const userId = useOriginalUserStore(state => state.userId)
-  const isLive = useOriginalUserStore(state => state.isLive)
+  const { projects } = useProjectsManager()
 
   const steps = [
     <StepOne nextStep={nextStep} key="stepOne" />,
@@ -30,6 +30,26 @@ export default function OnboardingFlow () {
     <FinalOnboarding key="finalStep" finishOnboarding={finishOnboarding} previous={previousStep}/>
   ]
 
+  useEffect(() => {
+    const originalState = useOriginalUserStore.getState()
+    useLiveSyncStore.setState((state) => ({
+      ...state,
+      syncHandle: originalState.handle,
+      syncTitle: originalState.title,
+      syncEmail: originalState.email,
+      syncProfileImage: originalState.profileImage,
+      syncBio: originalState.bio,
+      syncUsername: originalState.username,
+      syncUserId: originalState.userId,
+      syncSocialLinks: originalState.socialLinks
+    }))
+
+    useLiveSyncProjects.setState((state) => ({
+      ...state,
+      syncProjects: projects
+    }))
+  })
+
   function nextStep () {
     setCurrentStep(prev => prev + 1)
     setOnboardingIndex(savedIndex + 1)
@@ -38,21 +58,6 @@ export default function OnboardingFlow () {
   function previousStep () {
     setCurrentStep(prev => prev - 1)
     setOnboardingIndex(savedIndex - 1)
-  }
-
-  async function finishOnboarding () {
-    const { error } = await supabase
-      .from("users")
-      .update({"has_seen_onboarding": true, "is_live": isLive})
-      .eq("id", userId)
-
-    if (error) {
-      toast.error("Could not complete onboarding.")
-      return
-    }
-
-    setOnboardingIndex(0)
-    setHasSeenOnboarding(true)
   }
 
   return (

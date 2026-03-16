@@ -1,3 +1,6 @@
+import Link from "next/link"
+import { brandColors } from "@/src/businessRules"
+
 type ProgressProps = {
   currentStep: number,
   maxSteps: number
@@ -14,9 +17,12 @@ export default function ProgressBar ({ currentStep, maxSteps }: ProgressProps) {
         />
       </div>
 
-      <p className="mt-2 text-sm text-gray-500">
-        {progress}% complete
-      </p>
+      <div className="flex justify-between items-center">
+        <p className="mt-2 text-sm text-gray-500">
+          {progress}% complete
+        </p>
+        <Link className={`text-sm text-[${brandColors.main}] font-semibold`} href={"/portfolioPreview"} target="_blank" rel="noopener norefferer">Preview Portfolio</Link>
+      </div>
     </div>
   )
 }

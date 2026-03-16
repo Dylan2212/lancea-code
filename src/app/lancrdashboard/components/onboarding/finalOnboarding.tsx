@@ -2,13 +2,16 @@ import { CheckCircle, Rocket } from "lucide-react"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 
 type MyProps = {
-  finishOnboarding: () => void,
+  finishOnboarding: (userId: string, isLive: boolean, handle: string) => Promise<void>,
   previous: () => void
 }
 
 export default function FinalOnboarding ({ finishOnboarding, previous }: MyProps) {
   const isLive = useOriginalUserStore(state => state.isLive)
+  const userId = useOriginalUserStore(state => state.userId)
+  const handle = useOriginalUserStore(state => state.handle)
   const setIsLive = useOriginalUserStore(state => state.setIsLive)
+  
   return (
     <div className="flex flex-col items-center justify-center w-full space-y-10 animate-fade-in">
       <div className="flex flex-col items-center text-center space-y-4">
@@ -56,13 +59,13 @@ export default function FinalOnboarding ({ finishOnboarding, previous }: MyProps
       <div className="w-full flex flex-row-reverse justify-between">
         <button
           className="onboarding-btn hidden md:inline"
-          onClick={finishOnboarding}
+          onClick={() => finishOnboarding(userId, isLive, handle)}
         >
           Go To Dashboard
         </button>
         <button
           className="onboarding-btn md:hidden"
-          onClick={finishOnboarding}
+          onClick={() => finishOnboarding(userId, isLive, handle)}
         >
           Dashboard
         </button>

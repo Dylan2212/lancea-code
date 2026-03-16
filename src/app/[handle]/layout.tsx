@@ -6,14 +6,7 @@ import "./components/linkspage.css"
 import UserLayoutClient from "./components/layoutClient";
 import { getProjectsWithSkillsAdmin } from "@/src/dal/projects/projects";
 import { mergeSkills } from "@/src/domain/skills/mergeSkills";
-
-const colors = {
-  main: "#7E22CE",
-  hover: "#6B21A8",
-  accent: "#E9D5FF",
-  text: "",
-  bg: ""
-}
+import { lancrlyPortfolioColors as colors } from "@/src/businessRules";
 
 export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params

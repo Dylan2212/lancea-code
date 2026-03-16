@@ -5,6 +5,7 @@ import toast from "react-hot-toast"
 import { ClipLoader } from "react-spinners"
 import { supabase } from "@/lib/supabaseClient"
 import { useUserStore } from "@/lib/store/useUserStore"
+import { useLiveSyncStore } from "@/lib/store/liveSyncStore"
 
 type MyProps = {
   nextStep: () => void,
@@ -17,6 +18,7 @@ export default function StepThree ({ nextStep, previous }: MyProps) {
   const [file, setFile] = useState<File>()
   const [saving, setSaving] = useState(false)
   const userId = useOriginalUserStore(state => state.userId)
+  const setSyncProfileImage = useLiveSyncStore(state => state.setSyncProfileImage)
 
   function handleFileChange (e: React.ChangeEvent<HTMLInputElement>) {
     const { files } = e.target
@@ -25,6 +27,7 @@ export default function StepThree ({ nextStep, previous }: MyProps) {
 
       const url = URL.createObjectURL(file)
       setProfileImgUrl(url)
+      setSyncProfileImage(url)
       setFile(file)
     }
   }

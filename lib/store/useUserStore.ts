@@ -33,7 +33,7 @@ type UserState = {
   setHandle: (handle: string) => void;
 };
 
-// ✅ Define the store variable explicitly as possibly undefined
+
 let store: UseBoundStore<StoreApi<UserState>> | undefined;
 
 export const useUserStore =

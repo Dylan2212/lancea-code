@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabaseClient"
 import "./onboarding.css"
-import { useUserStore } from "@/lib/store/useUserStore"
+import { useLiveSyncStore } from "@/lib/store/liveSyncStore"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import toast from "react-hot-toast"
 import { useState } from "react"
@@ -14,7 +14,7 @@ export default function StepTwo ({ previousStep, nextStep }: MyProps) {
   const userId = useOriginalUserStore(state => state.userId)
   const storeTitle = useOriginalUserStore(state => state.title)
   const storeUsername = useOriginalUserStore(state => state.username)
-  const { setTitle, setUsername } = useUserStore()
+  const { setSyncTitle, setSyncUsername } = useLiveSyncStore()
   const [tempTitle, setTempTitle] = useState(storeTitle)
   const [tempUsername, setTempUsername] = useState(storeUsername)
 
@@ -45,8 +45,8 @@ export default function StepTwo ({ previousStep, nextStep }: MyProps) {
       username: tempUsername
     }))
 
-    setTitle(tempTitle)
-    setUsername(tempUsername)
+    setSyncTitle(tempTitle)
+    setSyncUsername(tempUsername)
 
     nextStep()
   }

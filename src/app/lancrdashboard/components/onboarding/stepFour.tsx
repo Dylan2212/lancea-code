@@ -1,9 +1,8 @@
 import TipTapEditor from "../tiptapeditor"
-import { useUserStore } from "@/lib/store/useUserStore"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
-import Link from "next/link"
+import { useLiveSyncStore } from "@/lib/store/liveSyncStore"
 
 type MyProps = {
   nextStep: () => void,
@@ -11,7 +10,7 @@ type MyProps = {
 }
 
 export default function StepFour ({ nextStep, previous }: MyProps) {
-  const bio = useUserStore(state => state.bio)
+  const bio = useLiveSyncStore(state => state.syncBio)
   const userId = useOriginalUserStore(state => state.userId)
 
   function previousStep () {
@@ -54,15 +53,11 @@ export default function StepFour ({ nextStep, previous }: MyProps) {
       </div>
       <div className="space-y-6 mt-10 mb-14 w-full md:w-11/12 mx-auto flex flex-col items-center justify-center">
         <div className="w-full">
-          <TipTapEditor/>
+          <TipTapEditor onboarding={true}/>
         </div>
       </div>
       <div className="w-full flex flex-row-reverse justify-between">
-        <div>
-        <Link className="bg-white rounded-xl py-2 px-1 text-sm shadow border border-purple-600 w-24 text-center" target="_blank" href="/lancrdashboard/portfolioPreview">Preview Site</Link>
-
         <button className="onboarding-btn" onClick={next}>Next</button>
-        </div>
         <button className="onboarding-btn" onClick={previousStep}>Previous</button>
       </div>
     </>

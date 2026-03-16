@@ -4,6 +4,7 @@ import AddProjectClient from "../../projects/components/addProjectComponent"
 import Project from "../../projects/components/project"
 import ConfirmDeleteModal from "../confirmDeleteModal"
 import useProjectsManager from "@/src/app/hooks/useProjectsManager"
+import { useLiveSyncProjects } from "@/lib/store/liveSyncProjects"
 
 type MyProps = {
   nextStep: () => void,
@@ -13,7 +14,10 @@ type MyProps = {
 export default function StepSix ({ nextStep, previousStep}: MyProps) {
   const [projectPage, setProjectPage] = useState({showing: false, index: -1, action: "Add"})
   const { projects, setShowDeleteModal, showDeleteModal, deleteProject, deleting } = useProjectsManager()
+  const setSyncProjects = useLiveSyncProjects(state => state.setSyncProjects)
 
+  setSyncProjects(projects)
+  
   useLayoutEffect(() => {
     if (projectPage) {
       const container = document.getElementById("scroll-container")
