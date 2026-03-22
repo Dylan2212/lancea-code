@@ -43,6 +43,7 @@ export default function LancrLinksPage () {
       {userData.projects && userData.projects.length > 0 && <ProjectSection ref={projectRef} projects={userData.projects}/>}
       {userData.additional_links &&  userData.additional_links.length > 0 && <LinksSection ref={linksRef} links={userData.additional_links}/>}
       {userData.bio && bioHasContent(userData.bio) && <AboutSection ref={aboutRef} bio={userData.bio}/>}
+      
       <Footer handle={handle}/>
     </>
   )
