@@ -1,5 +1,6 @@
 "use client"
-import useServicesManager from "../../hooks/useServicesManager"
+import useServicesManager from "../../hooks/services/useServicesManager"
+import AddService from "./components/addService"
 
 export default function Page () {
   const { loading, services } = useServicesManager()
@@ -8,8 +9,12 @@ export default function Page () {
     <section className="pt-16 w-screen lg:w-full">
       <h1 className="text-2xl font-semibold m-5 mb-0">My Services</h1>
       <h2 className="ml-5 text-sm max-w-[75%]">Add and manage the services you want to showcase on your portfolio.</h2>
-      {loading && <p>Loading</p>}
-      {services.map((service) => <p key={service.id}>word</p>)}
+      {loading ? <p>Loading</p> :
+        <>
+          <AddService/>
+          {services.length > 0 && services.filter(Boolean).map(() => <p key="d">d</p>)}
+        </>
+      }
     </section>
   )
 }
