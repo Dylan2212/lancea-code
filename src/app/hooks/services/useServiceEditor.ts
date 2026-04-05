@@ -11,7 +11,7 @@ export type ServiceEditorReturn = {
   setPrice: React.Dispatch<React.SetStateAction<string>>,
   setDescription: React.Dispatch<React.SetStateAction<string>>,
   saving: boolean,
-  saveService: (title: string, price: string, description: string, index: number|null) => Promise<void>
+  saveService: (index: number|null) => Promise<void>
 }
 
 export function useServiceEditor (): ServiceEditorReturn {
@@ -27,11 +27,15 @@ export function useServiceEditor (): ServiceEditorReturn {
     description
   }
 
-  async function saveService (title: string, price: string, description: string, index: number|null) {
+  async function saveService (index: number|null) {
     setSaving(true)
-    const serviceId = saveServiceToStore(index, services, currServiceData)
+    try {
+      const serviceId = saveServiceToStore(index, services, currServiceData)
 
-    updateServiceCaller({ id: serviceId, ...currServiceData})
+      await updateServiceCaller({ id: serviceId, ...currServiceData})
+    } finally {
+      setSaving(false)
+    }
   }
 
   return { title, price, description, setTitle, setPrice, setDescription, saveService, saving }
