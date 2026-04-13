@@ -42,7 +42,7 @@ export default function LancrLinksPage () {
 
   return (
     <>
-      <Header refs={{aboutRef, heroRef, projectRef, linksRef}} userData={userData}/>
+      <Header refs={{aboutRef, heroRef, projectRef, linksRef, servicesRef}} userData={userData}/>
       <Hero ref={heroRef} userData={userData}/>
       {userData.bio && bioHasContent(userData.bio) && <AboutSection ref={aboutRef} bio={userData.bio}/>}
       {userData.services && userData.services.length > 0 && <ServiceSection ref={servicesRef} services={userData.services}/>}

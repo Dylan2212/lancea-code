@@ -16,16 +16,18 @@ export default function Header ({ userData, refs }: MyProps) {
     about: bioHasContent(userData.bio) ? true : false,
     projects: userData.projects && userData.projects.length > 0 ? true : false,
     links: userData.additional_links && userData.additional_links.length > 0 ? true : false,
+    services: userData.services && userData.services.length > 0 ? true : false,
     cta: true,
   }
 
-  const { aboutRef, heroRef, projectRef, linksRef } = refs
+  const { aboutRef, heroRef, projectRef, linksRef, servicesRef } = refs
   
   const active = useActiveSection({
     about: aboutRef,
     hero: heroRef,
     projects: projectRef,
-    links: linksRef
+    links: linksRef,
+    services: servicesRef
   })
 
   useEffect(() => {
@@ -65,9 +67,10 @@ export default function Header ({ userData, refs }: MyProps) {
         md:gap-12 md:w-auto
         ">
           {(headerSections.about || headerSections.projects) && <a className={`${headerClass} ${active === "hero" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#hero">Home</a>}
+          {headerSections.about && <a className={`${headerClass} ${active === "about" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#about">About</a>}
+          {headerSections.services && <a className={`${headerClass} ${active === "services" ? `border-[var(--hoverColor)]` : "border-transparent"} `} href="#services">Services</a>}
           {headerSections.projects && <a className={`${headerClass} ${active === "projects" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#projects">Projects</a>}
           {headerSections.links && <a className={`${headerClass} ${active === "links" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#links">Links</a>}
-          {headerSections.about && <a className={`${headerClass} ${active === "about" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#about">About</a>}
           {headerSections.cta && <a href={`mailto:${userData.email}`} className={`tracking-wide text-xs md:text-base font-medium bg-[var(--mainColor)] rounded-xl text-white py-2 px-3 border-transparent transition-all duration-300 ease-in-out hover:bg-[var(--hoverColor)]`}>Email Me</a>}
         </nav>
       </header>}
