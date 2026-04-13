@@ -12,7 +12,6 @@ export function saveServiceToStore (index: number|null, currServices: ServicesDa
       price: service.price ?? "",
       id
     }
-    console.log(newService)
     useServicesStore.setState((state) => ({
       services: [...state.services, newService]
     }))

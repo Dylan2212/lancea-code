@@ -1,30 +1,14 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { requireUser } from "@/src/domain/auth/requireUser";
+import { createAdminClient } from "@/utils/supabase/server";
+import { deleteAllServices } from "@/src/dal/services/deleteService";
 
-export async function POST(req: Request) {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-
-  const authHeader = req.headers.get("authorization");
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  const accessToken = authHeader.split(" ")[1];
-
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser(accessToken);
-
-  if (userError || !user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
+export async function POST() {
+  const { user } = await requireUser()
+  const admin = createAdminClient()
   const uid = user.id;
 
-  const { data: profile, error: profileError } = await supabase
+  const { data: profile, error: profileError } = await admin
     .from("users")
     .select("id, profileImage")
     .eq("id", uid)
@@ -35,7 +19,7 @@ export async function POST(req: Request) {
   }
 
   // Step 2: Delete additional_links rows
-  const { error: linksError } = await supabase
+  const { error: linksError } = await admin
     .from("additional_links")
     .delete()
     .eq("user_id", uid);
@@ -44,12 +28,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: linksError.message }, { status: 500 });
   }
 
+  await deleteAllServices(uid)
+
   if (profile.profileImage) {
     const imagePathMatch = profile.profileImage.match(/profile-images\/(.+)(\?.*)?$/);
     const imagePath = imagePathMatch ? imagePathMatch[1] : null;
 
     if (imagePath) {
-      const { error: imageDeleteError } = await supabase.storage
+      const { error: imageDeleteError } = await admin.storage
         .from("profile-images")
         .remove([imagePath]);
 
@@ -59,7 +45,7 @@ export async function POST(req: Request) {
     }
   }
 
-  const { error: userDeleteError } = await supabase
+  const { error: userDeleteError } = await admin
     .from("users")
     .delete()
     .eq("id", uid);
@@ -70,7 +56,7 @@ export async function POST(req: Request) {
 
   // Step 5: Delete user from Supabase Auth (requires service role key and admin client)
   try {
-    await supabase.auth.admin.deleteUser(uid);
+    await admin.auth.admin.deleteUser(uid);
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.error("Failed to delete user from auth:", err.message);

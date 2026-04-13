@@ -10,6 +10,7 @@ export default function Sidebar () {
     <nav className="hidden
     md:block md:fixed md:left-0 md:top-16 md:h-[calc(100dvh-4rem)] md:w-[20%] md:border-r-2 md:bg-gray-50
     xl:w-[15%]
+    max-w-[190px]
     ">
       <SidebarButton href="/lancrdashboard/profile" content="Profile" icon={<CircleUserRound/>}/>
       <SidebarButton href="/lancrdashboard/projects" content="Projects" icon={<BriefcaseBusiness />}/>

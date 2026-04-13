@@ -17,7 +17,7 @@ export type ServiceEditorReturn = {
 
 export function useServiceEditor (idx: number|null): ServiceEditorReturn {
   const { services } = useServicesStore()
-  const edit = idx && idx > -1
+  const edit = idx !== null && idx > -1
   const [title, setTitle] = useState<string>(edit ? services[idx].title : "")
   const [price, setPrice] = useState<string>(edit ? services[idx].price : "")
   const [description, setDescription] = useState<string>(edit ? services[idx].description : "")

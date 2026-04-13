@@ -1,5 +1,5 @@
 "use client"
-import { CircleUserRound, BriefcaseBusiness, MessageSquareText } from "lucide-react"
+import { CircleUserRound, BriefcaseBusiness, MessageSquareText, LayoutGrid } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useModals } from "../layout"
@@ -27,6 +27,11 @@ export default function BottomNav () {
         <div className={pathname.includes("projects") ? "selected-on-bottom-nav" : "hidden"}/>
         <BriefcaseBusiness className="mt-1" />
         <p className="text-xs">Projects</p>
+      </Link>
+      <Link href="/lancrdashboard/services" className="h-11/12 mb-2 w-16 px-2 flex flex-col gap-1 items-center justify-center relative">
+        <div className={pathname.includes("services") ? "selected-on-bottom-nav" : "hidden"}/>
+        <LayoutGrid className="mt-1" />
+        <p className="text-xs">Services</p>
       </Link>
       <button onClick={() => openFeedbackModal()} className="h-11/12 mb-2 px-2 flex flex-col w-16 gap-1 items-center justify-center relative">
         <MessageSquareText className="mt-1" />
