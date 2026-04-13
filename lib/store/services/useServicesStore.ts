@@ -4,16 +4,24 @@ import type { ServicesData } from "@/src/types"
 
 type Store = {
   services: ServicesData[]
-  setServices: (services: ServicesData[]) => void,
+  setServices: (services: ServicesData[]) => void
+  resetServices: () => void
   hasHydrated: boolean
+}
+
+const initialState = {
+  services: []
 }
 
 export const useServicesStore = create<Store>()(
   persist(
     (set) => ({
-      services: [],
+      ...initialState,
       hasHydrated: false,
+
       setServices: (services) => set({ services }),
+
+      resetServices: () => set(initialState),
     }),
     {
       name: "projects-storage",

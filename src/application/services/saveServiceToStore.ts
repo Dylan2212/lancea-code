@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 
 export function saveServiceToStore (index: number|null, currServices: ServicesData[], service: Partial<ServicesData>): string {
   const id = service.id ?? uuid()
+
   if (index === null) {
     const newService: ServicesData = {
       title: service.title ?? "",
@@ -11,6 +12,7 @@ export function saveServiceToStore (index: number|null, currServices: ServicesDa
       price: service.price ?? "",
       id
     }
+    console.log(newService)
     useServicesStore.setState((state) => ({
       services: [...state.services, newService]
     }))

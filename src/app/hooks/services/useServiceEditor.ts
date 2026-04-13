@@ -2,6 +2,7 @@ import { useState } from "react"
 import { updateServiceCaller } from "@/lib/api/services/updateServiceCaller"
 import { saveServiceToStore } from "@/src/application/services/saveServiceToStore"
 import { useServicesStore } from "@/lib/store/services/useServicesStore"
+import { v4 as uuid } from "uuid";
 
 export type ServiceEditorReturn = {
   title: string,
@@ -14,23 +15,27 @@ export type ServiceEditorReturn = {
   saveService: (index: number|null) => Promise<void>
 }
 
-export function useServiceEditor (): ServiceEditorReturn {
-  const [title, setTitle] = useState<string>("")
-  const [price, setPrice] = useState<string>("")
-  const [description, setDescription] = useState<string>("")
-  const [saving, setSaving] = useState<boolean>(false)
+export function useServiceEditor (idx: number|null): ServiceEditorReturn {
   const { services } = useServicesStore()
-
-  const currServiceData = {
-    title,
-    price,
-    description
-  }
+  const edit = idx && idx > -1
+  const [title, setTitle] = useState<string>(edit ? services[idx].title : "")
+  const [price, setPrice] = useState<string>(edit ? services[idx].price : "")
+  const [description, setDescription] = useState<string>(edit ? services[idx].description : "")
+  const [saving, setSaving] = useState<boolean>(false)
 
   async function saveService (index: number|null) {
     setSaving(true)
+
+    const currServiceData = {
+      title,
+      price,
+      description
+    }
+
+    const id = index !== null && index > -1 ? services[index].id : uuid()
+
     try {
-      const serviceId = saveServiceToStore(index, services, currServiceData)
+      const serviceId = saveServiceToStore(index, services, { ...currServiceData, id })
 
       await updateServiceCaller({ id: serviceId, ...currServiceData})
     } finally {

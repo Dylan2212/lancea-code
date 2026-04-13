@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation"
 import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
 import Skeleton from "react-loading-skeleton"
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
+import { useServicesStore } from "@/lib/store/services/useServicesStore"
 
 type Props = {
   setShowDeleteModal: Dispatch<SetStateAction<boolean>>
@@ -59,10 +60,12 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
 
     localStorage.removeItem("projects-storage")
   }
+
   async function logOutUser () {
     const { error } = await supabase.auth.signOut()
     localStorage.clear()
     useOriginalUserStore.getState().reset()
+    useServicesStore.getState().resetServices()
 
     clearProjects()
 

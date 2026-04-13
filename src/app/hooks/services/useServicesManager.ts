@@ -54,8 +54,9 @@ export default function useServicesManager (): UseServicesManagerReturn {
     try {
       await deleteServiceCaller(showDeleteModal.id)
       
-      const updateArray = services.splice(showDeleteModal.index, 1)
-      setServices(updateArray)
+      const updated = services.filter((_, i) => i !== showDeleteModal.index)
+      setServices(updated)
+
     } finally {
       setDeleting(false)
     }

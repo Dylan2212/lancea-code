@@ -12,6 +12,8 @@ import LinksSection from "./components/linksSection"
 import Header from "./components/header"
 import Footer from "./components/footer"
 import { bioHasContent } from "./utils/bioHasContent"
+import { ServicesData } from "@/src/types"
+import ServiceSection from "./components/serviceSection"
 
 export type UserData = {
   id: string,
@@ -23,7 +25,8 @@ export type UserData = {
   additional_links: AdditionalLink[],
   projects: ProjectData[],
   bio: string,
-  handle: string
+  handle: string,
+  services: ServicesData[]
 }
 
 export default function LancrLinksPage () {
@@ -33,6 +36,7 @@ export default function LancrLinksPage () {
   const heroRef = useRef<HTMLElement>(null)
   const projectRef = useRef<HTMLElement>(null)
   const linksRef = useRef<HTMLElement>(null)
+  const servicesRef = useRef<HTMLElement>(null)
 
   const handle = userData.handle ? userData.handle : "User not found"
 
@@ -40,9 +44,10 @@ export default function LancrLinksPage () {
     <>
       <Header refs={{aboutRef, heroRef, projectRef, linksRef}} userData={userData}/>
       <Hero ref={heroRef} userData={userData}/>
+      {userData.bio && bioHasContent(userData.bio) && <AboutSection ref={aboutRef} bio={userData.bio}/>}
+      {userData.services && userData.services.length > 0 && <ServiceSection ref={servicesRef} services={userData.services}/>}
       {userData.projects && userData.projects.length > 0 && <ProjectSection ref={projectRef} projects={userData.projects}/>}
       {userData.additional_links &&  userData.additional_links.length > 0 && <LinksSection ref={linksRef} links={userData.additional_links}/>}
-      {userData.bio && bioHasContent(userData.bio) && <AboutSection ref={aboutRef} bio={userData.bio}/>}
       
       <Footer handle={handle}/>
     </>
