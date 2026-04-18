@@ -11,6 +11,7 @@ import Sidebar from "./components/sidebar"
 import BottomNav from "./components/bottomNav"
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { useServicesStore } from "@/lib/store/services/useServicesStore"
+import { useTestimonialsStore } from "@/lib/store/testimonials/useTestimonialsStore"
 
 type Props = {
   children: ReactNode
@@ -81,6 +82,7 @@ useEffect(() => {
 
       useOriginalUserStore.getState().reset()
       useServicesStore.getState().resetServices()
+      useTestimonialsStore.getState().resetTestimonials()
       localStorage.clear()
 
       toast.success("Account Deleted")

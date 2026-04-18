@@ -13,6 +13,7 @@ import { useChangeLiveStatus } from "../../hooks/useChangeLiveStatus"
 import Skeleton from "react-loading-skeleton"
 import { useProjectsStore } from "@/lib/store/useProjectsStore"
 import { useServicesStore } from "@/lib/store/services/useServicesStore"
+import { useTestimonialsStore } from "@/lib/store/testimonials/useTestimonialsStore"
 
 type Props = {
   setShowDeleteModal: Dispatch<SetStateAction<boolean>>
@@ -66,6 +67,7 @@ export default function LancrMainHeader ({ setShowDeleteModal }: Props) {
     localStorage.clear()
     useOriginalUserStore.getState().reset()
     useServicesStore.getState().resetServices()
+    useTestimonialsStore.getState().resetTestimonials()
 
     clearProjects()
 

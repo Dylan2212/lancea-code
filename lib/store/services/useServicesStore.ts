@@ -24,7 +24,7 @@ export const useServicesStore = create<Store>()(
       resetServices: () => set(initialState),
     }),
     {
-      name: "projects-storage",
+      name: "services-storage",
       onRehydrateStorage: () => () => {
         useServicesStore.setState({ hasHydrated: true })
       },

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireUser } from "@/src/domain/auth/requireUser";
 import { createAdminClient } from "@/utils/supabase/server";
 import { deleteAllServices } from "@/src/dal/services/deleteService";
+import { deleteAllTestimonials } from "@/src/dal/testimonials/deleteTestimonial";
 
 export async function POST() {
   const { user } = await requireUser()
@@ -29,6 +30,7 @@ export async function POST() {
   }
 
   await deleteAllServices(uid)
+  await deleteAllTestimonials(uid)
 
   if (profile.profileImage) {
     const imagePathMatch = profile.profileImage.match(/profile-images\/(.+)(\?.*)?$/);

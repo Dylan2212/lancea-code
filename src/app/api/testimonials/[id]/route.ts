@@ -1,30 +1,30 @@
-import { upsertService } from "@/src/dal/services/upsertService";
-import { requireUser } from "@/src/domain/auth/requireUser";
-import { userOwnsResource } from "@/src/domain/auth/userOwnsResouce";
-import { NextResponse } from "next/server";
-import { deleteService } from "@/src/dal/services/deleteService";
-import { checkServiceUserId } from "@/src/dal/services/checkServiceUserId";
+import { NextResponse } from "next/server"
+import { requireUser } from "@/src/domain/auth/requireUser"
+import { userOwnsResource } from "@/src/domain/auth/userOwnsResouce"
+import { checkTestimonialUserid } from "@/src/dal/testimonials/checkTestimonialUserid"
+import { upsertTestimonial } from "@/src/dal/testimonials/upsertTestimonial"
+import { deleteTestimonial } from "@/src/dal/testimonials/deleteTestimonial"
 
 export async function POST (req: Request, { params }: { params: Promise<{ id: string }>}) {
   try {
     const { user } = await requireUser()
-    const { service } = await req.json()
+    const { testimonial } = await req.json()
 
-    if (!service) {
+    if (!testimonial) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 })
     }
 
 
     const { id } = await params
-    const ownership = await userOwnsResource(user.id, id, checkServiceUserId)
+    const ownership = await userOwnsResource(user.id, id, checkTestimonialUserid)
     
     if (!ownership.ok) return NextResponse.json("Forbidden", { status: 403 })
 
-    await upsertService(user.id, id, service)
+    await upsertTestimonial(user.id, id, testimonial)
 
     return NextResponse.json({ ok: true })
   } catch (err) {
-    console.error("Service upsert error:", err)
+    console.error("Testimonial upsert error:", err)
     return NextResponse.json(
       { error: "Internal service error" },
       { status: 500 }
@@ -36,11 +36,11 @@ export async function DELETE (req: Request, { params }: { params: Promise<{ id: 
   try {
     const { user } = await requireUser()
     const { id } = await params
-    const ownership = await userOwnsResource(user.id, id, checkServiceUserId)
+    const ownership = await userOwnsResource(user.id, id, checkTestimonialUserid)
 
     if (!ownership.ok) return NextResponse.json("Forbidden", { status: 403 })
     
-    await deleteService(id)
+    await deleteTestimonial(id)
 
     return NextResponse.json({ ok: true })
   } catch (err) {

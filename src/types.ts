@@ -15,3 +15,9 @@ export type ServicesData = {
   price: string,
   id: string
 }
+
+export type TestimonialData = {
+  name: string,
+  body: string,
+  id: string
+}
