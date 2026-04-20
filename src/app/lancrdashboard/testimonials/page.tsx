@@ -26,8 +26,10 @@ export default function Page () {
             <>
               <AddTestimonial/>
               {testimonials.length > 0 && testimonials.filter(Boolean).map((testimonial, index) => (
-                <div key={testimonial.id} className="group">
-                  <DisplayTestimonial body={testimonial.body} name={testimonial.name}/>
+                <div className="group w-[325px]" key={testimonial.id}>
+                  <div className="w-[325px] flex items-center justify-center bg-white/60 backdrop-blur-xl rounded-2xl min-h-[225px] border border-white/30 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+                    <DisplayTestimonial text={testimonial.body} name={testimonial.name}/>
+                  </div>
                   <div className="lg:opacity-0 lg:group-hover:opacity-100 flex justify-end gap-6 pt-5 transition-all ease-in-out duration-200">
                    <Link href={`/lancrdashboard/testimonials/addedittestimonial?action=Edit&idx=${index}`} className="py-2 px-4 text-white hover:bg-[#6B21A8] hov-standrd bg-[#7E22CE] rounded-lg">Edit</Link>
                    <button className="py-2 px-4 rounded-lg bg-red-600 text-white hover:bg-red-700 hov-standrd" onClick={() => setShowDeleteModal({ show: true, id: testimonial.id, index })}>Delete</button>

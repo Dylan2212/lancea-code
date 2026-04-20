@@ -8,6 +8,7 @@ import { getProjectsWithSkillsAdmin } from "@/src/dal/projects/projects";
 import { mergeSkills } from "@/src/domain/skills/mergeSkills";
 import { lancrlyPortfolioColors as colors } from "@/src/businessRules";
 import { getUserServices } from "@/src/dal/services/getUserServices";
+import { getUserTestimonials } from "@/src/dal/testimonials/getUserTestimonials";
 
 export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
@@ -69,11 +70,13 @@ async function fetchByURLUsername (handle: string) {
   const projects = mergeSkills(projectWithSkills)
 
   const services = await getUserServices(data.id)
+  const testimonials = await getUserTestimonials(data.id)
 
   return {
     ...data,
     projects,
-    services
+    services,
+    testimonials
   }
 }
 

@@ -17,17 +17,19 @@ export default function Header ({ userData, refs }: MyProps) {
     projects: userData.projects && userData.projects.length > 0 ? true : false,
     links: userData.additional_links && userData.additional_links.length > 0 ? true : false,
     services: userData.services && userData.services.length > 0 ? true : false,
+    testimonials: userData.testimonials && userData.testimonials.length > 0 ? true : false,
     cta: true,
   }
 
-  const { aboutRef, heroRef, projectRef, linksRef, servicesRef } = refs
+  const { aboutRef, heroRef, projectRef, linksRef, servicesRef, testimonialsRefs } = refs
   
   const active = useActiveSection({
     about: aboutRef,
     hero: heroRef,
     projects: projectRef,
     links: linksRef,
-    services: servicesRef
+    services: servicesRef,
+    testimonials: testimonialsRefs
   })
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export default function Header ({ userData, refs }: MyProps) {
     <>
       {<header className={`
       ${hidden ? "-translate-y-[150%]" : "translate-y-0"}
-      ${!headerSections.about && !headerSections.links && !headerSections.projects && "hidden"}
+      ${!headerSections.about && !headerSections.links && !headerSections.projects && !headerSections.services && !headerSections.testimonials && "hidden"}
       h-12 flex fixed w-11/12 z-50 items-center bg-white top-5 rounded-full shadow-md left-1/2 -translate-x-1/2 border transition-all duration-300 ease-in-out
       md:w-dvw md:pr-8 md:h-16 md:justify-end md:top-0 md:rounded-none md:shadow-none md:left-0 md:-translate-x-0 md:border-none
       `}>
@@ -66,10 +68,11 @@ export default function Header ({ userData, refs }: MyProps) {
         flex items-center h-full w-full justify-around
         md:gap-12 md:w-auto
         ">
-          {(headerSections.about || headerSections.projects) && <a className={`${headerClass} ${active === "hero" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#hero">Home</a>}
+          {(headerSections.about || headerSections.projects || headerSections.links || headerSections.services || headerSections.testimonials) && <a className={`${headerClass} ${active === "hero" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#hero">Home</a>}
           {headerSections.about && <a className={`${headerClass} ${active === "about" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#about">About</a>}
           {headerSections.services && <a className={`${headerClass} ${active === "services" ? `border-[var(--hoverColor)]` : "border-transparent"} `} href="#services">Services</a>}
           {headerSections.projects && <a className={`${headerClass} ${active === "projects" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#projects">Projects</a>}
+          {headerSections.testimonials && <a className={`${headerClass} ${active === "testimonials" ? `border-[var(--hoverColor)]` : "border-transparent"} `} href="#testimonials">Testimonials</a>}
           {headerSections.links && <a className={`${headerClass} ${active === "links" ? `border-[var(--hoverColor)]` : "border-transparent"}`} href="#links">Links</a>}
           {headerSections.cta && <a href={`mailto:${userData.email}`} className={`tracking-wide text-xs md:text-base font-medium bg-[var(--mainColor)] rounded-xl text-white py-2 px-3 border-transparent transition-all duration-300 ease-in-out hover:bg-[var(--hoverColor)]`}>Email Me</a>}
         </nav>

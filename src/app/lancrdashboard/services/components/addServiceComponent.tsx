@@ -29,7 +29,7 @@ export default function AddServiceComponent ({ action, index }: AddServiceCompon
       }}>
         <AddServiceCard serviceEditor={serviceEditor}/>
         <div className="flex justify-end pt-12 w-full gap-5">
-          <button onClick={() => router.back()} className="py-2 px-4 rounded-lg bg-gray-200 text-black hover:text-red-600 hov-standrd">Cancel</button>
+          <button type="button" onClick={() => router.back()} className="py-2 px-4 rounded-lg bg-gray-200 text-black hover:text-red-600 hov-standrd">Cancel</button>
           <button type="submit" className="py-2 px-4 text-white hover:bg-[#6B21A8] hov-standrd bg-[#7E22CE] rounded-lg hov-standrd">
             {action !== "Edit" ? (saving ? "Adding..." : "Add Service") : (saving ? "Saving..." : "Save Changes")}
           </button>
