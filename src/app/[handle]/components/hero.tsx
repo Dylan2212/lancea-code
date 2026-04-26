@@ -60,7 +60,7 @@ const Hero = React.forwardRef<HTMLElement, MyProps>((props, ref) => {
         <a
           href={`mailto:${userData.email}`}
           className={`
-          rounded-xl w-3/4 block px-3 min-w-20 mx-auto mt-4 mb-0 text-center py-2 bg-[var(--mainColor)] tracking-wide font-semibold text-lg text-white hover:bg-[#6B21A8] shadow-md hover:shadow-xl transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1
+          rounded-xl w-3/4 block px-3 min-w-20 mx-auto mt-4 mb-0 text-center py-2 bg-[var(--mainColor)] tracking-wide font-semibold text-lg text-white hover:bg-[var(--hoverColor)] shadow-md hover:shadow-xl transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1
           md:mb-5 md:mt-8 md:w-32 md:mx-0 md:py-3
           `}>
           Email Me

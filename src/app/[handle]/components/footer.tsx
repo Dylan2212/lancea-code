@@ -9,18 +9,6 @@ export default function Footer({ handle }: { handle: string }) {
         <p>
           © {new Date().getFullYear()} {handle}
         </p>
-
-        <a
-          href="https://lancrly.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex mt-3 items-center gap-1 px-3 py-1 rounded-2xl bg-white border-2 border-[#E9D5FF] text-gray-600 text-sm font-medium shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 hover:shadow-xl hover:scale-105"
-        >
-          <span className="text-gray-500">Built with</span>
-          <span className="font-bold text-[#7E22CE] underline underline-offset-4">
-            Lancrly
-          </span>
-        </a>
       </div>
     </footer>
   );

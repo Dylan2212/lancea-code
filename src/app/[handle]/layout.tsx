@@ -6,7 +6,6 @@ import "./components/linkspage.css"
 import UserLayoutClient from "./components/layoutClient";
 import { getProjectsWithSkillsAdmin } from "@/src/dal/projects/projects";
 import { mergeSkills } from "@/src/domain/skills/mergeSkills";
-import { lancrlyPortfolioColors as colors } from "@/src/businessRules";
 import { getUserServices } from "@/src/dal/services/getUserServices";
 import { getUserTestimonials } from "@/src/dal/testimonials/getUserTestimonials";
 
@@ -87,13 +86,24 @@ export default async function Layout ({ children, params }: { children: React.Re
 
   return (
     <main style={{
-      "--mainColor": colors.main,
-      "--hoverColor": colors.hover,
-      "--accentColor": colors.accent
-    } as React.CSSProperties}>
+      "--mainColor": userData.colors.main,
+      "--hoverColor": userData.colors.hover,
+      "--accentColor": userData.colors.accent
+    } as React.CSSProperties} className="relative">
       <UserLayoutClient userData={userData}>
         {children}
       </UserLayoutClient>
+              <a
+          href="https://lancrly.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex sticky left-1/2 -translate-x-1/2 z-50 bottom-5  mt-3 items-center gap-1 px-3 py-1 rounded-2xl bg-white border-2 border-[#E9D5FF] text-gray-600 text-sm font-medium shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 hover:shadow-xl hover:scale-105"
+        >
+          <span className="text-gray-500">Built with</span>
+          <span className="font-bold text-[#7E22CE] underline underline-offset-4">
+            Lancrly
+          </span>
+        </a>
     </main>
   )
 }

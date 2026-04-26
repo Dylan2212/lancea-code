@@ -18,5 +18,7 @@ export const lancrlyPortfolioColors = {
 }
 
 export const brandColors = {
-  main: "#7E22CE"
+  main: "#7E22CE",
+  hover: "#6B21A8",
+  accent: "#E9D5FF"
 }

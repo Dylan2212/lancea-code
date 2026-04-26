@@ -5,6 +5,7 @@ import { useOriginalUserStore } from "./store/useOriginalUser";
 import { useOriginalAdditionalLinksStore } from "./store/useOriginalAdditionalLinks";
 import { AdditionalLink } from "./store/useAdditionalLinksStore";
 import { SocialLinks } from "./store/socialLinksType";
+import type { Colors } from "@/src/types";
 
 export type User = {
   id: string,
@@ -16,6 +17,7 @@ export type User = {
   profileImage: string,
   handle: string,
   is_live: boolean,
+  colors: Colors,
   has_seen_onboarding?: boolean
 }
 
@@ -91,6 +93,7 @@ function setStoreData (user: User, links: AdditionalLink[] | null, handle: strin
     has_seen_onboarding: user.has_seen_onboarding || false,
     handle: user.handle || handle || "",
     isLive: user.is_live || false,
+    colors: user.colors,
     socialLinks: user.socialLinks || {
       instagram: "",
       facebook: "",

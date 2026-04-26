@@ -1,6 +1,7 @@
 import { create, type StoreApi, type UseBoundStore } from "zustand"
 import { persist } from "zustand/middleware"
 import type { SocialLinks } from "./socialLinksType"
+import { brandColors } from "@/src/businessRules"
 
 type OriginalUserState = {
   userId: string
@@ -17,6 +18,7 @@ type OriginalUserState = {
   handle: string
   socialLinks: SocialLinks
   isLive: boolean
+  colors: { main: string, hover: string, accent: string }
   setIsLive: (isLive: boolean) => void
   reset: () => void
   setHasSeenOnboarding: (seenOnboarding: boolean) => void
@@ -40,6 +42,7 @@ export const useOriginalUserStore =
         title: "",
         handle: "",
         isLive: false,
+        colors: { main: brandColors.main, hover: brandColors.hover, accent: brandColors.accent },
         has_seen_onboarding: false,
         profileImageFile: null,
         profileImage: "",

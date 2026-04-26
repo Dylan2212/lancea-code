@@ -64,10 +64,6 @@
   @apply text-xs ml-2
 }
 
-.selected-on-bottom-nav {
-  @apply absolute top-0 w-full h-1 bg-black rounded-full
-}
-
 .my-masonry-grid {
   display: -webkit-box; /* Not needed if autoprefixing */
   display: -ms-flexbox; /* Not needed if autoprefixing */

@@ -2,8 +2,7 @@ import { ServicesData } from "@/src/types"
 import React from "react"
 import { motion } from "framer-motion"
 import TitleText from "./titleText"
-import DisplayServiceCard from "../../lancrdashboard/services/components/displayServiceCard"
-
+import DisplayServiceCardPortfolio from "./service"
 
 const ServiceSection = React.forwardRef<HTMLElement, { services: ServicesData[]}>(
   ({ services }, ref) => {
@@ -22,7 +21,7 @@ const ServiceSection = React.forwardRef<HTMLElement, { services: ServicesData[]}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <DisplayServiceCard price={service.price} title={service.title} description={service.description}/>
+                  <DisplayServiceCardPortfolio price={service.price} title={service.title} description={service.description}/>
                 </motion.div>
               )
             })}

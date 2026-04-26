@@ -6,6 +6,20 @@
   --foreground: #171717;
 }
 
+@layer components {
+  .nav-item {
+    @apply w-16 px-2 flex flex-col gap-1 items-center justify-center shrink-0 relative snap-start;
+  }
+
+  .selected-on-bottom-nav {
+    @apply absolute left-1/2 -top-1 -translate-x-1/2 w-10 h-1 rounded-full bg-[#6B21A8];
+  }
+
+  .lancrly-btn {
+    @apply rounded-xl px-2 lg:px-3 min-w-20 text-center py-2 lg:py-3 bg-[#7E22CE] tracking-wide font-semibold lg:text-lg text-white hover:bg-[#6B21A8] shadow-md hover:shadow-xl transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#581C87] focus:ring-offset-white focus:ring-offset-1
+  }
+}
+
 /* :root { */
   /* @apply bg-gray-50 */
 /* } */
@@ -197,6 +211,13 @@ input:-webkit-autofill {
   scrollbar-color: rgba(0,0,0,0.2) transparent;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
 /* apply css */
 .apply-main-divs {

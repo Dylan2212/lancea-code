@@ -21,3 +21,9 @@ export type TestimonialData = {
   body: string,
   id: string
 }
+
+export type Colors = {
+  main: string,
+  hover: string,
+  accent: string
+}

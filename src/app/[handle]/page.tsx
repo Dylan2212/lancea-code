@@ -12,7 +12,7 @@ import LinksSection from "./components/linksSection"
 import Header from "./components/header"
 import Footer from "./components/footer"
 import { bioHasContent } from "./utils/bioHasContent"
-import { ServicesData, TestimonialData } from "@/src/types"
+import { Colors, ServicesData, TestimonialData } from "@/src/types"
 import ServiceSection from "./components/serviceSection"
 import TestimonialSection from "./components/testimonialSection"
 
@@ -26,6 +26,7 @@ export type UserData = {
   additional_links: AdditionalLink[],
   projects: ProjectData[],
   bio: string,
+  colors: Colors,
   handle: string,
   services: ServicesData[],
   testimonials: TestimonialData[]

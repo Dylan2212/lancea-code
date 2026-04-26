@@ -1,7 +1,7 @@
 "use client"
 import { useModals } from "../layout"
 import SidebarButton from "./sidebarButton"
-import { BriefcaseBusiness, CircleUserRound, LayoutGrid, Star } from "lucide-react"
+import { BriefcaseBusiness, CircleUserRound, LayoutGrid, Star, Palette } from "lucide-react"
 
 export default function Sidebar () {
     const { openFeedbackModal } = useModals()
@@ -16,6 +16,7 @@ export default function Sidebar () {
       <SidebarButton href="/lancrdashboard/projects" content="Projects" icon={<BriefcaseBusiness />}/>
       <SidebarButton href="/lancrdashboard/services" content="Services" icon={<LayoutGrid />}/>
       <SidebarButton href="/lancrdashboard/testimonials" content="Testimonials" icon={<Star />}/>
+      <SidebarButton href="/lancrdashboard/branding" content="Branding" icon={<Palette />}/>
       <button onClick={() => openFeedbackModal()} className="fixed left-5 bottom-5 hov-standrd hover:bg-purple-500 p-3 shadow-lg shadow-gray-500 rounded-full bg-purple-600 text-white">
         <p className="text-sm font-semibold leading-none">Share Your Thoughts</p>
       </button>
