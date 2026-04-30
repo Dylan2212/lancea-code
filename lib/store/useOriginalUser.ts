@@ -18,6 +18,7 @@ type OriginalUserState = {
   handle: string
   socialLinks: SocialLinks
   isLive: boolean
+  isPremium: boolean
   colors: { main: string, hover: string, accent: string }
   setIsLive: (isLive: boolean) => void
   reset: () => void
@@ -42,6 +43,7 @@ export const useOriginalUserStore =
         title: "",
         handle: "",
         isLive: false,
+        isPremium: false,
         colors: { main: brandColors.main, hover: brandColors.hover, accent: brandColors.accent },
         has_seen_onboarding: false,
         profileImageFile: null,
@@ -84,6 +86,7 @@ export const useOriginalUserStore =
             has_seen_onboarding: false,
             profileImageFile: null,
             profileImage: "",
+            isPremium: false,
             bio: "",
             onboardingIndex: 0,
             socialLinks: {

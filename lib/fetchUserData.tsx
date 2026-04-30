@@ -18,6 +18,7 @@ export type User = {
   handle: string,
   is_live: boolean,
   colors: Colors,
+  premium: boolean,
   has_seen_onboarding?: boolean
 }
 
@@ -94,6 +95,7 @@ function setStoreData (user: User, links: AdditionalLink[] | null, handle: strin
     handle: user.handle || handle || "",
     isLive: user.is_live || false,
     colors: user.colors,
+    isPremium: user.premium || false,
     socialLinks: user.socialLinks || {
       instagram: "",
       facebook: "",
