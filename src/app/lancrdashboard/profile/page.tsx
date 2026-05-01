@@ -13,6 +13,7 @@ import { AdditionalLink } from "@/lib/store/useAdditionalLinksStore"
 import { supabase } from "@/lib/supabaseClient"
 import toast from "react-hot-toast"
 import { Copy } from "lucide-react"
+import { useRouter } from "next/navigation"
 import 'react-loading-skeleton/dist/skeleton.css'
 import { copyLink } from "./utils/copyLink"
 import Link from "next/link"
@@ -48,6 +49,7 @@ export default function LancrHome () {
   }, [])
 
   const handle = useOriginalUserStore(state => state.handle)
+  const router = useRouter()
   const userId = useOriginalUserStore(state => state.userId)
   const seenOnboarding = useOriginalUserStore(state => state.has_seen_onboarding)
   const [userUrl, setUserUrl] = useState("")
@@ -63,8 +65,13 @@ export default function LancrHome () {
     } else {
       setUserUrl("No Username. Add a username to get your custom link.")
     }
-  }, [handle])
 
+    if (handle === "fixme1" || handle === "fixme2" || handle === "fixme3" || handle === "fixme4") {
+      router.push("/resetHandle")
+    }
+  }, [handle, router])
+
+  console.log(seenOnboarding)
 
   const { isLive, changeInLiveStatus } = useChangeLiveStatus(userId)
 

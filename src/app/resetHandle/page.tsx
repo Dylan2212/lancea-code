@@ -1,31 +1,37 @@
+"use client"
+
 import { useOriginalUserStore } from "@/lib/store/useOriginalUser"
 import { supabase } from "@/lib/supabaseClient"
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import toast from "react-hot-toast"
 import { ClipLoader } from "react-spinners"
 import { Check, X } from "lucide-react"
 import useHandleCheck from "@/src/app/hooks/useValidHandle"
 import useCheckHandle from "@/src/app/hooks/useCheckHandleInput"
-import { useLiveSyncStore } from "@/lib/store/liveSyncStore"
+import { useRouter } from "next/navigation"
 
-type MyProps = {
-  nextStep: () => void
-}
-
-export default function StepOne ({ nextStep }: MyProps ) {
+export default function Page () {
   const prefix = "lancrly.com/"
   const storeHandle = useOriginalUserStore(state => state.handle)
   const [saving, setSaving] = useState(false)
   const userId = useOriginalUserStore(state => state.userId)
   const [success, setSuccess] = useState(false)
+  const router = useRouter()
   const [input, setInput] = useState(storeHandle)
   const { handle, maxCharacters, showInvalidCharMessage } = useCheckHandle(input)
   const { isAvailable, isValid, loading } = useHandleCheck(handle)
-  const setSyncHandle = useLiveSyncStore(state => state.setSyncHandle)
 
   useEffect(() => {
-    setSyncHandle(handle)
-  }, [handle, setSyncHandle])
+    if (
+      storeHandle !== "fixme1" &&
+      storeHandle !== "fixme2" &&
+      storeHandle !== "fixme3" &&
+      storeHandle !== "fixme4"
+    ) {
+      router.push("/lancrdashboard/profile")
+    }
+  }, [storeHandle, router])
+
 
   async function submitUrl () {
     if (!isAvailable || !isValid || !handle) {
@@ -64,10 +70,10 @@ export default function StepOne ({ nextStep }: MyProps ) {
   }
 
   return (
-    <>
+    <div className="mt-20 ml-20 w-[320px]">
       {!saving && !success && <><div>
-        <p className="font-semibold text-2xl text-gray-900">Welcome to Lancrly!</p>
-        <p className="text-gray-600 text-sm leading-relaxed">Let&apos;s set up your custom link — it&apos;s how clients will find your portfolio.</p>
+        <p className="font-semibold text-2xl text-gray-900">There was an issue with your handle.</p>
+        <p className="text-gray-600 text-sm leading-relaxed">Let&apos;s reset your custom link so clients can find your portfolio.</p>
         <div className="flex flex-col w-full justify-center items-center py-8">
           <label className="block w-full md:w-5/6 text-sm font-semibold text-gray-600 mb-1">Custom Url<span className="text-red-500">*</span></label>
           <form onSubmit={(e) => {
@@ -111,10 +117,10 @@ export default function StepOne ({ nextStep }: MyProps ) {
             <p className="text-gray-600">Your custom link was successfully secured.</p>
           </div>
            <div className="w-full flex flex-row-reverse justify-between">
-            <button className="onboarding-btn mt-10" onClick={nextStep}>Continue</button>
+            <button className="onboarding-btn mt-10" onClick={() => router.push("/lancrdashboard/profile")}>Continue</button>
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
