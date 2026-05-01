@@ -1,5 +1,5 @@
 export const reservedHandles = new Set(
-  ["admin", "api", "login", "signup", "logout", "settings"]
+  ["admin", "api", "login", "signup", "logout", "settings", "fixme1", "fixme2", "fixme3", "fixme4"]
 )
 
 export default function reservedHandle (handle: string): boolean {
