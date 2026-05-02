@@ -30,7 +30,7 @@ export type UserData = {
   handle: string,
   services: ServicesData[],
   testimonials: TestimonialData[],
-  subscription_status: string
+  premium: boolean
 }
 
 export default function LancrLinksPage () {

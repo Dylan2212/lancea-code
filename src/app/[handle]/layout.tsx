@@ -93,7 +93,7 @@ export default async function Layout ({ children, params }: { children: React.Re
       <UserLayoutClient userData={userData}>
         {children}
       </UserLayoutClient>
-        {userData.subscription_status !== "active" && <a
+        {!userData.premium && <a
           href="https://lancrly.com"
           target="_blank"
           rel="noopener noreferrer"
