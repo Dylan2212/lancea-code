@@ -29,7 +29,8 @@ export type UserData = {
   colors: Colors,
   handle: string,
   services: ServicesData[],
-  testimonials: TestimonialData[]
+  testimonials: TestimonialData[],
+  premium: boolean
 }
 
 export default function LancrLinksPage () {

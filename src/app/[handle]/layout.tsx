@@ -93,7 +93,7 @@ export default async function Layout ({ children, params }: { children: React.Re
       <UserLayoutClient userData={userData}>
         {children}
       </UserLayoutClient>
-              <a
+        {!userData.premium && <a
           href="https://lancrly.com"
           target="_blank"
           rel="noopener noreferrer"
@@ -103,7 +103,7 @@ export default async function Layout ({ children, params }: { children: React.Re
           <span className="font-bold text-[#7E22CE] underline underline-offset-4">
             Lancrly
           </span>
-        </a>
+        </a>}
     </main>
   )
 }
