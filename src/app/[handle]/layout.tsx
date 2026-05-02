@@ -8,6 +8,13 @@ import { getProjectsWithSkillsAdmin } from "@/src/dal/projects/projects";
 import { mergeSkills } from "@/src/domain/skills/mergeSkills";
 import { getUserServices } from "@/src/dal/services/getUserServices";
 import { getUserTestimonials } from "@/src/dal/testimonials/getUserTestimonials";
+import { brandColors } from "@/src/businessRules";
+
+export function generateViewport() {
+  return {
+    themeColor: brandColors.hover
+  }
+}
 
 export async function generateMetadata ({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
@@ -22,7 +29,23 @@ export async function generateMetadata ({ params }: { params: Promise<{ handle: 
   if (data) {
     return {
       title: `${handle} | Lancrly`,
-      description: `Portfolio for ${handle} on Lancrly`
+      description: `Portfolio for ${handle} on Lancrly`,
+      //icons: {
+      //  icon: data.faviconUrl
+      //},
+      //openGraph: {
+      //  title: data.ogTitle,
+      //  description: data.ogDescription,
+      //  images: [data.ogImageUrl],
+      //  url: `https://lancrly.com/${handle}`,
+      //  type: "profile"
+      //},
+      //twitter: {
+      //  card: "summary_large_image",
+      //  title: data.twitterTitle,
+      //  description: data.twitterDescription,
+      //  images: [data.twitterImageUrl]
+      //}
     }
   } else {
     return {
