@@ -8,6 +8,8 @@ import Stripe from "stripe"
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 
+
+
 export async function POST () {
   const { user } = await requireUser()
 
@@ -21,14 +23,9 @@ export async function POST () {
     return NextResponse.json({ stripeId: data.stripe_customer_id})
   }
 
-  const idempotencyKey = `create_customer_${user.id}`
-
   const customer = await stripe.customers.create({
     email: user.email,
     metadata: { supabaseUserId: user.id }
-  },
-  {
-    idempotencyKey
   }
   )
 

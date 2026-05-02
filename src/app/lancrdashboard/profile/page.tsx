@@ -71,8 +71,6 @@ export default function LancrHome () {
     }
   }, [handle, router])
 
-  console.log(seenOnboarding)
-
   const { isLive, changeInLiveStatus } = useChangeLiveStatus(userId)
 
   function resetUserStoreFromOriginal() {
