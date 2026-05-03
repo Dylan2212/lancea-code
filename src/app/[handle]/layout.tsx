@@ -7,12 +7,19 @@ import UserLayoutClient from "./components/layoutClient";
 import { getProjectsWithSkillsAdmin } from "@/src/dal/projects/projects";
 import { mergeSkills } from "@/src/domain/skills/mergeSkills";
 import { getUserServices } from "@/src/dal/services/getUserServices";
+import { brandColors } from "@/src/businessRules";
 import { getUserTestimonials } from "@/src/dal/testimonials/getUserTestimonials";
 import { brandColors } from "@/src/businessRules";
 
 export function generateViewport() {
   return {
     themeColor: brandColors.hover
+  }
+}
+
+export function generateViewport() {
+  return {
+    themeColor: brandColors.accent
   }
 }
 
