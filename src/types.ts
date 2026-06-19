@@ -27,3 +27,24 @@ export type Colors = {
   hover: string,
   accent: string
 }
+
+export type Metadata = {
+  ogTitle: string,
+  ogDescription: string,
+  ogImageUrl: string,
+  ogImageFile: File | null,
+  searchTitle: string,
+  searchDescription: string
+}
+
+export type OgData = {
+  ogTitle: string,
+  ogDescription: string,
+  ogImageUrl: string,
+  ogImageFile: File | null
+}
+
+export type SearchData = {
+  searchTitle: string,
+  searchDescription: string
+}

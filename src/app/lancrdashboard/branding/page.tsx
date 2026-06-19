@@ -5,12 +5,6 @@ import toast from "react-hot-toast"
 export default function Page () {
   const { setMain, setHover, setAccent, main, hover, accent, saveColors, returnToDefault } = useColorManager()
 
-  //ADD RETURN TO DEFAULT FOR COLORS
-  //FINSIH STYLING BUTTONS
-  //LAUNCH
-  //THEN ONTO STRIPE
-  //MIGHT AS WELL LAYOUT WHAT THE PREMIUM WILL BE
-  //AND LAUUNCH PREMIUM PAGES WITH A COMING SOON
   return (
     <section className="pt-16 w-screen lg:w-full pb-12">
       <h1 className="text-2xl font-semibold m-5 mb-0">Branding</h1>

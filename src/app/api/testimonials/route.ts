@@ -6,8 +6,8 @@ export async function GET () {
   try {
     const { user } = await requireUser()
 
-    const services = await getUserTestimonials(user.id)
-    return NextResponse.json(services)
+    const testimonials = await getUserTestimonials(user.id)
+    return NextResponse.json(testimonials)
   } catch {
     return NextResponse.json(
       { error: "Internal Service Error" },
