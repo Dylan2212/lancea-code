@@ -6,6 +6,9 @@ import { separateMetadata } from "@/src/application/metadata/separateMetadata";
 import { OgData, SearchData, Metadata } from "@/src/types";
 import { updateMetaDataCaller } from "@/lib/api/metadata/updateMetaDataCaller";
 
+//CREATE ENV FILE FOR THIS
+//FIGURE OUT WHERE I LEFT OFF ON OLD DEVICE
+
 export function useMetaDataManager () {
   const [ogMetaData, setOgMetaData] = useState<OgData>({
     ogTitle: "Add Your Title",
