@@ -5,9 +5,7 @@ import { useMetadataStore } from "@/lib/store/metadata/useMetadataStore";
 import { separateMetadata } from "@/src/application/metadata/separateMetadata";
 import { OgData, SearchData, Metadata } from "@/src/types";
 import { updateMetaDataCaller } from "@/lib/api/metadata/updateMetaDataCaller";
-
-//CREATE ENV FILE FOR THIS
-//FIGURE OUT WHERE I LEFT OFF ON OLD DEVICE
+import { makeFormData } from "@/src/application/metadata/makeFormData";
 
 export function useMetaDataManager () {
   const [ogMetaData, setOgMetaData] = useState<OgData>({
@@ -57,7 +55,8 @@ export function useMetaDataManager () {
   }
 
   async function saveMetaData (updatedMetaData: Partial<Metadata>) {
-    await updateMetaDataCaller(updatedMetaData)
+    const formData = makeFormData(updatedMetaData)
+    await updateMetaDataCaller(formData)
   }
 
   return { ogMetaData, searchMetaData, setOgMetaData, setSearchMetaData, saveMetaData, handleFileChange }

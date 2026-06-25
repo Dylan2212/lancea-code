@@ -1,7 +1,7 @@
-import { Metadata } from "@/src/types";
 import { createAdminClient } from "@/utils/supabase/server";
+import type { Metadata } from "@/src/types";
 
-export async function updateUserMetaData (userId: string, metadata: Metadata) {
+export async function updateUserMetaData (userId: string, metadata: Partial<Metadata>) {
   const admin = createAdminClient()
 
   const { error } = await admin

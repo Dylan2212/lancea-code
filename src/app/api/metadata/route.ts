@@ -5,6 +5,7 @@ import { updateUserMetaData } from "@/src/dal/metadata/updateUserMetaData";
 import { createFilePath } from "@/src/application/storage/createFilePath";
 import { uploadOgthumbnail } from "@/src/dal/metadata/uploadOgImage";
 import { retrievePublicUrl } from "@/src/dal/metadata/retrievePublicUrl";
+import { Metadata } from "@/src/types";
 
 export async function GET () {
   try {
@@ -23,20 +24,34 @@ export async function GET () {
 export async function POST (req: Request) {
   try {
     const { user } = await requireUser()
-    const data = await req.json()
+    const data = await req.formData()
 
-    if (data.data.ogImageFile) {
-      const filePath = createFilePath(user.id, data.data.ogImageFile)
+    if (data.get("file")) {
+      const file = data.get("file") as File
+
+      const filePath = createFilePath(user.id, file.name)
       
-      await uploadOgthumbnail(filePath, data.data.ogImageFile)
-      const imageUrl = await retrievePublicUrl(filePath)
-      data.data.ogImageUrl = imageUrl
+      //FIXME: UPLOADS ADD INSTEAD OF REPLACING, NEED TO DELETE OLD FILES
+      await uploadOgthumbnail(filePath, file)
+
+      const imageUrl = retrievePublicUrl(filePath)
+
+      data.set("ogImageUrl", imageUrl)
     }
 
-    await updateUserMetaData(user.id, data.data)
+    const metadata : Partial<Metadata> = {
+      ogTitle: data.get("ogTitle") as string,
+      ogDescription: data.get("ogDescription") as string,
+      ogImageUrl: data.get("ogImageUrl") as string,
+      searchTitle: data.get("searchTitle") as string,
+      searchDescription: data.get("searchDescription") as string
+    }
+
+    await updateUserMetaData(user.id, metadata)
 
     return NextResponse.json({ ok: true })
-  } catch {
+  } catch (err) {
+    console.error("Error occurred while processing POST request:", err)
     return NextResponse.json({ ok: false })
   }
 }
