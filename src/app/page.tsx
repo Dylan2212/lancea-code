@@ -24,7 +24,7 @@ export default function Home() {
           />
         </div>
         <div className="flex gap-6 items-center">
-          <Link className={`text-[#7E22CE] text-lg transition-all duration-200 ease-in-out hover:text-[${brandColors.hover}]`} href={"/pricing"}>Pricing</Link>
+          {/* <Link className={`text-[#7E22CE] text-lg transition-all duration-200 ease-in-out hover:text-[${brandColors.hover}]`} href={"/pricing"}>Pricing</Link> */}
           <button className="rounded-xl px-4 text-center py-2.5 mr-8 bg-[#7E22CE] font-medium font-sans text-white hover:bg-[#6B21A8] shadow-sm hover:shadow-md transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-[#E9D5FF] focus:ring-offset-white focus:ring-offset-1" onClick={() => router.push("/login")}>Log In</button>
         </div>
       </header>

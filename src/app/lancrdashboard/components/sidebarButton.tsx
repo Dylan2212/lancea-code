@@ -4,10 +4,36 @@ import { ReactNode } from "react"
 type MyProps = {
   href: string,
   content: string,
-  icon: ReactNode
+  icon: ReactNode,
+  flag?: boolean
 }
-export default function SidebarButton ({ href, content, icon }: MyProps) {
+export default function SidebarButton ({ href, content, icon, flag }: MyProps) {
   return (
-    <Link className="h-12 text-xl flex pl-5 items-center bg-purple-50 border-b-2 border-gray-400 gap-3 hov-standrd hover:bg-purple-600 hover:text-white" href={href}>{icon}{content}</Link>
+    <Link
+      href={flag ? "#" : href}
+      className={`
+        flex flex-col justify-center
+        pl-5 pr-4 py-2 gap-1
+        border-b border-gray-300
+        transition-all duration-200
+        ${flag 
+          ? "bg-gray-200 text-gray-500 cursor-not-allowed opacity-70" 
+          : "bg-purple-50 hover:bg-purple-600 hover:text-white"
+        }
+      `}
+    >
+      {/* Top row: icon + label */}
+      <div className="flex items-center gap-3 text-lg">
+        {icon}
+        {content}
+      </div>
+
+      {/* Bottom row: Coming Soon */}
+      {flag && (
+        <div className="text-xs font-semibold text-purple-700">
+          Coming Soon
+        </div>
+      )}
+    </Link>
   )
 }

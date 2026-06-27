@@ -31,9 +31,9 @@ export default function Sidebar () {
       <SidebarButton href="/lancrdashboard/services" content="Services" icon={<LayoutGrid />}/>
       <SidebarButton href="/lancrdashboard/testimonials" content="Testimonials" icon={<Star />}/>
       <SidebarButton href="/lancrdashboard/branding" content="Branding" icon={<Palette />}/>
-      <SidebarButton href="/lancrdashboard/metadata" content="Metadata" icon={<Info />}/>
-      {!isPremium ? <Link className="h-12 text-xl flex pl-5 items-center bg-purple-50 border-b-2 border-gray-400 gap-3 hov-standrd hover:bg-purple-600 hover:text-white" href={"/lancrdashboard/pricing"}>Go Premium</Link> : 
-      <button onClick={openBilling}>Billing</button>}
+      <SidebarButton href="/lancrdashboard/metadata" content="Metadata" flag icon={<Info />}/>
+      {/* {!isPremium ? <Link className="h-12 text-xl flex pl-5 items-center bg-purple-50 border-b-2 border-gray-400 gap-3 hov-standrd hover:bg-purple-600 hover:text-white" href={"/lancrdashboard/pricing"}>Go Premium</Link> :  */}
+      {/* <button onClick={openBilling}>Billing</button>} */}
       <button onClick={() => openFeedbackModal()} className="fixed left-5 bottom-5 hov-standrd hover:bg-purple-500 p-3 shadow-lg shadow-gray-500 rounded-full bg-purple-600 text-white">
         <p className="text-sm font-semibold leading-none">Share Your Thoughts</p>
       </button>
