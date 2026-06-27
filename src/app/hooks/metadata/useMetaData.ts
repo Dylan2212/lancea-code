@@ -6,17 +6,18 @@ import { separateMetadata } from "@/src/application/metadata/separateMetadata";
 import { OgData, SearchData, Metadata } from "@/src/types";
 import { updateMetaDataCaller } from "@/lib/api/metadata/updateMetaDataCaller";
 import { makeFormData } from "@/src/application/metadata/makeFormData";
+import { convertToJpeg } from "@/src/domain/images/convertToJpg";
 
 export function useMetaDataManager () {
   const [ogMetaData, setOgMetaData] = useState<OgData>({
-    ogTitle: "Add Your Title",
-    ogDescription: "Add your description",
+    ogTitle: `${useOriginalUserStore.getState().handle} | Lancrly`,
+    ogDescription: `Check out ${useOriginalUserStore.getState().handle}'s profile on Lancrly`,
     ogImageUrl: "/lancrly.png",
     ogImageFile: null
   })
   const [searchMetaData, setSearchMetaData] = useState<SearchData>({
-    searchTitle: "Your Portfolio Title",
-    searchDescription: "A short description of your portfolio will appear here."
+    searchTitle: `${useOriginalUserStore.getState().handle} | Lancrly`,
+    searchDescription: `Check out ${useOriginalUserStore.getState().handle}'s profile on Lancrly`
   })
 
   useEffect(() => {
@@ -29,8 +30,18 @@ export function useMetaDataManager () {
       if (!cancelled) {
         useMetadataStore.setState(data)
         const { ogData, searchData } = separateMetadata(data)
-        setOgMetaData(ogData)
-        setSearchMetaData(searchData)
+        
+        setOgMetaData({
+          ogTitle: ogData.ogTitle ?? `${useOriginalUserStore.getState().handle} | Lancrly`,
+          ogDescription: ogData.ogDescription ?? `Check out ${useOriginalUserStore.getState().handle}'s profile on Lancrly`,
+          ogImageUrl: ogData.ogImageUrl ?? "/lancrly.png",
+          ogImageFile: null
+        })
+      
+        setSearchMetaData({
+          searchTitle: searchData.searchTitle ?? `${useOriginalUserStore.getState().handle} | Lancrly`,
+          searchDescription: searchData.searchDescription ?? `Check out ${useOriginalUserStore.getState().handle}'s profile on Lancrly`
+        })
       }
     }
 
@@ -54,10 +65,62 @@ export function useMetaDataManager () {
     }))
   }
 
-  async function saveMetaData (updatedMetaData: Partial<Metadata>) {
-    const formData = makeFormData(updatedMetaData)
-    await updateMetaDataCaller(formData)
+  async function saveMetaData (): Promise<boolean> {
+    try {
+      if (ogMetaData.ogImageFile) {
+        const fileAsJpeg = await convertToJpeg(ogMetaData.ogImageFile)
+        ogMetaData.ogImageFile = fileAsJpeg
+      }
+      const formData = makeFormData({ ...ogMetaData, ...searchMetaData })
+      await updateMetaDataCaller(formData)
+      return true
+    } catch (error) {
+      console.error("Error occurred while saving metadata:", error)
+      return false
+    }
   }
 
-  return { ogMetaData, searchMetaData, setOgMetaData, setSearchMetaData, saveMetaData, handleFileChange }
+  async function resetSearchMetaData() {
+    try {
+      await updateMetaDataCaller(makeFormData({
+        ...ogMetaData,
+        searchTitle: `${useOriginalUserStore.getState().handle} | Lancrly`,
+        searchDescription: `Check out ${useOriginalUserStore.getState().handle}'s profile on Lancrly`
+      }))
+
+      setSearchMetaData({
+        searchTitle: `${useOriginalUserStore.getState().handle} | Lancrly`,
+        searchDescription: `Check out ${useOriginalUserStore.getState().handle}'s profile on Lancrly`
+      })
+      return true
+      } catch (error) {
+        console.error("Error occurred while resetting search metadata:", error)
+        return false
+    }
+  }
+
+  async function resetOgMetaData() {
+    try {
+      await updateMetaDataCaller(makeFormData({
+        ...searchMetaData,
+        ogTitle: `${useOriginalUserStore.getState().handle} | Lancrly`,
+        ogDescription: `Check out ${useOriginalUserStore.getState().handle}'s profile on Lancrly`,
+        ogImageUrl: "/lancrly.png"
+      }))
+
+      setOgMetaData({
+        ogTitle: `${useOriginalUserStore.getState().handle} | Lancrly`,
+        ogDescription: `Check out ${useOriginalUserStore.getState().handle}'s profile on Lancrly`,
+        ogImageUrl: "/lancrly.png",
+        ogImageFile: null
+      })
+      
+      return true
+    } catch (error) {
+      console.error("Error occurred while resetting OG metadata:", error)
+      return false
+    }
+  }
+
+  return { ogMetaData, searchMetaData, setOgMetaData, setSearchMetaData, saveMetaData, handleFileChange, resetSearchMetaData, resetOgMetaData }
 }

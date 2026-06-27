@@ -6,7 +6,7 @@ export async function updateUserMetaData (userId: string, metadata: Partial<Meta
 
   const { error } = await admin
     .from("metadata")
-    .update(metadata)
+    .upsert({ ...metadata, id: userId })
     .eq("id", userId)
 
   if (error) throw new Error("Error updating meta data: " + error.message)

@@ -2,17 +2,19 @@
 import { brandColors } from "@/src/businessRules"
 import type { SearchData, Metadata } from "@/src/types"
 import React from "react"
+import { toast } from "react-hot-toast"
 
 
 
 type SearchDataProps = {
   searchMetaData: SearchData,
   setSearchMetaData: React.Dispatch<React.SetStateAction<SearchData>>,
-  saveMetaData: (updatedMetaData: Partial<Metadata>) => Promise<void>
+  saveMetaData: () => Promise<boolean>,
+  resetSearchMetaData: () => Promise<boolean>
 }
 
 
-export default function SearchData ({ searchMetaData, setSearchMetaData, saveMetaData }: SearchDataProps) {
+export default function SearchData ({ searchMetaData, setSearchMetaData, saveMetaData, resetSearchMetaData }: SearchDataProps) {
 
   return (
     <div className="
@@ -59,8 +61,15 @@ export default function SearchData ({ searchMetaData, setSearchMetaData, saveMet
         <p className="text-xs text-[#006621]">lancrly.com/your-handle</p>
         <p className="text-sm text-gray-700 mt-1">{searchMetaData.searchDescription}</p>
       </div>
-      <div className="mt-8 flex justify-end mr-4 mb-2">
-        <button onClick={() => saveMetaData(searchMetaData)} className="lancrly-btn">Save</button>
+      <div className="mt-8 flex justify-end mr-4 mb-2 gap-5">
+        <button onClick={async () => {
+          const res = await resetSearchMetaData()
+          res ? toast.success("Search metadata reset to default!") : toast.error("Failed to reset search metadata.")
+          }} className="lancrly-btn">Reset to Default</button>
+        <button onClick={async () => {
+          const res = await saveMetaData()
+          res ? toast.success("Search metadata saved successfully!") : toast.error("Failed to save search metadata.")
+          }} className="lancrly-btn">Save</button>
       </div>
     </div>
   )

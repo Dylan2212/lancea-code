@@ -3,6 +3,7 @@ import { brandColors } from "@/src/businessRules"
 import type { OgData, Metadata } from "@/src/types"
 import Image from "next/image"
 import React from "react"
+import { toast } from "react-hot-toast"
 
 type OgDataProps = {
   ogMetaData: {
@@ -12,11 +13,12 @@ type OgDataProps = {
     ogImageFile: File | null
   }
   setOgMetaData: React.Dispatch<React.SetStateAction<OgData>>,
-  saveMetaData: (updatedMetaData: Partial<Metadata>) => Promise<void>,
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  saveMetaData: () => Promise<boolean>,
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  resetOgMetaData: () => Promise<boolean>
 }
 
-export default function OgDataComponent ({ ogMetaData, setOgMetaData, saveMetaData, handleFileChange }: OgDataProps) {
+export default function OgDataComponent ({ ogMetaData, setOgMetaData, saveMetaData, handleFileChange, resetOgMetaData }: OgDataProps) {
   return (
     <div className="
       mt-16 mb-3 mx-auto w-5/6 relative p-3 rounded-2xl 
@@ -82,8 +84,15 @@ export default function OgDataComponent ({ ogMetaData, setOgMetaData, saveMetaDa
           <p className="text-xs text-gray-400 mt-2">lancrly.com/your-handle</p>
         </div>
       </div>
-      <div className="mt-8 flex justify-end mr-4 mb-2">
-        <button onClick={() => saveMetaData(ogMetaData)} className="lancrly-btn">Save</button>
+      <div className="mt-8 flex justify-end mr-4 mb-2 gap-5">
+        <button onClick={async () => {
+          const res = await resetOgMetaData()
+          res ? toast.success("OG metadata reset to default!") : toast.error("Failed to reset OG metadata.")
+        }} className="lancrly-btn">Reset to Default</button>
+        <button onClick={async () => {
+          const res = await saveMetaData()
+          res ? toast.success("OG metadata saved successfully!") : toast.error("Failed to save OG metadata.")
+        }} className="lancrly-btn">Save</button>
       </div>
     </div>
   )

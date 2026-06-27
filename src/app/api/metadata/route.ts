@@ -29,14 +29,12 @@ export async function POST (req: Request) {
     if (data.get("file")) {
       const file = data.get("file") as File
 
-      const filePath = createFilePath(user.id, file.name)
-      
-      //FIXME: UPLOADS ADD INSTEAD OF REPLACING, NEED TO DELETE OLD FILES
-      await uploadOgthumbnail(filePath, file)
-
-      const imageUrl = retrievePublicUrl(filePath)
-
-      data.set("ogImageUrl", imageUrl)
+      if (file.name) {
+        const filePath = createFilePath(user.id, file.name)
+        await uploadOgthumbnail(filePath, file)
+        const imageUrl = retrievePublicUrl(filePath)
+        data.set("ogImageUrl", imageUrl)
+      }
     }
 
     const metadata : Partial<Metadata> = {
@@ -47,6 +45,7 @@ export async function POST (req: Request) {
       searchDescription: data.get("searchDescription") as string
     }
 
+    console.log("Updating metadata for user:", user.id, "with data:", metadata)
     await updateUserMetaData(user.id, metadata)
 
     return NextResponse.json({ ok: true })

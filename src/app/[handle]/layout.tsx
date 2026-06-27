@@ -19,10 +19,17 @@ export async function generateMetadata ({ params }: { params: Promise<{ handle: 
     .eq("handle", handle)
     .maybeSingle()
 
-  if (data) {
+  if (!data) {
     return {
-      title: `${handle} | Lancrly`,
-      description: `Portfolio for ${handle} on Lancrly`,
+      title: `Lancrly 404`,
+      description: `Could not find page`
+    }
+  }
+
+  if (data.premium) {
+    return {
+      title: data.searchTitle,
+      description: data.searchDescription,
       openGraph: {
         title: data.ogTitle,
         description: data.ogDescription,
@@ -39,8 +46,21 @@ export async function generateMetadata ({ params }: { params: Promise<{ handle: 
     }
   } else {
     return {
-    title: `Lancrly 404`,
-    description: `Could not find page`
+      title: `${handle} | Lancrly`,
+      description: `Check out ${handle}'s profile on Lancrly`,
+      openGraph: {
+        title: `${handle} | Lancrly`,
+        description: `Check out ${handle}'s profile on Lancrly`,
+        images: "/lancrly.png",
+        url: `https://lancrly.com/${handle}`,
+        type: "profile"
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${handle} | Lancrly`,
+        description: `Check out ${handle}'s profile on Lancrly`,
+        images: "/lancrly.png"
+      }
     }
   }
 }
